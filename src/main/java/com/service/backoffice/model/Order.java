@@ -13,6 +13,7 @@ public class Order {
     private LocalDate endDate;
     private int prise;
     private int carId;
+    private String carType;
     private int userId;
 
     public Long getId() {
@@ -21,6 +22,14 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
     }
 
     public LocalDate getStartDate() {

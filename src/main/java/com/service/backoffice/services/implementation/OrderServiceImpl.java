@@ -17,10 +17,10 @@ public class OrderServiceImpl implements OrderService {
     OrderRepo orderRepo;
 
     @Override
-    public List<Order> getOrderHistory(long userId, LocalDate dateStart, LocalDate dateEnd, int carId) {
+    public List<Order> getOrderHistory(long userId, LocalDate dateStart, LocalDate dateEnd, String carType) {
         List<Order> ordersByDate = orderRepo.findAllByUserIdAndStartDateBetween(userId, dateStart, dateEnd);
         List<Order> filteredOrders;
-        filteredOrders = carId == 0 ? ordersByDate : ordersByDate.stream().filter(o -> carId == o.getCarId()).collect(Collectors.toList());
+        filteredOrders = carType.equals("") ? ordersByDate : ordersByDate.stream().filter(o -> carType.equals(o.getCarType())).collect(Collectors.toList());
         return filteredOrders;
     }
 }
