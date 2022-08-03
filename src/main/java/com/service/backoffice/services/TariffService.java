@@ -7,4 +7,6 @@ public interface TariffService {
    public Iterable<Tariff> getAllTariffs();
 
    void saveTariff(String name, String description, String carType, int ratePerHour);
+
+   boolean deleteTariff(long tariffId);
 }

@@ -23,4 +23,9 @@ public class AdminController {
         tariffService.saveTariff(name,description,carType,ratePerHour);
         return tariffRepo.findByName(name);
     }
+
+    @DeleteMapping("/delete/tariff/{id}")
+    public boolean deleteTariff(@PathVariable("id") long tariffId){
+        return tariffService.deleteTariff(tariffId);
+    }
 }
