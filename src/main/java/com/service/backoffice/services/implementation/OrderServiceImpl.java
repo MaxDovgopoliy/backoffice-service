@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +19,18 @@ public class OrderServiceImpl implements OrderService {
     OrderRepo orderRepo;
 
     @Override
-    public List<Order> getOrderHistory(long userId, LocalDate dateStart, LocalDate dateEnd, int carId) {
-        List<Order> ordersByDate = orderRepo.findAllByUserIdAndStartDateBetween(userId, dateStart, dateEnd);
-        List<Order> filteredOrders;
-        filteredOrders = carId == 0 ? ordersByDate : ordersByDate.stream().filter(o -> carId == o.getCarId()).collect(Collectors.toList());
+    public List<Order> getOrderHistory(int userId, LocalDate dateStart, LocalDate dateEnd, String carType) {
+
+        LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
+                LocalDateTime.of(dateStart, LocalTime.MIN);
+        LocalDateTime endDateTime = dateEnd == null ? LocalDateTime.now() :
+                LocalDateTime.of(dateEnd, LocalTime.MAX);
+
+        List<Order> ordersByDate = orderRepo.findAllByUserIdAndStartDateBetween(userId, startDateTime, endDateTime);
+
+        List<Order> filteredOrders = carType == null ? ordersByDate :
+                ordersByDate.stream().filter(o -> carType.equals(o.getCarType())).collect(Collectors.toList());
+
         return filteredOrders;
     }
 }

@@ -6,6 +6,7 @@ import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.OrderServiceImpl;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -29,13 +30,14 @@ public class UserController {
     }
 
     @GetMapping("/orders/{id}")
-    public List<Order> getOrdersHistoryByUser(@PathVariable("id") long userId,
-                                              @RequestParam(required = false, defaultValue = "#{T(java.time.LocalDateTime).of(2000, Month.JANUARY, 1)}")
-                                              LocalDate dateStart,
-                                              @RequestParam(required = false, defaultValue = "#{T(java.time.LocalDate).now()}") LocalDate dateEnd,
-                                              @RequestParam(required = false) int carId) {
-        List<Order> orders = orderService.getOrderHistory(userId,dateStart,dateEnd,carId);
-        return null;
+    public List<Order> getOrdersHistoryByUser(@PathVariable("id") int userId,
+                                              @RequestParam(required = false)
+                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateStart,
+                                              @RequestParam(required = false)
+                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateEnd,
+                                              @RequestParam(required = false) String carType) {
+        List<Order> orders = orderService.getOrderHistory(userId,dateStart,dateEnd,carType);
+        return orders;
     }
 
 }

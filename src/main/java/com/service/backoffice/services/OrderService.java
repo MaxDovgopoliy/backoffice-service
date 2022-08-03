@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderService {
-    List<Order> getOrderHistory(long userId, LocalDate dateStart, LocalDate dateEnd, int carId);
+    List<Order> getOrderHistory(int userId, LocalDate dateStart, LocalDate dateEnd, String carType);
 }

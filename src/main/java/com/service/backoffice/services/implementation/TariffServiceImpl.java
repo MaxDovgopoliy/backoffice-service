@@ -16,4 +16,10 @@ public class TariffServiceImpl implements TariffService {
         Iterable<Tariff> tariffs = tariffRepo.findAll();
         return tariffs;
     }
+
+    @Override
+    public void saveTariff(String name, String description, String carType, int ratePerHour) {
+        Tariff tariff =new Tariff(name,description,carType,ratePerHour);
+        tariffRepo.save(tariff);
+    }
 }
