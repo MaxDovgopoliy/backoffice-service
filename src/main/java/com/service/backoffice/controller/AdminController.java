@@ -33,4 +33,10 @@ public class AdminController {
     public Tariff getTariff(@PathVariable long id){
         return tariffService.getTariffById(id);
     }
+
+    @PutMapping("/update/tariff/{id}")
+    public Tariff updateTariff(@PathVariable("id") long tariffId,@RequestBody Tariff newTariff){
+        return tariffService.updateTariff(tariffId,newTariff);
+
+    }
 }

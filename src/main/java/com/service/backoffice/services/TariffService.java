@@ -11,4 +11,6 @@ public interface TariffService {
    boolean deleteTariff(long tariffId);
 
    Tariff getTariffById(long id);
+
+   Tariff updateTariff(long tariffId, Tariff newTariff);
 }
