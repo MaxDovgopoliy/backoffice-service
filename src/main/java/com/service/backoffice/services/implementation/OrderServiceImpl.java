@@ -19,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
     OrderRepo orderRepo;
 
     @Override
-    public List<Order> getOrderHistory(int userId, LocalDate dateStart, LocalDate dateEnd, String carType) {
+    public List<Order> getOrderHistoryByUser(int userId, LocalDate dateStart, LocalDate dateEnd, String carType) {
 
         LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
                 LocalDateTime.of(dateStart, LocalTime.MIN);
@@ -33,4 +33,5 @@ public class OrderServiceImpl implements OrderService {
 
         return filteredOrders;
     }
+
 }

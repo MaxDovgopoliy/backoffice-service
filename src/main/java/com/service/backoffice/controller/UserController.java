@@ -36,7 +36,7 @@ public class UserController {
                                               @RequestParam(required = false)
                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateEnd,
                                               @RequestParam(required = false) String carType) {
-        List<Order> orders = orderService.getOrderHistory(userId,dateStart,dateEnd,carType);
+        List<Order> orders = orderService.getOrderHistoryByUser(userId,dateStart,dateEnd,carType);
         return orders;
     }
 
