@@ -28,4 +28,9 @@ public class AdminController {
     public boolean deleteTariff(@PathVariable("id") long tariffId){
         return tariffService.deleteTariff(tariffId);
     }
+
+    @GetMapping ("/tariff/{id}")
+    public Tariff getTariff(@PathVariable long id){
+        return tariffService.getTariffById(id);
+    }
 }

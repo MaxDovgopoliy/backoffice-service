@@ -9,4 +9,6 @@ public interface TariffService {
    void saveTariff(String name, String description, String carType, int ratePerHour);
 
    boolean deleteTariff(long tariffId);
+
+   Tariff getTariffById(long id);
 }

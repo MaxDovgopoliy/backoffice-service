@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TariffServiceImpl implements TariffService {
     @Autowired
@@ -32,5 +34,14 @@ public class TariffServiceImpl implements TariffService {
              return false;
          }
         return true;
+    }
+
+    @Override
+    public Tariff getTariffById(long id) {
+        Optional<Tariff> foundTariff = tariffRepo.findById(id);
+        if(foundTariff.isPresent()){
+            return foundTariff.get();
+        }
+        throw new RuntimeException("no such tariff");
     }
 }
