@@ -25,6 +25,13 @@ public class Tariff {
         this.carType = carType;
         this.ratePerHour = ratePerHour;
     }
+    public Tariff(Long id,String name, String description, String carType, int ratePerHour) {
+        this.id=id;
+        this.name = name;
+        this.description = description;
+        this.carType = carType;
+        this.ratePerHour = ratePerHour;
+    }
     public Tariff(){
 
     }
