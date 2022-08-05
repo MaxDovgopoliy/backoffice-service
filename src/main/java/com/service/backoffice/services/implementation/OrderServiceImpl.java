@@ -33,5 +33,17 @@ public class OrderServiceImpl implements OrderService {
 
         return filteredOrders;
     }
+    @Override
+    public List<Order> getAllOrderHistory(LocalDate dateStart, LocalDate dateEnd, String carType) {
+        LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
+                LocalDateTime.of(dateStart, LocalTime.MIN);
+        LocalDateTime endDateTime = dateEnd == null ? LocalDateTime.now() :
+                LocalDateTime.of(dateEnd, LocalTime.MAX);
 
+        List<Order> ordersByDate = orderRepo.findAllByStartDateBetween(startDateTime,endDateTime);
+        List<Order> filteredOrders = carType == null ? ordersByDate :
+                ordersByDate.stream().filter(o -> carType.equals(o.getCarType())).collect(Collectors.toList());
+
+        return filteredOrders;
+    }
 }

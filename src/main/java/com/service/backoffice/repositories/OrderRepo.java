@@ -12,4 +12,5 @@ import java.util.List;
 public interface OrderRepo extends JpaRepository<Order,Long> {
      List<Order> findAllByUserIdAndStartDateBetween(Integer userId, LocalDateTime startDate, LocalDateTime endDate);
      List<Order> findAllByUserId(Integer userId);
+     List<Order> findAllByStartDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 }
