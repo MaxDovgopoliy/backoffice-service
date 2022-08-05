@@ -126,6 +126,8 @@
     <orderEntry type="library" scope="TEST" name="Maven: net.minidev:accessors-smart:2.4.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm:9.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.36" level="project" />
+    <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:8.5.13" level="project" />
+    <orderEntry type="library" name="Maven: org.flywaydb:flyway-mysql:8.5.13" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.boot:spring-boot-devtools:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.7.2" level="project" />
