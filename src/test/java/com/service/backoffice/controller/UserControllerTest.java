@@ -1,7 +1,7 @@
 package com.service.backoffice.controller;
 
+import com.service.backoffice.controller.user.UserController;
 import com.service.backoffice.dto.TariffDTO;
-import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

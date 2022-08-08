@@ -1,4 +1,4 @@
-package com.service.backoffice.controller;
+package com.service.backoffice.controller.user;
 
 import com.service.backoffice.dto.AreaDTO;
 import com.service.backoffice.dto.OrderDTO;
