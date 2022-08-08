@@ -76,4 +76,9 @@ public class ManagerController {
         return areaService.updateArea(areaId, newAreaDTO);
 
     }
+    @GetMapping("/area/{id}")
+    public AreaDTO getAreaById(@PathVariable("id") long areaId) {
+        return areaService.getAreaById(areaId);
+
+    }
 }

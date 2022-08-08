@@ -56,4 +56,12 @@ public class AreaServiceImpl implements AreaService {
         AreaDTO areaDTO= AreaMapper.MAPPER.toAreaDTO(areaRepo.save(oldArea));
         return areaDTO;
     }
+    @Override
+    public AreaDTO getAreaById(long areaId) {
+        Optional<Area> foundArea = areaRepo.findById(areaId);
+        if (foundArea.isPresent()) {
+            return AreaMapper.MAPPER.toAreaDTO(foundArea.get());
+        }
+        throw new ApiException(Exceptions.AREA_NOT_FOUND);
+    }
 }

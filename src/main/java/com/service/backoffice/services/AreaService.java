@@ -11,4 +11,5 @@ public interface AreaService {
      boolean deleteArea(long id);
      AreaDTO saveArea(AreaDTO areaDTO);
      AreaDTO updateArea(long areaId, AreaDTO newAreaDTO);
+     AreaDTO getAreaById(long areaId);
 }
