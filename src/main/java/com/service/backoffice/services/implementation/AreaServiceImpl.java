@@ -29,5 +29,10 @@ public class AreaServiceImpl implements AreaService {
         }
         return true;
     }
+    @Override
+    public AreaDTO saveArea(AreaDTO areaDTO) {
+        Area area = areaRepo.save(AreaMapper.MAPPER.toArea(areaDTO));
+        return AreaMapper.MAPPER.toAreaDTO(area);
+    }
 
 }

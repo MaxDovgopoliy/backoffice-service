@@ -66,4 +66,9 @@ public class ManagerController {
     public boolean deleteArea(@PathVariable long id) {
         return areaService.deleteArea(id);
     }
+    @PostMapping("/area/add")
+    public AreaDTO addArea(@RequestBody AreaDTO areaDTO) {
+        return areaService.saveArea(areaDTO);
+
+    }
 }
