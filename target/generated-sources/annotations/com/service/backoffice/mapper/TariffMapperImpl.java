@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-06T15:51:53+0300",
+    date = "2022-08-08T15:47:29+0300",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (JetBrains s.r.o.)"
 )
 public class TariffMapperImpl implements TariffMapper {

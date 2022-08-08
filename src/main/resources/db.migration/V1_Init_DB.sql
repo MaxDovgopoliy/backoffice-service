@@ -25,4 +25,18 @@ create table orders (
         rate_per_hour integer not null,
         primary key (id));
 
-     alter table orders add constraint FKjqfqg1m4y9bjrxovw7mw5ost5 foreign key (tariff_id) references tariffs (id);
+     alter table orders add constraint tariff_id foreign key (tariff_id) references tariffs (id);
+
+    create table areas (
+        id bigint not null,
+        city varchar(255),
+        country varchar(255),
+        primary key (id));
+
+    create table coordinates (
+        id bigint not null,
+        latitude double precision not null,
+        longitude double precision not null,
+        area_id bigint, primary key (id));
+
+alter table coordinates add constraint areas_id foreign key (area_id) references areas (id)

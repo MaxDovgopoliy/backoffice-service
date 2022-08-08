@@ -1,5 +1,7 @@
 package com.service.backoffice.services.implementation;
 
+import com.service.backoffice.dto.OrderDTO;
+import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.repositories.OrderRepo;
 import com.service.backoffice.services.OrderService;
@@ -19,7 +21,7 @@ public class OrderServiceImpl implements OrderService {
     OrderRepo orderRepo;
 
     @Override
-    public List<Order> getOrderHistoryByUser(int userId, LocalDate dateStart, LocalDate dateEnd, String carType) {
+    public List<OrderDTO> getOrderHistoryByUser(int userId, LocalDate dateStart, LocalDate dateEnd, String carType) {
 
         LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
                 LocalDateTime.of(dateStart, LocalTime.MIN);
@@ -31,10 +33,10 @@ public class OrderServiceImpl implements OrderService {
         List<Order> filteredOrders = carType == null ? ordersByDate :
                 ordersByDate.stream().filter(o -> carType.equals(o.getCarType())).collect(Collectors.toList());
 
-        return filteredOrders;
+        return OrderMapper.MAPPER.toOrderDTOs(filteredOrders);
     }
     @Override
-    public List<Order> getAllOrderHistory(LocalDate dateStart, LocalDate dateEnd, String carType) {
+    public List<OrderDTO> getAllOrderHistory(LocalDate dateStart, LocalDate dateEnd, String carType) {
         LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
                 LocalDateTime.of(dateStart, LocalTime.MIN);
         LocalDateTime endDateTime = dateEnd == null ? LocalDateTime.now() :
@@ -44,6 +46,6 @@ public class OrderServiceImpl implements OrderService {
         List<Order> filteredOrders = carType == null ? ordersByDate :
                 ordersByDate.stream().filter(o -> carType.equals(o.getCarType())).collect(Collectors.toList());
 
-        return filteredOrders;
+        return OrderMapper.MAPPER.toOrderDTOs(filteredOrders);
     }
 }

@@ -1,7 +1,8 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.TariffDTO;
-import com.service.backoffice.exeption.TariffNotFoundException;
+import com.service.backoffice.exeption.ApiException;
+import com.service.backoffice.exeption.Exceptions;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
@@ -49,7 +50,7 @@ public class TariffServiceImpl implements TariffService {
         if (foundTariff.isPresent()) {
             return TariffMapper.MAPPER.toTariffDTO(foundTariff.get());
         }
-        throw new TariffNotFoundException("no such tariff");
+        throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class TariffServiceImpl implements TariffService {
 
         Tariff oldTariff;
         if(!tariffRepo.findById(tariffId).isPresent()){
-           throw new RuntimeException("No such tariff");
+           throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
         }
 
         oldTariff=tariffRepo.findById(tariffId).get();

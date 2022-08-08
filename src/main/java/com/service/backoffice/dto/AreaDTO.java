@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TariffDTO {
-
-    private String name;
-    private String description;
-    private String carType;
-    private int ratePerHour;
-
+public class AreaDTO {
+    private String country;
+    private String city;
+    List<CoordinatesDTO> coordinatesDTOList;
 }

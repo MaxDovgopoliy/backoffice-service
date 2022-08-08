@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TariffDTO {
-
-    private String name;
-    private String description;
-    private String carType;
-    private int ratePerHour;
-
+public class CoordinatesDTO {
+    private double latitude;
+    private double longitude;
 }

@@ -1,9 +1,11 @@
 package com.service.backoffice.controller;
 
+import com.service.backoffice.dto.AreaDTO;
+import com.service.backoffice.dto.OrderDTO;
 import com.service.backoffice.dto.TariffDTO;
-import com.service.backoffice.model.Order;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
+import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.TariffService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,15 +17,17 @@ import java.util.List;
 @Component
 @RestController
 @RequestMapping("/manager")
-public class AdminController {
+public class ManagerController {
     private TariffService tariffService;
     private TariffRepo tariffRepo;
     private OrderService orderService;
+    private AreaService areaService;
 
-    public AdminController(TariffService tariffService, TariffRepo tariffRepo, OrderService orderService) {
+    public ManagerController(TariffService tariffService, TariffRepo tariffRepo, OrderService orderService, AreaService areaService) {
         this.tariffService = tariffService;
         this.tariffRepo = tariffRepo;
         this.orderService = orderService;
+        this.areaService = areaService;
     }
 
 
@@ -50,12 +54,13 @@ public class AdminController {
 
     }
     @GetMapping("/orders")
-    public List<Order> getAllOrdersHistory(@RequestParam(required = false)
+    public List<OrderDTO> getAllOrdersHistory(@RequestParam(required = false)
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateStart,
-                                           @RequestParam(required = false)
+                                              @RequestParam(required = false)
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateEnd,
-                                           @RequestParam(required = false) String carType) {
-        List<Order> orders = orderService.getAllOrderHistory(dateStart, dateEnd, carType);
+                                              @RequestParam(required = false) String carType) {
+        List<OrderDTO> orders = orderService.getAllOrderHistory(dateStart, dateEnd, carType);
         return orders;
     }
+
 }
