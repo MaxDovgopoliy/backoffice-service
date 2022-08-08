@@ -10,4 +10,5 @@ public interface AreaService {
      List<AreaDTO> getAllAreas();
      boolean deleteArea(long id);
      AreaDTO saveArea(AreaDTO areaDTO);
+     AreaDTO updateArea(long areaId, AreaDTO newAreaDTO);
 }

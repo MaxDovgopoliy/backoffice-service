@@ -71,4 +71,9 @@ public class ManagerController {
         return areaService.saveArea(areaDTO);
 
     }
+    @PutMapping("/update/area/{id}")
+    public AreaDTO updateArea(@PathVariable("id") long areaId, @RequestBody AreaDTO newAreaDTO) {
+        return areaService.updateArea(areaId, newAreaDTO);
+
+    }
 }
