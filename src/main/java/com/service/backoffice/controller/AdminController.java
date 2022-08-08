@@ -1,5 +1,6 @@
 package com.service.backoffice.controller;
 
+import com.service.backoffice.dto.TariffDTO;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
@@ -39,12 +40,12 @@ public class AdminController {
     }
 
     @GetMapping("/tariff/{id}")
-    public Tariff getTariff(@PathVariable long id) {
+    public TariffDTO getTariff(@PathVariable long id) {
         return tariffService.getTariffById(id);
     }
 
     @PutMapping("/update/tariff/{id}")
-    public Tariff updateTariff(@PathVariable("id") long tariffId, @RequestBody Tariff newTariff) {
+    public TariffDTO updateTariff(@PathVariable("id") long tariffId, @RequestBody Tariff newTariff) {
         return tariffService.updateTariff(tariffId, newTariff);
 
     }

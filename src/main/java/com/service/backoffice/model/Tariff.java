@@ -17,7 +17,7 @@ public class Tariff {
     private int ratePerHour;
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name ="tariffId",referencedColumnName = "id")
-    List<Order> orders= new ArrayList<>();
+    private List<Order> orders= new ArrayList<>();
 
     public Tariff(String name, String description, String carType, int ratePerHour) {
         this.name = name;

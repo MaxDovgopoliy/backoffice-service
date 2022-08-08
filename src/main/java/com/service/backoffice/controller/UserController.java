@@ -1,5 +1,6 @@
 package com.service.backoffice.controller;
 
+import com.service.backoffice.dto.TariffDTO;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.OrderService;
@@ -25,9 +26,9 @@ public class UserController {
     }
 
     @GetMapping("/tariffs")
-    public Iterable<Tariff> getAllTariffs() {
-        Iterable<Tariff> tariffs = tariffServiceImpl.getAllTariffs();
-        return tariffs;
+    public List<TariffDTO> getAllTariffs() {
+        List<TariffDTO> tariffsDTOs = tariffServiceImpl.getAllTariffs();
+        return tariffsDTOs;
     }
 
     @GetMapping("/orders/{id}")

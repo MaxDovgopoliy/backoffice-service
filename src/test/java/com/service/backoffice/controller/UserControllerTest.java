@@ -1,5 +1,6 @@
 package com.service.backoffice.controller;
 
+import com.service.backoffice.dto.TariffDTO;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasValue;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,20 +43,21 @@ class UserControllerTest {
     @Test
     void getAllTariffs() throws Exception {
 
-        Tariff tariff1= new Tariff("tariff1","description","sedan",120);
-        Tariff tariff2= new Tariff("tariff2","description","moto",130);
-        List<Tariff> tariffs= new ArrayList<>(List.of(tariff1,tariff2));
-//
-//        willReturn(tariff1).thenReturn(tariffService.getAllTariffs());
-//
-//        String expectedResponse = "{\"id\": null, \"name\":\"tariff1\", \"description\": description, \"carType\":" +
-//                " sedan, \"ratePetHour\": 120}";
-//
-//        mockMvc.perform(get("/user/tariffs")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(1)))
-//                .andExpect(jsonPath("$[0].name", hasValue("tariff1")));
+        TariffDTO tariff1= new TariffDTO("tariff1","description","sedan",120);
+        TariffDTO tariff2= new TariffDTO("tariff2","description","moto",130);
+        TariffDTO tariff3= new TariffDTO("tariff3","description","moto",135);
+        List<TariffDTO> tariffs= new ArrayList<>(List.of(tariff1,tariff2,tariff3));
+
+        given(tariffService.getAllTariffs()).willReturn(tariffs);
+
+
+        mockMvc.perform(get("/user/tariffs")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(tariffs.size())))
+                .andExpect(jsonPath("$[0].name").value(tariffs.get(0).getName()))
+                .andExpect(jsonPath("$[1].carType").value(tariffs.get(1).getCarType()))
+                .andExpect(jsonPath("$[2].ratePerHour").value(tariffs.get(2).getRatePerHour()));
     }
 
     @Test

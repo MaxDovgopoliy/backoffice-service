@@ -1,5 +1,8 @@
 package com.service.backoffice.services.implementation;
 
+import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.exeption.TariffNotFoundException;
+import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.TariffService;
@@ -7,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,9 +20,11 @@ public class TariffServiceImpl implements TariffService {
     TariffRepo tariffRepo;
 
     @Override
-    public Iterable<Tariff> getAllTariffs() {
-        Iterable<Tariff> tariffs = tariffRepo.findAll();
-        return tariffs;
+    public List<TariffDTO> getAllTariffs() {
+        List<Tariff> tariffs = new ArrayList<Tariff>();
+        tariffs.addAll(tariffRepo.findAll());
+        List<TariffDTO>tariffDTOS= TariffMapper.MAPPER.toTariffDTOs(tariffs);
+        return tariffDTOS;
     }
 
     @Override
@@ -37,17 +44,24 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public Tariff getTariffById(long id) {
+    public TariffDTO getTariffById(long id) {
         Optional<Tariff> foundTariff = tariffRepo.findById(id);
         if (foundTariff.isPresent()) {
-            return foundTariff.get();
+            return TariffMapper.MAPPER.toTariffDTO(foundTariff.get());
         }
-        throw new RuntimeException("no such tariff");
+        throw new TariffNotFoundException("no such tariff");
     }
 
     @Override
-    public Tariff updateTariff(long tariffId, Tariff newTariff) {
-        Tariff oldTariff = tariffRepo.findById(tariffId).get();
+    public TariffDTO updateTariff(long tariffId, Tariff newTariff) {
+
+        Tariff oldTariff;
+        if(!tariffRepo.findById(tariffId).isPresent()){
+           throw new RuntimeException("No such tariff");
+        }
+
+        oldTariff=tariffRepo.findById(tariffId).get();
+
         if (newTariff.getName() != null) {
             oldTariff.setName(newTariff.getName());
         }
@@ -60,6 +74,7 @@ public class TariffServiceImpl implements TariffService {
         if (newTariff.getRatePerHour() != 0) {
             oldTariff.setRatePerHour(newTariff.getRatePerHour());
         }
-        return tariffRepo.save(oldTariff);
+        TariffDTO tariffDTO= TariffMapper.MAPPER.toTariffDTO(tariffRepo.save(oldTariff));
+        return tariffDTO;
     }
 }

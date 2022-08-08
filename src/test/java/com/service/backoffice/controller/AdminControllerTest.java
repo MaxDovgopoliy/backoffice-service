@@ -1,7 +1,11 @@
 package com.service.backoffice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.exeption.TariffNotFoundException;
+import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
-import com.service.backoffice.services.TariffService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +20,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,14 +37,17 @@ class AdminControllerTest {
     MockMvc mockMvc;
 
     @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     AdminController adminController;
-    @Mock
+    @MockBean
     TariffServiceImpl tariffService;
 
-    public AdminControllerTest(TariffServiceImpl tariffService) {
-//        MockitoAnnotations.initMocks(this);
-        this.tariffService = tariffService;
-    }
+//    public AdminControllerTest(TariffServiceImpl tariffService) {
+////        MockitoAnnotations.initMocks(this);
+//        this.tariffService = tariffService;
+//    }
 
     @Test
     void addTariff() throws Exception {
@@ -45,25 +55,58 @@ class AdminControllerTest {
     }
 
     @Test
-    void deleteTariff() {
+    void deleteTariff() throws Exception {
+
+        when(tariffService.deleteTariff(1)).thenReturn(true);
+        mockMvc.perform(delete("/manager/delete/tariff/1")) //.contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
     }
 
     @Test
     void getTariff() throws Exception {
-        Tariff tariff1= new Tariff(1L,"tariff1","description","sedan",120);
+        TariffDTO tariff1 = new TariffDTO("tariff1", "description", "sedan", 120);
 
         given(tariffService.getTariffById(1)).willReturn(tariff1);
 
         mockMvc.perform(get("/manager/tariff/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(tariff1.getName()))
+                .andExpect(jsonPath("$.carType").value(tariff1.getCarType()))
+                .andExpect(jsonPath("$.description").value(tariff1.getDescription()))
+                .andExpect(jsonPath("$.ratePerHour").value(tariff1.getRatePerHour()));
+
+//        verify(tariffService).getTariffById(1);
+    }
+    @Test
+    void getTariffByNonExistingId() throws Exception {
+
+        given(tariffService.getTariffById(1)).willThrow(new TariffNotFoundException("no such tariff"));
+
+        mockMvc.perform(get("/manager/tariff/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+//        verify(tariffService).getTariffById(1);
     }
 
     @Test
-    void updateTariff() {
+    void updateTariff() throws Exception {
+        Tariff tariffForUpdate = new Tariff(1L, "tariff1", "description", "sedan", 120);
+        TariffDTO tariffDTO = TariffMapper.MAPPER.toTariffDTO(tariffForUpdate);
+        when(tariffService.updateTariff(1, tariffForUpdate)).thenReturn(tariffDTO);
+        // given(tariffService.updateTariff(1, tariffForUpdate)).willReturn(tariffDTO);
+        mockMvc.perform(put("/manager/update/tariff/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(tariffForUpdate)))
+                        .andExpect(status().isOk());
+        // .andExpect(jsonPath("$.tariffDTO.name").value(tariffForUpdate.getName()));
     }
 
     @Test
-    void getAllOrdersHistory() {
+    void getAllOrdersHistory() throws Exception {
+
+
     }
 }
