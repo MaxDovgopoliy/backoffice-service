@@ -8,5 +8,5 @@ import java.util.List;
 public interface AreaService {
 
      List<AreaDTO> getAllAreas();
-
+     boolean deleteArea(long id);
 }

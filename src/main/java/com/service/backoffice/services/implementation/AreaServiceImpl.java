@@ -20,6 +20,14 @@ public class AreaServiceImpl implements AreaService {
     public List<AreaDTO> getAllAreas() {
         return AreaMapper.MAPPER.toAreaDTOs(areaRepo.findAll());
     }
-
+    @Override
+    public boolean deleteArea(long id) {
+        try {
+            areaRepo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+        return true;
+    }
 
 }

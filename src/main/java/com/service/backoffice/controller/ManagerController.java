@@ -62,5 +62,8 @@ public class ManagerController {
         List<OrderDTO> orders = orderService.getAllOrderHistory(dateStart, dateEnd, carType);
         return orders;
     }
-
+    @DeleteMapping("/area/{id}")
+    public boolean deleteArea(@PathVariable long id) {
+        return areaService.deleteArea(id);
+    }
 }
