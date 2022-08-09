@@ -1,4 +1,4 @@
-package com.service.backoffice.controller;
+package com.service.backoffice.controller.manager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.TariffDTO;
@@ -7,13 +7,9 @@ import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.service.backoffice.exeption.Exceptions.TARIFF_NOT_FOUND;
@@ -24,12 +20,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-class AdminControllerTest {
-
+class TariffControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -37,14 +30,9 @@ class AdminControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    ManagerController managerController;
+    TariffController tariffController;
     @MockBean
     TariffServiceImpl tariffService;
-
-//    public AdminControllerTest(TariffServiceImpl tariffService) {
-////        MockitoAnnotations.initMocks(this);
-//        this.tariffService = tariffService;
-//    }
 
     @Test
     void addTariff() throws Exception {
@@ -83,9 +71,9 @@ class AdminControllerTest {
 
         mockMvc.perform(get("/manager/tariff/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isNotFound())
-                        .andExpect(jsonPath("$.errorName").value(TARIFF_NOT_FOUND.name()))
-                        .andExpect(jsonPath("$.message").value(TARIFF_NOT_FOUND.getMessage()));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errorName").value(TARIFF_NOT_FOUND.name()))
+                .andExpect(jsonPath("$.message").value(TARIFF_NOT_FOUND.getMessage()));
 
         verify(tariffService).getTariffById(1);
     }
@@ -99,13 +87,7 @@ class AdminControllerTest {
         mockMvc.perform(put("/manager/update/tariff/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(tariffForUpdate)))
-                        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name").value(tariffForUpdate.getName()));
-    }
-
-    @Test
-    void getAllOrdersHistory() throws Exception {
-
-
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(tariffForUpdate.getName()));
     }
 }
