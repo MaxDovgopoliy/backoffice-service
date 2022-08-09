@@ -16,5 +16,5 @@ public interface CoordinatesMapper {
 
     List<CoordinatesDTO> toCoordinatesDTOs(List<Coordinates> coordinates);
 
-    List<Coordinates> toCoordinates( List<CoordinatesDTO> coordinatesDTOs);
+    List<Coordinates> toListOfCoordinates(List<CoordinatesDTO> coordinatesDTOs);
 }

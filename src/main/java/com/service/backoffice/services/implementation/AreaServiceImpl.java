@@ -1,14 +1,11 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.AreaDTO;
-import com.service.backoffice.dto.TariffDTO;
 import com.service.backoffice.exeption.ApiException;
 import com.service.backoffice.exeption.Exceptions;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CoordinatesMapper;
-import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Area;
-import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.AreaRepo;
 import com.service.backoffice.services.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +48,7 @@ public class AreaServiceImpl implements AreaService {
 
         oldArea.setCountry(newAreaDTO.getCountry());
         oldArea.setCity(newAreaDTO.getCity());
-        oldArea.setListOfCoordinates(CoordinatesMapper.MAPPER.toCoordinates(newAreaDTO.getCoordinatesDTOList()));
+        oldArea.setListOfCoordinates(CoordinatesMapper.MAPPER.toListOfCoordinates(newAreaDTO.getCoordinatesDTOList()));
 
         AreaDTO areaDTO= AreaMapper.MAPPER.toAreaDTO(areaRepo.save(oldArea));
         return areaDTO;

@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AreaMapperTest {
@@ -38,7 +37,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
 
         assertEquals(area.getCountry(),areaDTO.getCountry());
         assertEquals(area.getCity(),areaDTO.getCity());
-        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toCoordinates(areaDTO.getCoordinatesDTOList()));
+        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinatesDTOList()));
     }
 
     @Test
@@ -48,7 +47,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
 
         assertEquals(area.getCountry(),areaDTO.getCountry());
         assertEquals(area.getCity(),areaDTO.getCity());
-        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toCoordinates(areaDTO.getCoordinatesDTOList()));
+        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinatesDTOList()));
     }
 
     @Test
@@ -57,7 +56,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
 
         assertEquals(areaDTOs.get(0).getCity(),areas.get(0).getCity());
         assertEquals(areaDTOs.get(1).getCountry(),areas.get(1).getCountry());
-        assertEquals(CoordinatesMapper.MAPPER.toCoordinates(areaDTOs.get(1).getCoordinatesDTOList()),
+        assertEquals(CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTOs.get(1).getCoordinatesDTOList()),
                 areas.get(1).getListOfCoordinates());
 
     }

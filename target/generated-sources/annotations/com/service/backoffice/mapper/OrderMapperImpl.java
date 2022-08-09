@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-09T11:11:50+0300",
+    date = "2022-08-09T12:54:40+0300",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.16 (Amazon.com Inc.)"
 )
 public class OrderMapperImpl implements OrderMapper {
@@ -58,20 +58,6 @@ public class OrderMapperImpl implements OrderMapper {
         List<OrderDTO> list = new ArrayList<OrderDTO>( orders.size() );
         for ( Order order : orders ) {
             list.add( toOrderDTO( order ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public List<Order> toOrders(List<OrderDTO> orderDTOs) {
-        if ( orderDTOs == null ) {
-            return null;
-        }
-
-        List<Order> list = new ArrayList<Order>( orderDTOs.size() );
-        for ( OrderDTO orderDTO : orderDTOs ) {
-            list.add( toOrder( orderDTO ) );
         }
 
         return list;

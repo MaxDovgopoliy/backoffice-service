@@ -19,5 +19,4 @@ public interface OrderMapper {
 
     List<OrderDTO> toOrderDTOs(List<Order> orders);
 
-    List<Order> toOrders( List<OrderDTO> orderDTOs);
 }

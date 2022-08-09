@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-09T11:40:47+0300",
+    date = "2022-08-09T12:54:40+0300",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.16 (Amazon.com Inc.)"
 )
 public class CoordinatesMapperImpl implements CoordinatesMapper {
@@ -56,7 +56,7 @@ public class CoordinatesMapperImpl implements CoordinatesMapper {
     }
 
     @Override
-    public List<Coordinates> toCoordinates(List<CoordinatesDTO> coordinatesDTOs) {
+    public List<Coordinates> toListOfCoordinates(List<CoordinatesDTO> coordinatesDTOs) {
         if ( coordinatesDTOs == null ) {
             return null;
         }

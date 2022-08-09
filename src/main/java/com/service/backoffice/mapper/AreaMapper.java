@@ -1,9 +1,7 @@
 package com.service.backoffice.mapper;
 
 import com.service.backoffice.dto.AreaDTO;
-import com.service.backoffice.dto.TariffDTO;
 import com.service.backoffice.model.Area;
-import com.service.backoffice.model.Tariff;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -31,7 +29,7 @@ public interface AreaMapper {
         Area area = new Area();
         area.setCountry(areaDTO.getCountry());
         area.setCity(areaDTO.getCity());
-        area.setListOfCoordinates(CoordinatesMapper.MAPPER.toCoordinates(areaDTO.getCoordinatesDTOList()));
+        area.setListOfCoordinates(CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinatesDTOList()));
         return area;
     }
 
