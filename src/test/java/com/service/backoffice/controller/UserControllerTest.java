@@ -1,7 +1,9 @@
 package com.service.backoffice.controller;
 
 import com.service.backoffice.controller.user.UserController;
+import com.service.backoffice.dto.OrderDTO;
 import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +43,8 @@ class UserControllerTest {
     private UserController userController;
     @MockBean
     private TariffServiceImpl tariffService;
+    @MockBean
+    private OrderService orderService;
 
     @Test
     void getAllTariffs() throws Exception {
@@ -61,6 +67,27 @@ class UserControllerTest {
     }
 
     @Test
-    void getOrdersHistoryByUser() {
+    void getOrdersHistoryByUser() throws Exception {
+        OrderDTO orderDTO1= new OrderDTO(LocalDateTime.of(2020, 1, 1, 0, 0,0),
+                LocalDateTime.now(),250,1,"sedan",1);
+        OrderDTO orderDTO2= new OrderDTO(LocalDateTime.of(2020, 3, 1, 0, 0,0),
+                LocalDateTime.now(),240,4,"moto",3);
+
+        List<OrderDTO> orders= List.of(orderDTO1,orderDTO2);
+
+        given(orderService.getOrderHistoryByUser(1,null,null,null)).willReturn((List.of(orderDTO1)));
+
+
+        mockMvc.perform(get("/user/orders/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].startDate").value(orders.get(0).getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
+                .andExpect(jsonPath("$[0].endDate").value(orders.get(0).getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
+                .andExpect(jsonPath("$[0].carType").value(orders.get(0).getCarType()))
+                .andExpect(jsonPath("$[0].prise").value(orders.get(0).getPrise()))
+                .andExpect(jsonPath("$[0].carId").value(orders.get(0).getCarId()))
+        ;
     }
+
 }

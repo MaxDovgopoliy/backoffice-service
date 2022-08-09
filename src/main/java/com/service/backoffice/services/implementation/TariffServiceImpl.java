@@ -29,9 +29,9 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public void saveTariff(String name, String description, String carType, int ratePerHour) {
+    public TariffDTO saveTariff(String name, String description, String carType, int ratePerHour) {
         Tariff tariff = new Tariff(name, description, carType, ratePerHour);
-        tariffRepo.save(tariff);
+        return TariffMapper.MAPPER.toTariffDTO(tariffRepo.save(tariff));
     }
 
     @Override

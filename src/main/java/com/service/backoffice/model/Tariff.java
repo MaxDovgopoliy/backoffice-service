@@ -3,6 +3,7 @@ package com.service.backoffice.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -82,5 +83,18 @@ public class Tariff {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tariff tariff = (Tariff) o;
+        return ratePerHour == tariff.ratePerHour && name.equals(tariff.name) && description.equals(tariff.description) && carType.equals(tariff.carType) && orders.equals(tariff.orders);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, carType, ratePerHour, orders);
     }
 }

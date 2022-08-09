@@ -6,8 +6,9 @@ import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.TariffService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
+@Component
 @RestController
 @RequestMapping("/manager")
 public class TariffController {
@@ -20,10 +21,9 @@ public class TariffController {
     }
 
     @PostMapping("/tariff/add")
-    public Tariff addTariff(@RequestParam String name, @RequestParam(required = false, defaultValue = "") String description,
+    public TariffDTO addTariff(@RequestParam String name, @RequestParam(required = false, defaultValue = "") String description,
                             @RequestParam int ratePerHour, @RequestParam String carType) {
-        tariffService.saveTariff(name, description, carType, ratePerHour);
-        return tariffRepo.findByName(name);
+        return tariffService.saveTariff(name, description, carType, ratePerHour);
     }
 
     @DeleteMapping("/delete/tariff/{id}")

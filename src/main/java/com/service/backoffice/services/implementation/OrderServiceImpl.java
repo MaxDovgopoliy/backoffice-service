@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public List<OrderDTO> getAllOrderHistory(LocalDate dateStart, LocalDate dateEnd, String carType) {
-        LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
+        LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0,0) :
                 LocalDateTime.of(dateStart, LocalTime.MIN);
         LocalDateTime endDateTime = dateEnd == null ? LocalDateTime.now() :
                 LocalDateTime.of(dateEnd, LocalTime.MAX);
