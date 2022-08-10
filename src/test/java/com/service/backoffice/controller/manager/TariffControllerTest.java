@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
+import static com.service.backoffice.exeption.Exceptions.BAD_TARIFF_CREDENTIALS;
 import static com.service.backoffice.exeption.Exceptions.TARIFF_NOT_FOUND;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -61,23 +62,23 @@ class TariffControllerTest {
                 .andExpect(jsonPath("$.ratePerHour").value(tariffForAdd.getRatePerHour()));
     }
     @Test
-    void addTariffBad() throws Exception {
+    void addTariffWithoutName() throws Exception {
 
         Tariff tariffForAdd = new Tariff(1L, "tariff1", "description", "sedan", 120);
         TariffDTO tariffDTO = TariffMapper.MAPPER.toTariffDTO(tariffForAdd);
 
-        when(tariffService.saveTariff("tariff1", "", "sedan", 120))
-                .thenReturn(tariffDTO);
+        when(tariffService.saveTariff(null, "", "sedan", 120))
+                .thenThrow(new ApiException(BAD_TARIFF_CREDENTIALS));
 
         mockMvc.perform(post("/manager/tariff/add")
-                        .param("name","tariff1")
                         .param("ratePerHour","120")
-                        .param("carType","sedan"))
-                        .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(tariffForAdd.getName()))
-                .andExpect(jsonPath("$.description").value(tariffForAdd.getDescription()))
-                .andExpect(jsonPath("$.carType").value(tariffForAdd.getCarType()))
-                .andExpect(jsonPath("$.ratePerHour").value(tariffForAdd.getRatePerHour()));
+                        .param("carType","sedan")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(jsonPath("$.massage").value(BAD_TARIFF_CREDENTIALS.getMessage()));
+//                .andExpect(jsonPath("$.description").value(tariffForAdd.getDescription()))
+//                .andExpect(jsonPath("$.carType").value(tariffForAdd.getCarType()))
+//                .andExpect(jsonPath("$.ratePerHour").value(tariffForAdd.getRatePerHour()));
     }
 
     @Test

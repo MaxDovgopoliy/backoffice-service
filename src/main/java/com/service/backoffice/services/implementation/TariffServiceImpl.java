@@ -22,8 +22,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public List<TariffDTO> getAllTariffs() {
-        List<Tariff> tariffs = new ArrayList<Tariff>();
-        tariffs.addAll(tariffRepo.findAll());
+        List<Tariff> tariffs = tariffRepo.findAll();
         List<TariffDTO>tariffDTOS= TariffMapper.MAPPER.toTariffDTOs(tariffs);
         return tariffDTOS;
     }
