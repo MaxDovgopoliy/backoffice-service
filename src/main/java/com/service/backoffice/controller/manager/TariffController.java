@@ -6,23 +6,28 @@ import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.TariffService;
+import com.sun.istack.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Positive;
+
 @Component
 @RestController
 @RequestMapping("/manager")
 public class TariffController {
     private TariffService tariffService;
-    private TariffRepo tariffRepo;
 
-    public TariffController(TariffService tariffService, TariffRepo tariffRepo, OrderService orderService, AreaService areaService) {
+
+    public TariffController(TariffService tariffService) {
         this.tariffService = tariffService;
-        this.tariffRepo = tariffRepo;
     }
 
     @PostMapping("/tariff/add")
-    public TariffDTO addTariff(@RequestParam String name, @RequestParam(required = false, defaultValue = "") String description,
-                            @RequestParam int ratePerHour, @RequestParam String carType) {
+    public TariffDTO addTariff(@RequestParam @NotNull String name,
+                               @RequestParam(required = false, defaultValue = "No description") String description,
+                               @RequestParam @NotNull @Positive int ratePerHour,
+                               @RequestParam @NotNull String carType) {
         return tariffService.saveTariff(name, description, carType, ratePerHour);
     }
 

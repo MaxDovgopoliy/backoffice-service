@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/manager")
 public class AreaController {
@@ -27,13 +29,13 @@ public class AreaController {
 //    @ApiResponses(value = {
 //            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AreaDTO.class)))})
     @PostMapping("/area/add")
-    public AreaDTO addArea(@RequestBody AreaDTO areaDTO) {
+    public AreaDTO addArea(@RequestBody @Valid AreaDTO areaDTO) {
         return areaService.saveArea(areaDTO);
 
     }
 
     @PutMapping("/update/area/{id}")
-    public AreaDTO updateArea(@PathVariable("id") long areaId, @RequestBody AreaDTO newAreaDTO) {
+    public AreaDTO updateArea(@PathVariable("id") long areaId, @RequestBody @Valid AreaDTO newAreaDTO) {
         return areaService.updateArea(areaId, newAreaDTO);
 
     }

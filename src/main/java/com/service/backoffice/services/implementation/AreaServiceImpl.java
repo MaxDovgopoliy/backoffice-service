@@ -42,7 +42,7 @@ public class AreaServiceImpl implements AreaService {
     public AreaDTO updateArea(long areaId, AreaDTO newAreaDTO) {
         Area oldArea;
         if(!areaRepo.findById(areaId).isPresent()){
-            throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
+            throw new ApiException(Exceptions.AREA_NOT_FOUND);
         }
         oldArea=areaRepo.findById(areaId).get();
 
