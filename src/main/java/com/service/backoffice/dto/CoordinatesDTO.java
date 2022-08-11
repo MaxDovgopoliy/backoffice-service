@@ -1,5 +1,6 @@
 package com.service.backoffice.dto;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordinatesDTO {
+    @NotNull
     private double latitude;
+    @NotNull
     private double longitude;
 }

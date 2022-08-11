@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,8 +23,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,8 +54,6 @@ class TariffServiceImplTest {
         assertNotNull(resultTariffDTOS);
         assertIterableEquals(expectedTariffDTOs, resultTariffDTOS);
 
-
-
     }
 
     @Test
@@ -76,8 +74,17 @@ class TariffServiceImplTest {
 
     @Test
     void deleteTariff() {
-        Tariff tariff= new Tariff(1L,"tariff1","description","sedan",120);
-//        when(tariffRepo.deleteById(tariff.getId()));
+        doAnswer((i)->  {return null;}).when(tariffRepo).deleteById(1L);
+        boolean result=tariffService.deleteTariff(1L);
+
+        assertEquals(result, true);
+    }
+    @Test
+    void deleteTariff_WithNonExistingId() {
+        doThrow(new EmptyResultDataAccessException(1)).when(tariffRepo).deleteById(1L);
+        boolean result=tariffService.deleteTariff(1L);
+
+        assertEquals(result, false);
     }
 
     @Test

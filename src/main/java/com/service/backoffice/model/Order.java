@@ -1,6 +1,11 @@
 package com.service.backoffice.model;
 
+import com.sun.istack.NotNull;
+import org.aspectj.lang.annotation.Before;
+
 import javax.persistence.*;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

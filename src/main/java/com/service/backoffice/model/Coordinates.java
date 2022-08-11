@@ -1,5 +1,7 @@
 package com.service.backoffice.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -9,7 +11,6 @@ public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private double latitude;
     private double longitude;
 
