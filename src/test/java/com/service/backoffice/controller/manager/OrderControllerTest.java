@@ -1,11 +1,16 @@
 package com.service.backoffice.controller.manager;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.backoffice.dto.OrderDTO;
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.services.OrderService;
-import com.service.backoffice.services.implementation.TariffServiceImpl;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,21 +34,16 @@ class OrderControllerTest {
     OrderController orderController;
     @MockBean
     OrderService orderService;
-//    LocalDateTime startDate;
-//    private LocalDateTime endDate;
-//    private int prise;
-//    private int carId;
-//    private String carType;
-//    private int userId;
+
     @Test
     void getAllOrdersHistory() throws Exception {
 
-        OrderDTO orderDTO1= new OrderDTO(LocalDateTime.of(2020, 1, 1, 0, 0,0),
+        OrderDto orderDto1 = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0,0),
                 LocalDateTime.now(),250,1,"sedan",2);
-        OrderDTO orderDTO2= new OrderDTO(LocalDateTime.of(2020, 3, 1, 0, 0,0),
+        OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0,0),
                 LocalDateTime.now(),240,4,"moto",3);
 
-        List<OrderDTO> orders= List.of(orderDTO1,orderDTO2);
+        List<OrderDto> orders= List.of(orderDto1, orderDto2);
 
         given(orderService.getAllOrderHistory(null,null,null)).willReturn(orders);
 

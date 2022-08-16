@@ -1,20 +1,20 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.dto.CoordinatesDTO;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.model.Coordinates;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 @Mapper
 public interface CoordinatesMapper {
     CoordinatesMapper MAPPER = Mappers.getMapper(CoordinatesMapper.class);
 
-    CoordinatesDTO toCoordinatesDTO(Coordinates coordinates);
+    CoordinatesDto toCoordinatesDto(Coordinates coordinates);
 
-    Coordinates toCoordinates(CoordinatesDTO coordinatesDTO);
+    Coordinates toCoordinates(CoordinatesDto coordinatesDto);
 
-    List<CoordinatesDTO> toCoordinatesDTOs(List<Coordinates> coordinates);
+    List<CoordinatesDto> toCoordinatesDtos(List<Coordinates> coordinates);
 
-    List<Coordinates> toListOfCoordinates(List<CoordinatesDTO> coordinatesDTOs);
+    List<Coordinates> toListOfCoordinates(List<CoordinatesDto> coordinatesDtos);
 }

@@ -1,22 +1,20 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.model.Tariff;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Mapper
 public interface TariffMapper {
 
     TariffMapper MAPPER = Mappers.getMapper(TariffMapper.class);
 
-    TariffDTO toTariffDTO(Tariff tariff);
+    TariffDto toTariffDto(Tariff tariff);
 
-    Tariff toTariff(TariffDTO tariffDTO);
+    Tariff toTariff(TariffDto tariffDto);
 
-    List<TariffDTO> toTariffDTOs(List<Tariff> tariffs);
+    List<TariffDto> toTariffDtos(List<Tariff> tariffs);
 
 }

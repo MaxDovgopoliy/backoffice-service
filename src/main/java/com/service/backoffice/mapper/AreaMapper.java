@@ -1,39 +1,39 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.dto.AreaDTO;
+import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.model.Area;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 @Mapper(uses = CoordinatesMapper.class)
 public interface AreaMapper {
     AreaMapper MAPPER = Mappers.getMapper(AreaMapper.class);
 
-    default AreaDTO toAreaDTO(Area area) {
+    default AreaDto toAreaDto(Area area) {
         if (area == null) {
             return null;
         }
-        AreaDTO areaDTO = new AreaDTO();
-        areaDTO.setCountry(area.getCountry());
-        areaDTO.setCity(area.getCity());
-        areaDTO.setCoordinatesDTOList(CoordinatesMapper.MAPPER.toCoordinatesDTOs(area.getListOfCoordinates()));
-        return areaDTO;
+        AreaDto areaDto = new AreaDto();
+        areaDto.setCountry(area.getCountry());
+        areaDto.setCity(area.getCity());
+        areaDto.setCoordinatesDtoList(CoordinatesMapper.MAPPER
+                        .toCoordinatesDtos(area.getListOfCoordinates()));
+        return areaDto;
     }
 
-    default Area toArea(AreaDTO areaDTO){
-        if (areaDTO == null) {
+    default Area toArea(AreaDto areaDto) {
+        if (areaDto == null) {
             return null;
         }
         Area area = new Area();
-        area.setCountry(areaDTO.getCountry());
-        area.setCity(areaDTO.getCity());
-        area.setListOfCoordinates(CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinatesDTOList()));
+        area.setCountry(areaDto.getCountry());
+        area.setCity(areaDto.getCity());
+        area.setListOfCoordinates(CoordinatesMapper.MAPPER
+                .toListOfCoordinates(areaDto.getCoordinatesDtoList()));
         return area;
     }
 
-    List<AreaDTO> toAreaDTOs(List<Area> areas);
-
+    List<AreaDto> toAreaDtos(List<Area> areas);
 
 }

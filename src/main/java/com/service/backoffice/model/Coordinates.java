@@ -1,12 +1,14 @@
 package com.service.backoffice.model;
 
-import com.sun.istack.NotNull;
-
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="coordinates")
+@Table(name = "coordinates")
 public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,10 +51,15 @@ public class Coordinates {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Coordinates that = (Coordinates) o;
-        return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0;
+        return Double.compare(that.latitude, latitude) == 0
+                && Double.compare(that.longitude, longitude) == 0;
     }
 
     @Override

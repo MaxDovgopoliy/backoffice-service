@@ -1,19 +1,18 @@
 package com.service.backoffice.services;
 
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.model.Tariff;
-
 import java.util.List;
 
 public interface TariffService {
 
-    List<TariffDTO> getAllTariffs();
+    List<TariffDto> getAllTariffs();
 
-   TariffDTO saveTariff(String name, String description, String carType, int ratePerHour);
+    TariffDto saveTariff(String name, String description, String carType, int ratePerHour);
 
-   boolean deleteTariff(long tariffId);
+    boolean deleteTariff(long tariffId);
 
-   TariffDTO getTariffById(long id);
+    TariffDto getTariffById(long id);
 
-   TariffDTO updateTariff(long tariffId, Tariff newTariff);
+    TariffDto updateTariff(long tariffId, Tariff newTariff);
 }

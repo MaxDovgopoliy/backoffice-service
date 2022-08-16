@@ -1,7 +1,14 @@
 package com.service.backoffice.controller.manager;
 
+import static com.service.backoffice.exeption.Exceptions.BAD_TARIFF_CREDENTIALS;
+import static com.service.backoffice.exeption.Exceptions.TARIFF_NOT_FOUND;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.exeption.ApiException;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
@@ -15,18 +22,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-
-import static com.service.backoffice.exeption.Exceptions.BAD_TARIFF_CREDENTIALS;
-import static com.service.backoffice.exeption.Exceptions.TARIFF_NOT_FOUND;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,7 +41,7 @@ class TariffControllerTest {
     void addTariff() throws Exception {
 
         Tariff tariffForAdd = new Tariff(1L, "tariff1", "description", "sedan", 120);
-        TariffDTO tariffDTO = TariffMapper.MAPPER.toTariffDTO(tariffForAdd);
+        TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForAdd);
 
         when(tariffService.saveTariff("tariff1", "", "sedan", 120))
                 .thenReturn(tariffDTO);
@@ -65,7 +60,7 @@ class TariffControllerTest {
     void addTariffWithoutName() throws Exception {
 
         Tariff tariffForAdd = new Tariff(1L, "tariff1", "description", "sedan", 120);
-        TariffDTO tariffDTO = TariffMapper.MAPPER.toTariffDTO(tariffForAdd);
+        TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForAdd);
 
         when(tariffService.saveTariff(null, "", "sedan", 120))
                 .thenThrow(new ApiException(BAD_TARIFF_CREDENTIALS));
@@ -74,11 +69,8 @@ class TariffControllerTest {
                         .param("ratePerHour","120")
                         .param("carType","sedan")
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isBadRequest())
-                        .andExpect(jsonPath("$.massage").value(BAD_TARIFF_CREDENTIALS.getMessage()));
-//                .andExpect(jsonPath("$.description").value(tariffForAdd.getDescription()))
-//                .andExpect(jsonPath("$.carType").value(tariffForAdd.getCarType()))
-//                .andExpect(jsonPath("$.ratePerHour").value(tariffForAdd.getRatePerHour()));
+                        .andExpect(status().isBadRequest());
+
     }
 
     @Test
@@ -92,7 +84,7 @@ class TariffControllerTest {
 
     @Test
     void getTariff() throws Exception {
-        TariffDTO tariff1 = new TariffDTO("tariff1", "description", "sedan", 120);
+        TariffDto tariff1 = new TariffDto("tariff1", "description", "sedan", 120);
 
         given(tariffService.getTariffById(1)).willReturn(tariff1);
 
@@ -124,7 +116,7 @@ class TariffControllerTest {
     @Test
     void updateTariff() throws Exception {
         Tariff tariffForUpdate = new Tariff(1L, "tariff1", "description", "sedan", 120);
-        TariffDTO tariffDTO = TariffMapper.MAPPER.toTariffDTO(tariffForUpdate);
+        TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForUpdate);
        // when(tariffService.updateTariff(anyLong(), any(Tariff.class))).thenReturn(tariffDTO);
         when(tariffService.updateTariff(1, tariffForUpdate)).thenReturn(tariffDTO);
 

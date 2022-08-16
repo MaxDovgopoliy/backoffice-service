@@ -1,20 +1,21 @@
 package com.service.backoffice.controller.manager;
 
-import com.service.backoffice.dto.AreaDTO;
+import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.services.AreaService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/manager")
 public class AreaController {
-    private AreaService areaService;
+    private final AreaService areaService;
 
     public AreaController(AreaService areaService) {
         this.areaService = areaService;
@@ -25,23 +26,21 @@ public class AreaController {
         return areaService.deleteArea(id);
     }
 
-//    @Operation(summary = "Add area", description = "This can only be done by the logged in user.", tags = {"area"})
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AreaDTO.class)))})
     @PostMapping("/area/add")
-    public AreaDTO addArea(@RequestBody @Valid AreaDTO areaDTO) {
-        return areaService.saveArea(areaDTO);
+    public AreaDto addArea(@RequestBody @Valid AreaDto areaDto) {
+        return areaService.saveArea(areaDto);
 
     }
 
     @PutMapping("/update/area/{id}")
-    public AreaDTO updateArea(@PathVariable("id") long areaId, @RequestBody @Valid AreaDTO newAreaDTO) {
-        return areaService.updateArea(areaId, newAreaDTO);
+    public AreaDto updateArea(@PathVariable("id") long areaId,
+                              @RequestBody @Valid AreaDto newAreaDto) {
+        return areaService.updateArea(areaId, newAreaDto);
 
     }
 
     @GetMapping("/area/{id}")
-    public AreaDTO getAreaById(@PathVariable("id") long areaId) {
+    public AreaDto getAreaById(@PathVariable("id") long areaId) {
         return areaService.getAreaById(areaId);
 
     }

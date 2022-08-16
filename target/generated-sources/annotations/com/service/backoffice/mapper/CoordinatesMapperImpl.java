@@ -1,6 +1,6 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.dto.CoordinatesDTO;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.model.Coordinates;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,62 +8,62 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-09T19:53:37+0300",
+    date = "2022-08-15T16:18:15+0300",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.16 (Amazon.com Inc.)"
 )
 public class CoordinatesMapperImpl implements CoordinatesMapper {
 
     @Override
-    public CoordinatesDTO toCoordinatesDTO(Coordinates coordinates) {
+    public CoordinatesDto toCoordinatesDto(Coordinates coordinates) {
         if ( coordinates == null ) {
             return null;
         }
 
-        CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
+        CoordinatesDto coordinatesDto = new CoordinatesDto();
 
-        coordinatesDTO.setLatitude( coordinates.getLatitude() );
-        coordinatesDTO.setLongitude( coordinates.getLongitude() );
+        coordinatesDto.setLatitude( coordinates.getLatitude() );
+        coordinatesDto.setLongitude( coordinates.getLongitude() );
 
-        return coordinatesDTO;
+        return coordinatesDto;
     }
 
     @Override
-    public Coordinates toCoordinates(CoordinatesDTO coordinatesDTO) {
-        if ( coordinatesDTO == null ) {
+    public Coordinates toCoordinates(CoordinatesDto coordinatesDto) {
+        if ( coordinatesDto == null ) {
             return null;
         }
 
         Coordinates coordinates = new Coordinates();
 
-        coordinates.setLatitude( coordinatesDTO.getLatitude() );
-        coordinates.setLongitude( coordinatesDTO.getLongitude() );
+        coordinates.setLatitude( coordinatesDto.getLatitude() );
+        coordinates.setLongitude( coordinatesDto.getLongitude() );
 
         return coordinates;
     }
 
     @Override
-    public List<CoordinatesDTO> toCoordinatesDTOs(List<Coordinates> coordinates) {
+    public List<CoordinatesDto> toCoordinatesDtos(List<Coordinates> coordinates) {
         if ( coordinates == null ) {
             return null;
         }
 
-        List<CoordinatesDTO> list = new ArrayList<CoordinatesDTO>( coordinates.size() );
+        List<CoordinatesDto> list = new ArrayList<CoordinatesDto>( coordinates.size() );
         for ( Coordinates coordinates1 : coordinates ) {
-            list.add( toCoordinatesDTO( coordinates1 ) );
+            list.add( toCoordinatesDto( coordinates1 ) );
         }
 
         return list;
     }
 
     @Override
-    public List<Coordinates> toListOfCoordinates(List<CoordinatesDTO> coordinatesDTOs) {
-        if ( coordinatesDTOs == null ) {
+    public List<Coordinates> toListOfCoordinates(List<CoordinatesDto> coordinatesDtos) {
+        if ( coordinatesDtos == null ) {
             return null;
         }
 
-        List<Coordinates> list = new ArrayList<Coordinates>( coordinatesDTOs.size() );
-        for ( CoordinatesDTO coordinatesDTO : coordinatesDTOs ) {
-            list.add( toCoordinates( coordinatesDTO ) );
+        List<Coordinates> list = new ArrayList<Coordinates>( coordinatesDtos.size() );
+        for ( CoordinatesDto coordinatesDto : coordinatesDtos ) {
+            list.add( toCoordinates( coordinatesDto ) );
         }
 
         return list;

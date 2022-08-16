@@ -1,13 +1,16 @@
 package com.service.backoffice.model;
 
-import com.sun.istack.NotNull;
-
-import javax.persistence.*;
-import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tariffs")
@@ -19,9 +22,9 @@ public class Tariff {
     private String description;
     private String carType;
     private int ratePerHour;
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name ="tariffId",referencedColumnName = "id")
-    private List<Order> orders= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tariffId", referencedColumnName = "id")
+    private List<Order> orders = new ArrayList<>();
 
     public Tariff(String name, String description, String carType, int ratePerHour) {
         this.name = name;
@@ -29,14 +32,16 @@ public class Tariff {
         this.carType = carType;
         this.ratePerHour = ratePerHour;
     }
-    public Tariff(Long id,String name, String description, String carType, int ratePerHour) {
-        this.id=id;
+
+    public Tariff(Long id, String name, String description, String carType, int ratePerHour) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.carType = carType;
         this.ratePerHour = ratePerHour;
     }
-    public Tariff(){
+
+    public Tariff() {
 
     }
 
@@ -90,10 +95,18 @@ public class Tariff {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Tariff tariff = (Tariff) o;
-        return ratePerHour == tariff.ratePerHour && name.equals(tariff.name) && description.equals(tariff.description) && carType.equals(tariff.carType) && orders.equals(tariff.orders);
+        return ratePerHour == tariff.ratePerHour
+                && name.equals(tariff.name)
+                && description.equals(tariff.description)
+                && carType.equals(tariff.carType)
+                && orders.equals(tariff.orders);
     }
 
     @Override

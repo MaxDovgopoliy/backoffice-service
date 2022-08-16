@@ -1,15 +1,17 @@
 package com.service.backoffice.services;
 
-import com.service.backoffice.dto.AreaDTO;
-import org.apache.catalina.LifecycleState;
-
+import com.service.backoffice.dto.AreaDto;
 import java.util.List;
 
 public interface AreaService {
 
-     List<AreaDTO> getAllAreas();
-     boolean deleteArea(long id);
-     AreaDTO saveArea(AreaDTO areaDTO);
-     AreaDTO updateArea(long areaId, AreaDTO newAreaDTO);
-     AreaDTO getAreaById(long areaId);
+    List<AreaDto> getAllAreas();
+
+    boolean deleteArea(long id);
+
+    AreaDto saveArea(AreaDto areaDto);
+
+    AreaDto updateArea(long areaId, AreaDto newAreaDto);
+
+    AreaDto getAreaById(long areaId);
 }

@@ -1,36 +1,34 @@
 package com.service.backoffice.services.implementation;
 
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.exeption.ApiException;
 import com.service.backoffice.exeption.Exceptions;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.TariffService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class TariffServiceImpl implements TariffService {
     @Autowired
-    TariffRepo tariffRepo;
+    private TariffRepo tariffRepo;
 
     @Override
-    public List<TariffDTO> getAllTariffs() {
+    public List<TariffDto> getAllTariffs() {
         List<Tariff> tariffs = tariffRepo.findAll();
-        List<TariffDTO>tariffDTOS= TariffMapper.MAPPER.toTariffDTOs(tariffs);
-        return tariffDTOS;
+        List<TariffDto> tariffDtos = TariffMapper.MAPPER.toTariffDtos(tariffs);
+        return tariffDtos;
     }
 
     @Override
-    public TariffDTO saveTariff(String name, String description, String carType, int ratePerHour) {
+    public TariffDto saveTariff(String name, String description, String carType, int ratePerHour) {
         Tariff tariff = new Tariff(name, description, carType, ratePerHour);
-        return TariffMapper.MAPPER.toTariffDTO(tariffRepo.save(tariff));
+        return TariffMapper.MAPPER.toTariffDto(tariffRepo.save(tariff));
     }
 
     @Override
@@ -44,23 +42,23 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public TariffDTO getTariffById(long id) {
+    public TariffDto getTariffById(long id) {
         Optional<Tariff> foundTariff = tariffRepo.findById(id);
         if (foundTariff.isPresent()) {
-            return TariffMapper.MAPPER.toTariffDTO(foundTariff.get());
+            return TariffMapper.MAPPER.toTariffDto(foundTariff.get());
         }
         throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
     }
 
     @Override
-    public TariffDTO updateTariff(long tariffId, Tariff newTariff) {
+    public TariffDto updateTariff(long tariffId, Tariff newTariff) {
 
         Tariff oldTariff;
-        if(!tariffRepo.findById(tariffId).isPresent()){
-           throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
+        if (!tariffRepo.findById(tariffId).isPresent()) {
+            throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
         }
 
-        oldTariff=tariffRepo.findById(tariffId).get();
+        oldTariff = tariffRepo.findById(tariffId).get();
 
         if (newTariff.getName() != null) {
             oldTariff.setName(newTariff.getName());
@@ -74,7 +72,7 @@ public class TariffServiceImpl implements TariffService {
         if (newTariff.getRatePerHour() != 0) {
             oldTariff.setRatePerHour(newTariff.getRatePerHour());
         }
-        TariffDTO tariffDTO= TariffMapper.MAPPER.toTariffDTO(tariffRepo.save(oldTariff));
-        return tariffDTO;
+        TariffDto tariffDto = TariffMapper.MAPPER.toTariffDto(tariffRepo.save(oldTariff));
+        return tariffDto;
     }
 }

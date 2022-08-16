@@ -1,6 +1,6 @@
 package com.service.backoffice.services.implementation;
 
-import com.service.backoffice.dto.AreaDTO;
+import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.exeption.ApiException;
 import com.service.backoffice.exeption.Exceptions;
 import com.service.backoffice.mapper.AreaMapper;
@@ -8,21 +8,22 @@ import com.service.backoffice.mapper.CoordinatesMapper;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.repositories.AreaRepo;
 import com.service.backoffice.services.AreaService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AreaServiceImpl implements AreaService {
     @Autowired
     private AreaRepo areaRepo;
+
     @Override
-    public List<AreaDTO> getAllAreas() {
-        return AreaMapper.MAPPER.toAreaDTOs(areaRepo.findAll());
+    public List<AreaDto> getAllAreas() {
+        return AreaMapper.MAPPER.toAreaDtos(areaRepo.findAll());
     }
+
     @Override
     public boolean deleteArea(long id) {
         try {
@@ -32,32 +33,35 @@ public class AreaServiceImpl implements AreaService {
         }
         return true;
     }
+
     @Override
-    public AreaDTO saveArea(AreaDTO areaDTO) {
-        Area area = areaRepo.save(AreaMapper.MAPPER.toArea(areaDTO));
-        return AreaMapper.MAPPER.toAreaDTO(area);
+    public AreaDto saveArea(AreaDto areaDto) {
+        Area area = areaRepo.save(AreaMapper.MAPPER.toArea(areaDto));
+        return AreaMapper.MAPPER.toAreaDto(area);
     }
 
     @Override
-    public AreaDTO updateArea(long areaId, AreaDTO newAreaDTO) {
+    public AreaDto updateArea(long areaId, AreaDto newAreaDto) {
         Area oldArea;
-        if(!areaRepo.findById(areaId).isPresent()){
+        if (!areaRepo.findById(areaId).isPresent()) {
             throw new ApiException(Exceptions.AREA_NOT_FOUND);
         }
-        oldArea=areaRepo.findById(areaId).get();
+        oldArea = areaRepo.findById(areaId).get();
 
-        oldArea.setCountry(newAreaDTO.getCountry());
-        oldArea.setCity(newAreaDTO.getCity());
-        oldArea.setListOfCoordinates(CoordinatesMapper.MAPPER.toListOfCoordinates(newAreaDTO.getCoordinatesDTOList()));
+        oldArea.setCountry(newAreaDto.getCountry());
+        oldArea.setCity(newAreaDto.getCity());
+        oldArea.setListOfCoordinates(CoordinatesMapper
+                .MAPPER.toListOfCoordinates(newAreaDto.getCoordinatesDtoList()));
 
-        AreaDTO areaDTO= AreaMapper.MAPPER.toAreaDTO(areaRepo.save(oldArea));
-        return areaDTO;
+        AreaDto areaDto = AreaMapper.MAPPER.toAreaDto(areaRepo.save(oldArea));
+        return areaDto;
     }
+
     @Override
-    public AreaDTO getAreaById(long areaId) {
+    public AreaDto getAreaById(long areaId) {
         Optional<Area> foundArea = areaRepo.findById(areaId);
         if (foundArea.isPresent()) {
-            return AreaMapper.MAPPER.toAreaDTO(foundArea.get());
+            return AreaMapper.MAPPER.toAreaDto(foundArea.get());
         }
         throw new ApiException(Exceptions.AREA_NOT_FOUND);
     }

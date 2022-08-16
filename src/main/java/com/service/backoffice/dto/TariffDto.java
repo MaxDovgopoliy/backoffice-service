@@ -1,17 +1,16 @@
 package com.service.backoffice.dto;
 
 import com.sun.istack.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TariffDTO {
+public class TariffDto {
 
     @NotNull
     private String name;

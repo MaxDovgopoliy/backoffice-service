@@ -1,13 +1,11 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.dto.TariffDTO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.model.Tariff;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TariffMapperTest {
     private  final TariffMapper mapper= Mappers.getMapper(TariffMapper.class);
@@ -15,14 +13,14 @@ class TariffMapperTest {
             new Tariff(1L,"tariff1","description1","sedan",123),
             new Tariff(2L,"tariff2","description2","moto",200)
     );
-private List<TariffDTO> tariffDTOs=List.of(
-            new TariffDTO("tariff1","description1","sedan",123),
-            new TariffDTO("tariff2","description2","moto",200)
+private List<TariffDto> tariffDtos =List.of(
+            new TariffDto("tariff1","description1","sedan",123),
+            new TariffDto("tariff2","description2","moto",200)
     );
 
     @Test
     void toTariffDTO() {
-        TariffDTO tariffDTO= mapper.toTariffDTO(tariffs.get(0));
+        TariffDto tariffDTO= mapper.toTariffDto(tariffs.get(0));
 
         assertEquals(tariffDTO.getName(),tariffs.get(0).getName());
         assertEquals(tariffDTO.getCarType(),tariffs.get(0).getCarType());
@@ -31,24 +29,24 @@ private List<TariffDTO> tariffDTOs=List.of(
 
     @Test
     void toTariff() {
-        Tariff tariff=mapper.toTariff(tariffDTOs.get(1));
+        Tariff tariff=mapper.toTariff(tariffDtos.get(1));
 
-        assertEquals(tariff.getName(),tariffDTOs.get(1).getName());
-        assertEquals(tariff.getCarType(),tariffDTOs.get(1).getCarType());
-        assertEquals(tariff.getRatePerHour(),tariffDTOs.get(1).getRatePerHour());
+        assertEquals(tariff.getName(), tariffDtos.get(1).getName());
+        assertEquals(tariff.getCarType(), tariffDtos.get(1).getCarType());
+        assertEquals(tariff.getRatePerHour(), tariffDtos.get(1).getRatePerHour());
     }
 
     @Test
     void toTariffDTOs() {
-        List<TariffDTO> tariffDTOS =mapper.toTariffDTOs(tariffs);
+        List<TariffDto> tariffDtos =mapper.toTariffDtos(tariffs);
 
-        assertEquals(tariffs.size(),tariffDTOS.size());
-        assertEquals(tariffs.get(0).getCarType(),tariffDTOS.get(0).getCarType());
-        assertEquals(tariffs.get(0).getName(),tariffDTOS.get(0).getName());
-        assertEquals(tariffs.get(0).getDescription(),tariffDTOS.get(0).getDescription());
+        assertEquals(tariffs.size(), tariffDtos.size());
+        assertEquals(tariffs.get(0).getCarType(), tariffDtos.get(0).getCarType());
+        assertEquals(tariffs.get(0).getName(), tariffDtos.get(0).getName());
+        assertEquals(tariffs.get(0).getDescription(), tariffDtos.get(0).getDescription());
 
-        assertEquals(tariffs.get(1).getCarType(),tariffDTOS.get(1).getCarType());
-        assertEquals(tariffs.get(1).getName(),tariffDTOS.get(1).getName());
-        assertEquals(tariffs.get(1).getRatePerHour(),tariffDTOS.get(1).getRatePerHour());
+        assertEquals(tariffs.get(1).getCarType(), tariffDtos.get(1).getCarType());
+        assertEquals(tariffs.get(1).getName(), tariffDtos.get(1).getName());
+        assertEquals(tariffs.get(1).getRatePerHour(), tariffDtos.get(1).getRatePerHour());
     }
 }

@@ -1,10 +1,19 @@
 package com.service.backoffice.controller;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.service.backoffice.controller.user.UserController;
-import com.service.backoffice.dto.OrderDTO;
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.OrderDto;
+import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +23,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.hasValue;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 
@@ -49,10 +43,10 @@ class UserControllerTest {
     @Test
     void getAllTariffs() throws Exception {
 
-        TariffDTO tariff1= new TariffDTO("tariff1","description","sedan",120);
-        TariffDTO tariff2= new TariffDTO("tariff2","description","moto",130);
-        TariffDTO tariff3= new TariffDTO("tariff3","description","moto",135);
-        List<TariffDTO> tariffs= new ArrayList<>(List.of(tariff1,tariff2,tariff3));
+        TariffDto tariff1= new TariffDto("tariff1","description","sedan",120);
+        TariffDto tariff2= new TariffDto("tariff2","description","moto",130);
+        TariffDto tariff3= new TariffDto("tariff3","description","moto",135);
+        List<TariffDto> tariffs= new ArrayList<>(List.of(tariff1,tariff2,tariff3));
 
         given(tariffService.getAllTariffs()).willReturn(tariffs);
 
@@ -68,14 +62,14 @@ class UserControllerTest {
 
     @Test
     void getOrdersHistoryByUser() throws Exception {
-        OrderDTO orderDTO1= new OrderDTO(LocalDateTime.of(2020, 1, 1, 0, 0,0),
+        OrderDto orderDto1 = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0,0),
                 LocalDateTime.now(),250,1,"sedan",1);
-        OrderDTO orderDTO2= new OrderDTO(LocalDateTime.of(2020, 3, 1, 0, 0,0),
+        OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0,0),
                 LocalDateTime.now(),240,4,"moto",3);
 
-        List<OrderDTO> orders= List.of(orderDTO1,orderDTO2);
+        List<OrderDto> orders= List.of(orderDto1, orderDto2);
 
-        given(orderService.getOrderHistoryByUser(1,null,null,null)).willReturn((List.of(orderDTO1)));
+        given(orderService.getOrderHistoryByUser(1,null,null,null)).willReturn((List.of(orderDto1)));
 
 
         mockMvc.perform(get("/user/orders/1")

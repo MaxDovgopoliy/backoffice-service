@@ -1,32 +1,33 @@
 package com.service.backoffice.validation;
 
-import com.service.backoffice.dto.OrderDTO;
-
+import com.service.backoffice.dto.OrderDto;
+import java.time.LocalDateTime;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.time.LocalDateTime;
 
-public class OrderValidator implements ConstraintValidator<ValidOrder, OrderDTO> {
+public class OrderValidator implements ConstraintValidator<ValidOrder, OrderDto> {
+
     @Override
-    public boolean isValid(OrderDTO orderDTO, ConstraintValidatorContext constraintValidatorContext) {
-        if (orderDTO == null) {
+    public boolean isValid(OrderDto orderDto,
+                           ConstraintValidatorContext constraintValidatorContext) {
+        if (orderDto == null) {
             return true;
         }
-        if (!(orderDTO instanceof OrderDTO)) {
+        if (!(orderDto instanceof OrderDto)) {
             throw new IllegalArgumentException("Illegal method signature, "
                     + "expected parameter of type Reservation.");
         }
-        if (orderDTO.getStartDate() == null
-                || orderDTO.getStartDate().isAfter(LocalDateTime.now())
-                || orderDTO.getEndDate() == null
-                || orderDTO.getEndDate().isAfter(LocalDateTime.now())
-                || orderDTO.getPrise() < 0
-                || orderDTO.getUserId() < 0
-                || orderDTO.getCarId() < 0
-                || orderDTO.getCarType() == null) {
+        if (orderDto.getStartDate() == null
+                || orderDto.getStartDate().isAfter(LocalDateTime.now())
+                || orderDto.getEndDate() == null
+                || orderDto.getEndDate().isAfter(LocalDateTime.now())
+                || orderDto.getPrise() < 0
+                || orderDto.getUserId() < 0
+                || orderDto.getCarId() < 0
+                || orderDto.getCarType() == null) {
             return false;
         }
-        return (orderDTO.getStartDate().isBefore(orderDTO.getEndDate()))
-                && orderDTO.getCarType().length()>0;
+        return (orderDto.getStartDate().isBefore(orderDto.getEndDate()))
+                && orderDto.getCarType().length() > 0;
     }
 }

@@ -1,22 +1,20 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.dto.OrderDTO;
-import com.service.backoffice.dto.TariffDTO;
+import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.model.Order;
-import com.service.backoffice.model.Tariff;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 @Mapper
 public interface OrderMapper {
     OrderMapper MAPPER = Mappers.getMapper(OrderMapper.class);
 
-    OrderDTO toOrderDTO(Order order);
+    OrderDto toOrderDto(Order order);
 
-    Order toOrder(OrderDTO orderDTO);
+    Order toOrder(OrderDto orderDto);
 
-    List<OrderDTO> toOrderDTOs(List<Order> orders);
+    List<OrderDto> toOrderDtos(List<Order> orders);
+    List<Order> toOrders (List<OrderDto> orderDtos);
 
 }
