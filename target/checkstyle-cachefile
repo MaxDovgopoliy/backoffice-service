@@ -1,8 +1,8 @@
-#Tue Aug 16 11:26:08 EEST 2022
+#Tue Aug 16 15:27:09 EEST 2022
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/exeption/ApiResponse.java=1660304322843
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/mapper/AreaMapper.java=1660562899116
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/exeption/Exceptions.java=1660304163045
-/Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/mapper/OrderMapper.java=1660562899055
+/Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/mapper/OrderMapper.java=1660646486130
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/model/Area.java=1660562899097
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/repositories/OrderRepo.java=1660562899088
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/mapper/TariffMapper.java=1660562899059
@@ -10,6 +10,7 @@
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/swagger/SpringConfig.java=1660562899051
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/dto/TariffDto.java=1660562899031
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/validation/ValidOrder.java=1660563063752
+/Users/mdovhopolyi/Downloads/backoffice-service/src/main/resources/application.properties=1660647425285
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/services/AreaService.java=1660562899129
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/repositories/TariffRepo.java=1660030239869
 /Users/mdovhopolyi/Downloads/backoffice-service/src/main/java/com/service/backoffice/controller/manager/TariffController.java=1660562899092

@@ -43,10 +43,11 @@ class TariffControllerTest {
         Tariff tariffForAdd = new Tariff(1L, "tariff1", "description", "sedan", 120);
         TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForAdd);
 
-        when(tariffService.saveTariff("tariff1", "", "sedan", 120))
+        when(tariffService.saveTariff("tariff1", "No description", "sedan", 120))
                 .thenReturn(tariffDTO);
 
         mockMvc.perform(post("/manager/tariff/add")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .param("name","tariff1")
                         .param("ratePerHour","120")
                         .param("carType","sedan"))

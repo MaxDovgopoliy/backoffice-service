@@ -37,9 +37,6 @@
             <property name="allowByTailComment" value="true"/>
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
-<!--        <module name="SuppressionFilter">-->
-<!--            <property name="file" value=".\suppressions.xml"/>-->
-<!--        </module>-->
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>
         <module name="RedundantImport"/>

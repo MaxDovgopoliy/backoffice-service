@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-15T16:18:15+0300",
+    date = "2022-08-16T16:11:16+0300",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.16 (Amazon.com Inc.)"
 )
 public class CoordinatesMapperImpl implements CoordinatesMapper {

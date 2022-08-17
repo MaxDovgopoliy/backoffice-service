@@ -8,6 +8,7 @@ class BackofficeApplicationTests {
 
 	@Test
 	void contextLoads() {
+		BackofficeApplication.main(new String[] {});
 	}
 
 }

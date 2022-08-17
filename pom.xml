@@ -158,11 +158,15 @@
 					</execution>
 				</executions>
 				<configuration>
-					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+					<configLocation>checkstyle.xml</configLocation>
 					<encoding>UTF-8</encoding>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<linkXRef>false</linkXRef>
+					<sourceDirectories>
+						<sourceDirectory>src/main/java</sourceDirectory>
+<!--						<sourceDirectory>src/test/java</sourceDirectory>-->
+					</sourceDirectories>
 				</configuration>
 			</plugin>
 			<plugin>

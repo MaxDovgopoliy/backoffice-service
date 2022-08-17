@@ -5,7 +5,7 @@ import com.service.backoffice.validation.ValidOrder;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@ValidOrder
 @Data
 @NoArgsConstructor
 public class OrderDto {
@@ -24,7 +24,6 @@ public class OrderDto {
 
     private int userId;
 
-    @ValidOrder
     public OrderDto(LocalDateTime startDate, LocalDateTime endDate, int prise,
                     int carId, String carType, int userId) {
         this.startDate = startDate;
