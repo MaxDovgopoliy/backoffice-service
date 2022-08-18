@@ -1,8 +1,18 @@
 package com.service.backoffice.services.implementation;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.service.backoffice.dto.TariffDto;
+import com.service.backoffice.exeption.ApiException;
+import com.service.backoffice.exeption.Exceptions;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
@@ -91,6 +101,14 @@ class TariffServiceImplTest {
         assertNotNull(resultTariffDto);
         assertEquals(expectedTariffDto, resultTariffDto);
     }
+    @Test
+    void getTariffByNonExistingId() {
+        //when
+        var apiException = assertThrows(ApiException.class, () -> tariffService.getTariffById(1l));
+
+        //then
+        assertEquals(Exceptions.TARIFF_NOT_FOUND, apiException.getException());
+    }
 
     @Test
     void updateTariff() {
@@ -109,5 +127,17 @@ class TariffServiceImplTest {
         assertNotNull(resultTariffDto);
         assertEquals(TariffMapper.MAPPER.toTariffDto(expectedTariff), resultTariffDto);
 
+    }
+    @Test
+    void updateTariffWithNonExistingId() {
+        Tariff newTariff= new Tariff(null,"tariff2","description","moto",128);
+        when(tariffRepo.findById(1L)).thenReturn(Optional.empty());
+
+
+        var apiException = assertThrows(ApiException.class,
+                () -> tariffService.updateTariff(1, newTariff));
+
+        //then
+        assertEquals(Exceptions.TARIFF_NOT_FOUND, apiException.getException());
     }
 }

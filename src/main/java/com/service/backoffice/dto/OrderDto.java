@@ -5,11 +5,11 @@ import com.service.backoffice.validation.ValidOrder;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @ValidOrder
 @Data
 @NoArgsConstructor
 public class OrderDto {
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startDate;
 

@@ -2,14 +2,13 @@ package com.service.backoffice.mapper;
 
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.model.Order;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-16T16:11:16+0300",
+    date = "2022-08-18T13:00:34+0300",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.16 (Amazon.com Inc.)"
 )
 public class OrderMapperImpl implements OrderMapper {
@@ -38,23 +37,14 @@ public class OrderMapperImpl implements OrderMapper {
             return null;
         }
 
-        int userId = 0;
-        String carType = null;
-        LocalDateTime startDate = null;
-        LocalDateTime endDate = null;
-        int prise = 0;
-        int carId = 0;
+        Order order = new Order();
 
-        userId = orderDto.getUserId();
-        carType = orderDto.getCarType();
-        startDate = orderDto.getStartDate();
-        endDate = orderDto.getEndDate();
-        prise = orderDto.getPrise();
-        carId = orderDto.getCarId();
-
-        Long id = null;
-
-        Order order = new Order( id, startDate, endDate, prise, carId, carType, userId );
+        order.setUserId( orderDto.getUserId() );
+        order.setCarType( orderDto.getCarType() );
+        order.setStartDate( orderDto.getStartDate() );
+        order.setEndDate( orderDto.getEndDate() );
+        order.setPrise( orderDto.getPrise() );
+        order.setCarId( orderDto.getCarId() );
 
         return order;
     }

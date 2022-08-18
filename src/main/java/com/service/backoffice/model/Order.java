@@ -22,6 +22,9 @@ public class Order {
     private String carType;
     private int userId;
 
+    public Order() {
+    }
+
     public Long getId() {
         return id;
     }
