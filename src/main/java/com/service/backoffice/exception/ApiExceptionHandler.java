@@ -1,4 +1,4 @@
-package com.service.backoffice.exeption;
+package com.service.backoffice.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,8 +1,8 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.TariffDto;
-import com.service.backoffice.exeption.ApiException;
-import com.service.backoffice.exeption.Exceptions;
+import com.service.backoffice.exception.ApiException;
+import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;

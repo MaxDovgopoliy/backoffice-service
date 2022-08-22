@@ -1,8 +1,8 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.AreaDto;
-import com.service.backoffice.exeption.ApiException;
-import com.service.backoffice.exeption.Exceptions;
+import com.service.backoffice.exception.ApiException;
+import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CoordinatesMapper;
 import com.service.backoffice.model.Area;

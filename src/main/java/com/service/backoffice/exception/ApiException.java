@@ -1,4 +1,4 @@
-package com.service.backoffice.exeption;
+package com.service.backoffice.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

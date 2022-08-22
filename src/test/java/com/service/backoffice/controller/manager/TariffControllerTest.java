@@ -1,6 +1,6 @@
 package com.service.backoffice.controller.manager;
 
-import static com.service.backoffice.exeption.Exceptions.TARIFF_NOT_FOUND;
+import static com.service.backoffice.exception.Exceptions.TARIFF_NOT_FOUND;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.TariffDto;
-import com.service.backoffice.exeption.ApiException;
+import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.implementation.TariffServiceImpl;

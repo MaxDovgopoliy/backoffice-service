@@ -45,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime endDateTime = dateEnd == null ? LocalDateTime.now() :
                 LocalDateTime.of(dateEnd, LocalTime.MAX);
 
-        List<Order> ordersByDate = orderRepo.findAllByStartDateTimeBetween(startDateTime, endDateTime);
+        List<Order> ordersByDate = orderRepo
+                .findAllByStartDateTimeBetween(startDateTime, endDateTime);
         List<Order> filteredOrders = carType == null ? ordersByDate :
                 ordersByDate.stream().filter(o -> carType.equals(o.getCarType()))
                         .collect(Collectors.toList());
