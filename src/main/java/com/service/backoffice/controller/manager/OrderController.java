@@ -5,6 +5,8 @@ import com.service.backoffice.services.OrderService;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,14 +22,15 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public List<OrderDto> getAllOrdersHistory(@RequestParam(required = false)
+    public ResponseEntity<List<OrderDto>> getAllOrdersHistory(@RequestParam(required = false)
                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                  LocalDate dateStart,
+                                              LocalDate dateStart,
                                               @RequestParam(required = false)
                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                               LocalDate dateEnd,
                                               @RequestParam(required = false) String carType) {
-        List<OrderDto> orders = orderService.getAllOrderHistory(dateStart, dateEnd, carType);
-        return orders;
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(orderService.getAllOrderHistory(dateStart, dateEnd, carType));
     }
 }

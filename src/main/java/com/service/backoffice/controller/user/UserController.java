@@ -9,6 +9,8 @@ import com.service.backoffice.services.implementation.TariffServiceImpl;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,29 +34,28 @@ public class UserController {
     }
 
     @GetMapping("/tariffs")
-    public List<TariffDto> getAllTariffs() {
-        List<TariffDto> tariffsDtos = tariffServiceImpl.getAllTariffs();
-        return tariffsDtos;
+    public ResponseEntity<List<TariffDto>> getAllTariffs() {
+        return ResponseEntity.status(HttpStatus.OK).body(tariffServiceImpl.getAllTariffs());
     }
 
     @GetMapping("/orders/{id}")
-    public List<OrderDto> getOrdersHistoryByUser(@PathVariable("id") int userId,
-                                                 @RequestParam(required = false)
+    public ResponseEntity<List<OrderDto>> getOrdersHistoryByUser(@PathVariable("id") int userId,
+                                                                 @RequestParam(required = false)
                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                  LocalDate dateStart,
-                                                 @RequestParam(required = false)
+                                                                 @RequestParam(required = false)
                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                  LocalDate dateEnd,
                                                  @RequestParam(required = false) String carType) {
-        List<OrderDto> orders = orderService.getOrderHistoryByUser(userId, dateStart,
-                dateEnd, carType);
-        return orders;
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(orderService.getOrderHistoryByUser(userId, dateStart,
+                dateEnd, carType));
     }
 
     @GetMapping("/areas")
-    public List<AreaDto> getAllAreas() {
-        List<AreaDto> areas = areaService.getAllAreas();
-        return areas;
+    public ResponseEntity<List<AreaDto>> getAllAreas() {
+        return ResponseEntity.status(HttpStatus.OK).body(areaService.getAllAreas());
     }
 
 }

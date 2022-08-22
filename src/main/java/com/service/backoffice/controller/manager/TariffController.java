@@ -5,6 +5,8 @@ import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.TariffService;
 import com.sun.istack.NotNull;
 import javax.validation.constraints.Positive;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,27 +29,30 @@ public class TariffController {
     }
 
     @PostMapping("/tariff/add")
-    public TariffDto addTariff(@RequestParam @NotNull String name,
-                               @RequestParam(required = false, defaultValue = "No description")
-                               String description,
-                               @RequestParam @NotNull @Positive int ratePerHour,
-                               @RequestParam @NotNull String carType) {
-        return tariffService.saveTariff(name, description, carType, ratePerHour);
+    public ResponseEntity<TariffDto> addTariff(@RequestParam @NotNull String name,
+                                               @RequestParam(required = false,
+                                               defaultValue = "No description")
+                                                String description,
+                                               @RequestParam @NotNull @Positive int ratePerHour,
+                                               @RequestParam @NotNull String carType) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(tariffService.saveTariff(name, description, carType, ratePerHour));
     }
 
     @DeleteMapping("/delete/tariff/{id}")
-    public boolean deleteTariff(@PathVariable("id") long tariffId) {
-        return tariffService.deleteTariff(tariffId);
+    public ResponseEntity<Boolean> deleteTariff(@PathVariable("id") long tariffId) {
+        return ResponseEntity.status(HttpStatus.OK).body(tariffService.deleteTariff(tariffId));
     }
 
     @GetMapping("/tariff/{id}")
-    public TariffDto getTariff(@PathVariable long id) {
-        return tariffService.getTariffById(id);
+    public ResponseEntity<TariffDto> getTariff(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(tariffService.getTariffById(id));
     }
 
     @PutMapping("/update/tariff/{id}")
-    public TariffDto updateTariff(@PathVariable("id") long tariffId,
-                                  @RequestBody Tariff newTariff) {
-        return tariffService.updateTariff(tariffId, newTariff);
+    public ResponseEntity<TariffDto> updateTariff(@PathVariable("id") long tariffId,
+                                                  @RequestBody Tariff newTariff) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(tariffService.updateTariff(tariffId, newTariff));
     }
 }
