@@ -32,7 +32,7 @@ public class AreaController {
             "area-controller"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Area not found")})
-    @DeleteMapping("/area/{id}")
+    @DeleteMapping("/areas/{id}")
     public ResponseEntity<Boolean> deleteArea(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(areaService.deleteArea(id));
     }
@@ -45,7 +45,7 @@ public class AreaController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AreaDto.class))),
             @ApiResponse(responseCode = "404", description = "Area with such id already exist")})
-    @PostMapping("/area/add")
+    @PostMapping("/areas")
     public ResponseEntity<AreaDto> addArea(@RequestBody @Valid AreaDto areaDto) {
         return ResponseEntity.status(HttpStatus.OK).body(areaService.saveArea(areaDto));
     }
@@ -59,7 +59,7 @@ public class AreaController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AreaDto.class))),
             @ApiResponse(responseCode = "404", description = "Area not found")})
-    @PutMapping("/update/area/{id}")
+    @PutMapping("/areas/{id}")
     public ResponseEntity<AreaDto> updateArea(@PathVariable("id") long areaId,
                                               @RequestBody @Valid AreaDto newAreaDto) {
         return ResponseEntity.status(HttpStatus.OK)
@@ -75,7 +75,7 @@ public class AreaController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AreaDto.class))),
             @ApiResponse(responseCode = "404", description = "Area not found")})
-    @GetMapping("/area/{id}")
+    @GetMapping("/areas/{id}")
     public ResponseEntity<AreaDto> getAreaById(@PathVariable("id") long areaId) {
         return ResponseEntity.status(HttpStatus.OK).body(areaService.getAreaById(areaId));
     }

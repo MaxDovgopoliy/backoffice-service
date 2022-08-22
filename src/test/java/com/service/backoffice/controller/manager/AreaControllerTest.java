@@ -48,7 +48,7 @@ class AreaControllerTest {
     @Test
     void deleteArea() throws Exception {
         when(areaService.deleteArea(1)).thenReturn(true);
-        mockMvc.perform(delete("/manager/area/1"))
+        mockMvc.perform(delete("/manager/areas/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
         verify(areaService).deleteArea(1);
@@ -60,7 +60,7 @@ class AreaControllerTest {
         when(areaService.saveArea(areaDto))
                 .thenReturn(areaDto);
 
-        mockMvc.perform(post("/manager/area/add")
+        mockMvc.perform(post("/manager/areas/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(areaDto)))
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ class AreaControllerTest {
 
         when(areaService.updateArea(1, areaDto)).thenReturn(areaDto);
 
-        mockMvc.perform(put("/manager/update/area/1")
+        mockMvc.perform(put("/manager/areas/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(areaDto)))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class AreaControllerTest {
     void getAreaById() throws Exception {
         given(areaService.getAreaById(1)).willReturn(areaDto);
 
-        mockMvc.perform(get("/manager/area/1")
+        mockMvc.perform(get("/manager/areas/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.country").value(areaDto.getCountry()))

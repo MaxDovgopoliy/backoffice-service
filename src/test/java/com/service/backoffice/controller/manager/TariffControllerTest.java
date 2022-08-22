@@ -46,7 +46,7 @@ class TariffControllerTest {
         when(tariffService.saveTariff("tariff1", "No description", "sedan", 120))
                 .thenReturn(tariffDTO);
 
-        mockMvc.perform(post("/manager/tariff/add")
+        mockMvc.perform(post("/manager/tariffs")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("name","tariff1")
                         .param("ratePerHour","120")
@@ -66,7 +66,7 @@ class TariffControllerTest {
         when(tariffService.saveTariff(null, "", "sedan", 120))
                 .thenThrow(new ApiException(BAD_TARIFF_CREDENTIALS));
 
-        mockMvc.perform(post("/manager/tariff/add")
+        mockMvc.perform(post("/manager/tariffs")
                         .param("ratePerHour","120")
                         .param("carType","sedan")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -78,7 +78,7 @@ class TariffControllerTest {
     void deleteTariff() throws Exception {
 
         when(tariffService.deleteTariff(1)).thenReturn(true);
-        mockMvc.perform(delete("/manager/delete/tariff/1")) //.contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/manager/tariffs/1")) //.contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
     }
@@ -89,7 +89,7 @@ class TariffControllerTest {
 
         given(tariffService.getTariffById(1)).willReturn(tariff1);
 
-        mockMvc.perform(get("/manager/tariff/1")
+        mockMvc.perform(get("/manager/tariffs/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(tariff1.getName()))
@@ -105,7 +105,7 @@ class TariffControllerTest {
 
         when(tariffService.getTariffById(1L)).thenThrow(new ApiException(TARIFF_NOT_FOUND));
 
-        mockMvc.perform(get("/manager/tariff/1")
+        mockMvc.perform(get("/manager/tariffs/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.errorName").value(TARIFF_NOT_FOUND.name()))
@@ -121,7 +121,7 @@ class TariffControllerTest {
        // when(tariffService.updateTariff(anyLong(), any(Tariff.class))).thenReturn(tariffDTO);
         when(tariffService.updateTariff(1, tariffForUpdate)).thenReturn(tariffDTO);
 
-        mockMvc.perform(put("/manager/update/tariff/1")
+        mockMvc.perform(put("/manager/tariffs/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(tariffForUpdate)))
                 .andExpect(status().isOk())

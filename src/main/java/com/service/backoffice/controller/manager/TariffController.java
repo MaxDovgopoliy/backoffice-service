@@ -28,7 +28,7 @@ public class TariffController {
         this.tariffService = tariffService;
     }
 
-    @PostMapping("/tariff/add")
+    @PostMapping("/tariffs")
     public ResponseEntity<TariffDto> addTariff(@RequestParam @NotNull String name,
                                                @RequestParam(required = false,
                                                defaultValue = "No description")
@@ -39,17 +39,17 @@ public class TariffController {
                 .body(tariffService.saveTariff(name, description, carType, ratePerHour));
     }
 
-    @DeleteMapping("/delete/tariff/{id}")
+    @DeleteMapping("/tariffs/{id}")
     public ResponseEntity<Boolean> deleteTariff(@PathVariable("id") long tariffId) {
         return ResponseEntity.status(HttpStatus.OK).body(tariffService.deleteTariff(tariffId));
     }
 
-    @GetMapping("/tariff/{id}")
+    @GetMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> getTariff(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(tariffService.getTariffById(id));
     }
 
-    @PutMapping("/update/tariff/{id}")
+    @PutMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> updateTariff(@PathVariable("id") long tariffId,
                                                   @RequestBody Tariff newTariff) {
         return ResponseEntity.status(HttpStatus.OK)
