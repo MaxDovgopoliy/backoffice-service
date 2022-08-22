@@ -65,8 +65,7 @@ class TariffServiceImplTest {
 
         when(tariffRepo.save(tariff)).thenReturn(tariff);
 
-        TariffDto resultTariffDto = tariffService.saveTariff(tariff.getName(),
-                     tariff.getDescription(), tariff.getCarType(), tariff.getRatePerHour());
+        TariffDto resultTariffDto = tariffService.saveTariff(expectedTariffDto);
 
         verify(tariffRepo).save(tariff);
         assertNotNull(resultTariffDto);

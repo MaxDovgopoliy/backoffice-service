@@ -83,9 +83,9 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].startDate").value(orders.get(0).getStartDateTime()
+                .andExpect(jsonPath("$[0].startDateTime").value(orders.get(0).getStartDateTime()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
-                .andExpect(jsonPath("$[0].endDate").value(orders.get(0).getEndDateTime()
+                .andExpect(jsonPath("$[0].endDateTime").value(orders.get(0).getEndDateTime()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
                 .andExpect(jsonPath("$[0].carType").value(orders.get(0).getCarType()))
                 .andExpect(jsonPath("$[0].prise").value(orders.get(0).getPrise()))
@@ -113,6 +113,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$", hasSize(expectedAreaDtos.size())))
                 .andExpect(jsonPath("$[0].country").value(expectedAreaDtos.get(0).getCountry()))
                 .andExpect(jsonPath("$[1].city").value(expectedAreaDtos.get(1).getCity()))
-                .andExpect(jsonPath("$[1].coordinatesDtoList.size()").value(expectedAreaDtos.get(1).getCoordinates().size()));
+                .andExpect(jsonPath("$[1].coordinates.size()").value(expectedAreaDtos.get(1).getCoordinates().size()));
     }
 }

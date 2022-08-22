@@ -1,12 +1,17 @@
 package com.service.backoffice.controller.manager;
 
-import static com.service.backoffice.exeption.Exceptions.BAD_TARIFF_CREDENTIALS;
 import static com.service.backoffice.exeption.Exceptions.TARIFF_NOT_FOUND;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.exeption.ApiException;
@@ -43,35 +48,17 @@ class TariffControllerTest {
         Tariff tariffForAdd = new Tariff(1L, "tariff1", "description", "sedan", 120);
         TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForAdd);
 
-        when(tariffService.saveTariff("tariff1", "No description", "sedan", 120))
+        when(tariffService.saveTariff(tariffDTO))
                 .thenReturn(tariffDTO);
 
         mockMvc.perform(post("/manager/tariffs")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("name","tariff1")
-                        .param("ratePerHour","120")
-                        .param("carType","sedan"))
+                        .content(objectMapper.writeValueAsString(tariffDTO)))
                         .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(tariffForAdd.getName()))
                 .andExpect(jsonPath("$.description").value(tariffForAdd.getDescription()))
                 .andExpect(jsonPath("$.carType").value(tariffForAdd.getCarType()))
                 .andExpect(jsonPath("$.ratePerHour").value(tariffForAdd.getRatePerHour()));
-    }
-    @Test
-    void addTariffWithoutName() throws Exception {
-
-        Tariff tariffForAdd = new Tariff(1L, "tariff1", "description", "sedan", 120);
-        TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForAdd);
-
-        when(tariffService.saveTariff(null, "", "sedan", 120))
-                .thenThrow(new ApiException(BAD_TARIFF_CREDENTIALS));
-
-        mockMvc.perform(post("/manager/tariffs")
-                        .param("ratePerHour","120")
-                        .param("carType","sedan")
-                        .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isBadRequest());
-
     }
 
     @Test

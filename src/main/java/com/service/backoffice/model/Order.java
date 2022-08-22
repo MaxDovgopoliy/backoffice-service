@@ -15,8 +15,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     private int prise;
     private int carId;
     private String carType;
@@ -49,20 +49,20 @@ public class Order {
         this.carType = carType;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
+    public void setStartDateTime(LocalDateTime startDate) {
+        this.startDateTime = startDate;
     }
 
-    public LocalDateTime getEndDate() {
-        return endDate;
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
+    public void setEndDateTime(LocalDateTime endDate) {
+        this.endDateTime = endDate;
     }
 
     public int getPrise() {

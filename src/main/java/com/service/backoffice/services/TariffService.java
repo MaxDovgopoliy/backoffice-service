@@ -8,7 +8,7 @@ public interface TariffService {
 
     List<TariffDto> getAllTariffs();
 
-    TariffDto saveTariff(String name, String description, String carType, int ratePerHour);
+    TariffDto saveTariff(TariffDto tariffDto);
 
     boolean deleteTariff(long tariffId);
 

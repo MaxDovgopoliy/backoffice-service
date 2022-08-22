@@ -3,9 +3,9 @@ INSERT INTO `backoffice`.`tariffs` (`id`, `car_type`, `description`, `name`, `ra
 INSERT INTO `backoffice`.`tariffs` (`id`, `car_type`, `description`, `name`, `rate_per_hour`) VALUES ('3', 'hatchback', 'No description', 'tarif3', '140');
 
 
-INSERT INTO `backoffice`.`orders` (`id`, `car_id`, `car_type`, `end_date`, `prise`, `start_date`, `user_id`, `tariff_id`) VALUES ('1', '1', 'sedan', '2021-01-01 22:00:00', '120', '2021-01-01 21:00:00', '1', '1');
-INSERT INTO `backoffice`.`orders` (`id`, `car_id`, `car_type`, `end_date`, `prise`, `start_date`, `user_id`, `tariff_id`) VALUES ('2', '2', 'moto', '2021-02-01 22:00:00', '130', '2021-02-01 21:00:00', '3', '2');
-INSERT INTO `backoffice`.`orders` (`id`, `car_id`, `car_type`, `end_date`, `prise`, `start_date`, `user_id`, `tariff_id`) VALUES ('3', '5', 'sedan', '2021-01-07 22:00:00', '120', '2021-01-07 21:00:00', '2', '1');
+INSERT INTO `backoffice`.`orders` (`id`, `car_id`, `car_type`, `end_date_time`, `prise`, `start_date_time`, `user_id`, `tariff_id`) VALUES ('1', '1', 'sedan', '2021-01-01 22:00:00', '120', '2021-01-01 21:00:00', '1', '1');
+INSERT INTO `backoffice`.`orders` (`id`, `car_id`, `car_type`, `end_date_time`, `prise`, `start_date_time`, `user_id`, `tariff_id`) VALUES ('2', '2', 'moto', '2021-02-01 22:00:00', '130', '2021-02-01 21:00:00', '3', '2');
+INSERT INTO `backoffice`.`orders` (`id`, `car_id`, `car_type`, `end_date_time`, `prise`, `start_date_time`, `user_id`, `tariff_id`) VALUES ('3', '5', 'sedan', '2021-01-07 22:00:00', '120', '2021-01-07 21:00:00', '2', '1');
 
 
 INSERT INTO `backoffice`.`areas` (`id`, `city`, `country`) VALUES ('1', 'Lviv', 'Ukraine');

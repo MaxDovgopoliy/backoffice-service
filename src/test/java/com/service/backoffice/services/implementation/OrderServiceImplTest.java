@@ -50,24 +50,24 @@ class OrderServiceImplTest {
 
     @Test
     void getOrderHistoryByUser() {
-        when(orderRepo.findAllByUserIdAndStartDateBetween(2,startDateTime,endDateTime)).
+        when(orderRepo.findAllByUserIdAndStartDateTimeBetween(2,startDateTime,endDateTime)).
                 thenReturn(List.of(OrderMapper.MAPPER.toOrder(orderDtos.get(0))));
 
         List<OrderDto> resultOrderDtos =orderService.getOrderHistoryByUser(2,startDate,endDate,"sedan");
 
-        verify(orderRepo).findAllByUserIdAndStartDateBetween(2,startDateTime,endDateTime);
+        verify(orderRepo).findAllByUserIdAndStartDateTimeBetween(2,startDateTime,endDateTime);
         assertNotNull(resultOrderDtos);
         assertEquals(orderDtos.get(0), resultOrderDtos.get(0));
     }
 @Test
     void getOrderHistoryByUserWithoutAdditionParams() {
         when(orderRepo.
-                findAllByUserIdAndStartDateBetween(anyInt(),any(LocalDateTime.class),any(LocalDateTime.class))).
+                findAllByUserIdAndStartDateTimeBetween(anyInt(),any(LocalDateTime.class),any(LocalDateTime.class))).
                 thenReturn(List.of(OrderMapper.MAPPER.toOrder(orderDtos.get(0))));
 
         List<OrderDto> resultOrderDtos =orderService.getOrderHistoryByUser(2,null,null,null);
 
-        verify(orderRepo).findAllByUserIdAndStartDateBetween(anyInt(),any(LocalDateTime.class),any(LocalDateTime.class));
+        verify(orderRepo).findAllByUserIdAndStartDateTimeBetween(anyInt(),any(LocalDateTime.class),any(LocalDateTime.class));
         assertNotNull(resultOrderDtos);
         assertEquals(orderDtos.get(0), resultOrderDtos.get(0));
     }
@@ -75,24 +75,24 @@ class OrderServiceImplTest {
     @Test
     void getAllOrderHistory() {
         List<OrderDto> expectedOrdersDto=List.of(orderDtos.get(0));
-        when(orderRepo.findAllByStartDateBetween(startDateTime,endDateTime)).thenReturn(OrderMapper.MAPPER.toOrders(
+        when(orderRepo.findAllByStartDateTimeBetween(startDateTime,endDateTime)).thenReturn(OrderMapper.MAPPER.toOrders(
                 orderDtos));
 
         List<OrderDto> resultOrderDtos =orderService.getAllOrderHistory(startDate,endDate,"sedan");
 
-        verify(orderRepo).findAllByStartDateBetween(startDateTime,endDateTime);
+        verify(orderRepo).findAllByStartDateTimeBetween(startDateTime,endDateTime);
         assertNotNull(resultOrderDtos);
         assertIterableEquals(expectedOrdersDto, resultOrderDtos);
     }
     @Test
     void getAllOrderHistoryWithoutAdditionParams() {
         List<OrderDto> expectedOrdersDto=orderDtos;
-        when(orderRepo.findAllByStartDateBetween(any(LocalDateTime.class),any(LocalDateTime.class))).
+        when(orderRepo.findAllByStartDateTimeBetween(any(LocalDateTime.class),any(LocalDateTime.class))).
                 thenReturn(OrderMapper.MAPPER.toOrders(orderDtos));
 
         List<OrderDto> resultOrderDtos =orderService.getAllOrderHistory(null,null,null);
 
-        verify(orderRepo).findAllByStartDateBetween(any(LocalDateTime.class),any(LocalDateTime.class));
+        verify(orderRepo).findAllByStartDateTimeBetween(any(LocalDateTime.class),any(LocalDateTime.class));
         assertNotNull(resultOrderDtos);
         assertIterableEquals(expectedOrdersDto, resultOrderDtos);
     }

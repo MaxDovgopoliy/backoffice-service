@@ -9,9 +9,9 @@ create table orders (
     id bigint not null,
     car_id integer not null,
     car_type varchar(255),
-    end_date datetime(6),
+    end_date_time datetime(6),
     prise integer not null,
-    start_date datetime(6),
+    start_date_time datetime(6),
     user_id integer not null,
     tariff_id bigint,
     primary key (id));
