@@ -20,6 +20,6 @@ public class AreaDto {
     @Pattern(regexp = "[A-Z][a-z]*")
     private String city;
     @Size(min = 3, message = "should be at least three coordinates")
-    private List<CoordinatesDto> coordinatesDtoList;
+    private List<CoordinatesDto> coordinates;
 
 }

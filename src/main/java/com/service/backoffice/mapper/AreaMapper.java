@@ -17,7 +17,7 @@ public interface AreaMapper {
         AreaDto areaDto = new AreaDto();
         areaDto.setCountry(area.getCountry());
         areaDto.setCity(area.getCity());
-        areaDto.setCoordinatesDtoList(CoordinatesMapper.MAPPER
+        areaDto.setCoordinates(CoordinatesMapper.MAPPER
                         .toCoordinatesDtos(area.getListOfCoordinates()));
         return areaDto;
     }
@@ -30,7 +30,7 @@ public interface AreaMapper {
         area.setCountry(areaDto.getCountry());
         area.setCity(areaDto.getCity());
         area.setListOfCoordinates(CoordinatesMapper.MAPPER
-                .toListOfCoordinates(areaDto.getCoordinatesDtoList()));
+                .toListOfCoordinates(areaDto.getCoordinates()));
         return area;
     }
 

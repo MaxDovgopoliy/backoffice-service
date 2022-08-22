@@ -51,7 +51,7 @@ public class AreaServiceImpl implements AreaService {
         oldArea.setCountry(newAreaDto.getCountry());
         oldArea.setCity(newAreaDto.getCity());
         oldArea.setListOfCoordinates(CoordinatesMapper
-                .MAPPER.toListOfCoordinates(newAreaDto.getCoordinatesDtoList()));
+                .MAPPER.toListOfCoordinates(newAreaDto.getCoordinates()));
 
         AreaDto areaDto = AreaMapper.MAPPER.toAreaDto(areaRepo.save(oldArea));
         return areaDto;

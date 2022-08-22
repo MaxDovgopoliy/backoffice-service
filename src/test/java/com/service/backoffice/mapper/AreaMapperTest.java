@@ -35,7 +35,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
 
         assertEquals(area.getCountry(),areaDTO.getCountry());
         assertEquals(area.getCity(),areaDTO.getCity());
-        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinatesDtoList()));
+        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinates()));
     }
 
     @Test
@@ -45,7 +45,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
 
         assertEquals(area.getCountry(),areaDTO.getCountry());
         assertEquals(area.getCity(),areaDTO.getCity());
-        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinatesDtoList()));
+        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinates()));
     }
 
     @Test
@@ -54,7 +54,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
 
         assertEquals(areaDtos.get(0).getCity(),areas.get(0).getCity());
         assertEquals(areaDtos.get(1).getCountry(),areas.get(1).getCountry());
-        assertEquals(CoordinatesMapper.MAPPER.toListOfCoordinates(areaDtos.get(1).getCoordinatesDtoList()),
+        assertEquals(CoordinatesMapper.MAPPER.toListOfCoordinates(areaDtos.get(1).getCoordinates()),
                 areas.get(1).getListOfCoordinates());
 
     }

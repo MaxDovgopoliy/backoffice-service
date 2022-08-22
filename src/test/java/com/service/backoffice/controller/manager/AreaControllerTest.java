@@ -66,7 +66,7 @@ class AreaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.country").value(areaDto.getCountry()))
                 .andExpect(jsonPath("$.city").value(areaDto.getCity()))
-                .andExpect(jsonPath("$.coordinatesDtoList.size()").value(areaDto.getCoordinatesDtoList().size()));
+                .andExpect(jsonPath("$.coordinatesDtoList.size()").value(areaDto.getCoordinates().size()));
 
         verify(areaService).saveArea(areaDto);
     }
@@ -82,7 +82,7 @@ class AreaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.country").value(areaDto.getCountry()))
                 .andExpect(jsonPath("$.city").value(areaDto.getCity()))
-                .andExpect(jsonPath("$.coordinatesDtoList.size()").value(areaDto.getCoordinatesDtoList().size()));
+                .andExpect(jsonPath("$.coordinatesDtoList.size()").value(areaDto.getCoordinates().size()));
 
         verify(areaService).updateArea(1,areaDto);
     }
@@ -96,7 +96,7 @@ class AreaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.country").value(areaDto.getCountry()))
                 .andExpect(jsonPath("$.city").value(areaDto.getCity()))
-                .andExpect(jsonPath("$.coordinatesDtoList.size()").value(areaDto.getCoordinatesDtoList().size()));
+                .andExpect(jsonPath("$.coordinatesDtoList.size()").value(areaDto.getCoordinates().size()));
 
         verify(areaService).getAreaById(1);
     }

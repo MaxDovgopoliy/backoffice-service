@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startDate;
+    private LocalDateTime startDateTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime endDate;
+    private LocalDateTime endDateTime;
 
     private int prise;
 
@@ -24,10 +24,10 @@ public class OrderDto {
 
     private int userId;
 
-    public OrderDto(LocalDateTime startDate, LocalDateTime endDate, int prise,
+    public OrderDto(LocalDateTime startDateTime, LocalDateTime endDateTime, int prise,
                     int carId, String carType, int userId) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
         this.prise = prise;
         this.carId = carId;
         this.carType = carType;
