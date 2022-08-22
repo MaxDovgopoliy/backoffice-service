@@ -51,7 +51,7 @@ class TariffServiceImplTest {
 
         when(tariffRepo.findAll()).thenReturn(tariffs);
 
-        List<TariffDto> resultTariffDtos =tariffService.getAllTariffs();
+        var resultTariffDtos =tariffService.getAllTariffs();
 
         assertNotNull(resultTariffDtos);
         assertIterableEquals(expectedTariffDtos, resultTariffDtos);
@@ -65,7 +65,7 @@ class TariffServiceImplTest {
 
         when(tariffRepo.save(tariff)).thenReturn(tariff);
 
-        TariffDto resultTariffDto = tariffService.saveTariff(expectedTariffDto);
+        var resultTariffDto = tariffService.saveTariff(expectedTariffDto);
 
         verify(tariffRepo).save(tariff);
         assertNotNull(resultTariffDto);
@@ -94,7 +94,7 @@ class TariffServiceImplTest {
         TariffDto expectedTariffDto =TariffMapper.MAPPER.toTariffDto(tariff);
         when(tariffRepo.findById(1L)).thenReturn(Optional.of(tariff));
 
-        TariffDto resultTariffDto = tariffService.getTariffById(1);
+        var resultTariffDto = tariffService.getTariffById(1);
 
         verify(tariffRepo).findById(1L);
         assertNotNull(resultTariffDto);

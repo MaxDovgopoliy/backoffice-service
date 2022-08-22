@@ -1,7 +1,5 @@
 package com.service.backoffice.services.implementation;
 
-import com.service.backoffice.dto.OrderDto;
-import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.repositories.OrderRepo;
 import com.service.backoffice.services.OrderService;
@@ -19,7 +17,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepo orderRepo;
 
     @Override
-    public List<OrderDto> getOrderHistoryByUser(int userId, LocalDate dateStart,
+    public List<Order> getOrderHistoryByUser(int userId, LocalDate dateStart,
                                                 LocalDate dateEnd, String carType) {
 
         LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0) :
@@ -34,11 +32,11 @@ public class OrderServiceImpl implements OrderService {
                 ordersByDate.stream().filter(o -> carType.equals(o.getCarType()))
                         .collect(Collectors.toList());
 
-        return OrderMapper.MAPPER.toOrderDtos(filteredOrders);
+        return filteredOrders;
     }
 
     @Override
-    public List<OrderDto> getAllOrderHistory(LocalDate dateStart,
+    public List<Order> getAllOrderHistory(LocalDate dateStart,
                                              LocalDate dateEnd, String carType) {
         LocalDateTime startDateTime = dateStart == null ? LocalDateTime.of(1900, 1, 1, 0, 0, 0) :
                 LocalDateTime.of(dateStart, LocalTime.MIN);
@@ -51,6 +49,6 @@ public class OrderServiceImpl implements OrderService {
                 ordersByDate.stream().filter(o -> carType.equals(o.getCarType()))
                         .collect(Collectors.toList());
 
-        return OrderMapper.MAPPER.toOrderDtos(filteredOrders);
+        return filteredOrders;
     }
 }

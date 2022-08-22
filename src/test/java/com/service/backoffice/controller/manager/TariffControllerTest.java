@@ -49,7 +49,7 @@ class TariffControllerTest {
         TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForAdd);
 
         when(tariffService.saveTariff(tariffDTO))
-                .thenReturn(tariffDTO);
+                .thenReturn(tariffForAdd);
 
         mockMvc.perform(post("/manager/tariffs")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -72,17 +72,18 @@ class TariffControllerTest {
 
     @Test
     void getTariff() throws Exception {
-        TariffDto tariff1 = new TariffDto("tariff1", "description", "sedan", 120);
+        TariffDto tariffDto = new TariffDto("tariff", "description", "sedan", 120);
+        Tariff tariff = TariffMapper.MAPPER.toTariff(tariffDto);
 
-        given(tariffService.getTariffById(1)).willReturn(tariff1);
+        given(tariffService.getTariffById(1)).willReturn(tariff);
 
         mockMvc.perform(get("/manager/tariffs/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(tariff1.getName()))
-                .andExpect(jsonPath("$.carType").value(tariff1.getCarType()))
-                .andExpect(jsonPath("$.description").value(tariff1.getDescription()))
-                .andExpect(jsonPath("$.ratePerHour").value(tariff1.getRatePerHour()));
+                .andExpect(jsonPath("$.name").value(tariffDto.getName()))
+                .andExpect(jsonPath("$.carType").value(tariffDto.getCarType()))
+                .andExpect(jsonPath("$.description").value(tariffDto.getDescription()))
+                .andExpect(jsonPath("$.ratePerHour").value(tariffDto.getRatePerHour()));
 
         verify(tariffService).getTariffById(1);
     }
@@ -106,7 +107,7 @@ class TariffControllerTest {
         Tariff tariffForUpdate = new Tariff(1L, "tariff1", "description", "sedan", 120);
         TariffDto tariffDTO = TariffMapper.MAPPER.toTariffDto(tariffForUpdate);
        // when(tariffService.updateTariff(anyLong(), any(Tariff.class))).thenReturn(tariffDTO);
-        when(tariffService.updateTariff(1, tariffForUpdate)).thenReturn(tariffDTO);
+        when(tariffService.updateTariff(1, tariffForUpdate)).thenReturn(tariffForUpdate);
 
         mockMvc.perform(put("/manager/tariffs/1")
                         .contentType(MediaType.APPLICATION_JSON)

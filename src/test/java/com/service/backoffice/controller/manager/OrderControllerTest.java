@@ -5,8 +5,11 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.OrderDto;
+import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.model.Order;
 import com.service.backoffice.services.OrderService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +46,8 @@ class OrderControllerTest {
         OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0,0),
                 LocalDateTime.now(),240,4,"moto",3);
 
-        List<OrderDto> orders= List.of(orderDto1, orderDto2);
+        List<OrderDto> orderDtos= List.of(orderDto1, orderDto2);
+        List<Order> orders= OrderMapper.MAPPER.toOrders(orderDtos);
 
         given(orderService.getAllOrderHistory(null,null,null)).willReturn(orders);
 
@@ -51,12 +55,12 @@ class OrderControllerTest {
         mockMvc.perform(get("/manager/orders")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(orders.size())))
-                .andExpect(jsonPath("$[0].startDateTime").value(orders.get(0).getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
-                .andExpect(jsonPath("$[0].endDateTime").value(orders.get(0).getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
-                .andExpect(jsonPath("$[0].carType").value(orders.get(0).getCarType()))
-                .andExpect(jsonPath("$[0].prise").value(orders.get(0).getPrise()))
-                .andExpect(jsonPath("$[0].carId").value(orders.get(0).getCarId()))
+                .andExpect(jsonPath("$", hasSize(orderDtos.size())))
+                .andExpect(jsonPath("$[0].startDateTime").value(orderDtos.get(0).getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
+                .andExpect(jsonPath("$[0].endDateTime").value(orderDtos.get(0).getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
+                .andExpect(jsonPath("$[0].carType").value(orderDtos.get(0).getCarType()))
+                .andExpect(jsonPath("$[0].prise").value(orderDtos.get(0).getPrise()))
+                .andExpect(jsonPath("$[0].carId").value(orderDtos.get(0).getCarId()))
         ;
     }
 

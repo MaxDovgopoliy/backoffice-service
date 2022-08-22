@@ -10,8 +10,12 @@ import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.AreaMapper;
+import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.Coordinates;
+import com.service.backoffice.model.Order;
+import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
@@ -52,7 +56,8 @@ class UserControllerTest {
         TariffDto tariff1 = new TariffDto("tariff1", "description", "sedan", 120);
         TariffDto tariff2 = new TariffDto("tariff2", "description", "moto", 130);
         TariffDto tariff3 = new TariffDto("tariff3", "description", "moto", 135);
-        List<TariffDto> tariffs = new ArrayList<>(List.of(tariff1, tariff2, tariff3));
+        List<TariffDto> tariffDtos = new ArrayList<>(List.of(tariff1, tariff2, tariff3));
+        List<Tariff> tariffs = TariffMapper.MAPPER.toTariffs(tariffDtos);
 
         given(tariffService.getAllTariffs()).willReturn(tariffs);
 
@@ -60,10 +65,10 @@ class UserControllerTest {
         mockMvc.perform(get("/user/tariffs")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(tariffs.size())))
-                .andExpect(jsonPath("$[0].name").value(tariffs.get(0).getName()))
-                .andExpect(jsonPath("$[1].carType").value(tariffs.get(1).getCarType()))
-                .andExpect(jsonPath("$[2].ratePerHour").value(tariffs.get(2).getRatePerHour()));
+                .andExpect(jsonPath("$", hasSize(tariffDtos.size())))
+                .andExpect(jsonPath("$[0].name").value(tariffDtos.get(0).getName()))
+                .andExpect(jsonPath("$[1].carType").value(tariffDtos.get(1).getCarType()))
+                .andExpect(jsonPath("$[2].ratePerHour").value(tariffDtos.get(2).getRatePerHour()));
     }
 
     @Test
@@ -73,10 +78,11 @@ class UserControllerTest {
         OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0, 0),
                 LocalDateTime.now(), 240, 4, "moto", 3);
 
-        List<OrderDto> orders = List.of(orderDto1, orderDto2);
+        List<OrderDto> orderDtos = List.of(orderDto1, orderDto2);
+        List<Order> orders = OrderMapper.MAPPER.toOrders(orderDtos);
 
         given(orderService.getOrderHistoryByUser(1, null, null, null)).willReturn(
-                (List.of(orderDto1)));
+                (List.of(orders.get(0))));
 
 
         mockMvc.perform(get("/user/orders/1")
@@ -105,7 +111,7 @@ class UserControllerTest {
 
         List<AreaDto> expectedAreaDtos= AreaMapper.MAPPER.toAreaDtos(areas);
 
-        given(areaService.getAllAreas()).willReturn(expectedAreaDtos);
+        given(areaService.getAllAreas()).willReturn(areas);
 
         mockMvc.perform(get("/user/areas")
                         .contentType(MediaType.APPLICATION_JSON))

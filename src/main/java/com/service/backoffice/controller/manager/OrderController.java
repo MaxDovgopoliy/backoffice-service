@@ -1,6 +1,7 @@
 package com.service.backoffice.controller.manager;
 
 import com.service.backoffice.dto.OrderDto;
+import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.services.OrderService;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,6 +32,7 @@ public class OrderController {
                                               @RequestParam(required = false) String carType) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(orderService.getAllOrderHistory(dateStart, dateEnd, carType));
+                .body(OrderMapper.MAPPER.toOrderDtos(
+                        orderService.getAllOrderHistory(dateStart, dateEnd, carType)));
     }
 }

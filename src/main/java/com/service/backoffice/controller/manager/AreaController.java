@@ -1,6 +1,7 @@
 package com.service.backoffice.controller.manager;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.services.AreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -47,7 +48,8 @@ public class AreaController {
             @ApiResponse(responseCode = "404", description = "Area with such id already exist")})
     @PostMapping("/areas")
     public ResponseEntity<AreaDto> addArea(@RequestBody @Valid AreaDto areaDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(areaService.saveArea(areaDto));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(AreaMapper.MAPPER.toAreaDto(areaService.saveArea(areaDto)));
     }
 
     @Operation(summary = "Update area",
@@ -63,7 +65,7 @@ public class AreaController {
     public ResponseEntity<AreaDto> updateArea(@PathVariable("id") long areaId,
                                               @RequestBody @Valid AreaDto newAreaDto) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(areaService.updateArea(areaId, newAreaDto));
+                .body(AreaMapper.MAPPER.toAreaDto(areaService.updateArea(areaId, newAreaDto)));
     }
 
     @Operation(summary = "Get area by id",
@@ -77,6 +79,7 @@ public class AreaController {
             @ApiResponse(responseCode = "404", description = "Area not found")})
     @GetMapping("/areas/{id}")
     public ResponseEntity<AreaDto> getAreaById(@PathVariable("id") long areaId) {
-        return ResponseEntity.status(HttpStatus.OK).body(areaService.getAreaById(areaId));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(AreaMapper.MAPPER.toAreaDto(areaService.getAreaById(areaId)));
     }
 }

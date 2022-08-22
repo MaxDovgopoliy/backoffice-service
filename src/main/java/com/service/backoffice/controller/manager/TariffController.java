@@ -1,6 +1,7 @@
 package com.service.backoffice.controller.manager;
 
 import com.service.backoffice.dto.TariffDto;
+import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.TariffService;
 import javax.validation.Valid;
@@ -29,7 +30,7 @@ public class TariffController {
     @PostMapping("/tariffs")
     public ResponseEntity<TariffDto> addTariff(@RequestBody @Valid TariffDto tariffDto) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(tariffService.saveTariff(tariffDto));
+                .body(TariffMapper.MAPPER.toTariffDto(tariffService.saveTariff(tariffDto)));
     }
 
     @DeleteMapping("/tariffs/{id}")
@@ -39,13 +40,14 @@ public class TariffController {
 
     @GetMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> getTariff(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(tariffService.getTariffById(id));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(TariffMapper.MAPPER.toTariffDto(tariffService.getTariffById(id)));
     }
 
     @PutMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> updateTariff(@PathVariable("id") long tariffId,
                                                   @RequestBody Tariff newTariff) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(tariffService.updateTariff(tariffId, newTariff));
+        return ResponseEntity.status(HttpStatus.OK).body(
+                TariffMapper.MAPPER.toTariffDto(tariffService.updateTariff(tariffId, newTariff)));
     }
 }

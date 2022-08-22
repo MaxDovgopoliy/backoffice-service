@@ -1,19 +1,20 @@
 package com.service.backoffice.services;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.model.Area;
 import java.util.List;
 
 public interface AreaService {
     /**
      * @return List of Area DTOs
      */
-    List<AreaDto> getAllAreas();
+    List<Area> getAllAreas();
 
     boolean deleteArea(long id);
 
-    AreaDto saveArea(AreaDto areaDto);
+    Area saveArea(AreaDto areaDto);
 
-    AreaDto updateArea(long areaId, AreaDto newAreaDto);
+    Area updateArea(long areaId, AreaDto newAreaDto);
 
-    AreaDto getAreaById(long areaId);
+    Area getAreaById(long areaId);
 }

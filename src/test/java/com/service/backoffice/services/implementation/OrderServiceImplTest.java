@@ -53,7 +53,7 @@ class OrderServiceImplTest {
         when(orderRepo.findAllByUserIdAndStartDateTimeBetween(2,startDateTime,endDateTime)).
                 thenReturn(List.of(OrderMapper.MAPPER.toOrder(orderDtos.get(0))));
 
-        List<OrderDto> resultOrderDtos =orderService.getOrderHistoryByUser(2,startDate,endDate,"sedan");
+        var resultOrderDtos =orderService.getOrderHistoryByUser(2,startDate,endDate,"sedan");
 
         verify(orderRepo).findAllByUserIdAndStartDateTimeBetween(2,startDateTime,endDateTime);
         assertNotNull(resultOrderDtos);
@@ -65,7 +65,7 @@ class OrderServiceImplTest {
                 findAllByUserIdAndStartDateTimeBetween(anyInt(),any(LocalDateTime.class),any(LocalDateTime.class))).
                 thenReturn(List.of(OrderMapper.MAPPER.toOrder(orderDtos.get(0))));
 
-        List<OrderDto> resultOrderDtos =orderService.getOrderHistoryByUser(2,null,null,null);
+        var resultOrderDtos =orderService.getOrderHistoryByUser(2,null,null,null);
 
         verify(orderRepo).findAllByUserIdAndStartDateTimeBetween(anyInt(),any(LocalDateTime.class),any(LocalDateTime.class));
         assertNotNull(resultOrderDtos);
@@ -78,7 +78,7 @@ class OrderServiceImplTest {
         when(orderRepo.findAllByStartDateTimeBetween(startDateTime,endDateTime)).thenReturn(OrderMapper.MAPPER.toOrders(
                 orderDtos));
 
-        List<OrderDto> resultOrderDtos =orderService.getAllOrderHistory(startDate,endDate,"sedan");
+        var resultOrderDtos =orderService.getAllOrderHistory(startDate,endDate,"sedan");
 
         verify(orderRepo).findAllByStartDateTimeBetween(startDateTime,endDateTime);
         assertNotNull(resultOrderDtos);
@@ -90,7 +90,7 @@ class OrderServiceImplTest {
         when(orderRepo.findAllByStartDateTimeBetween(any(LocalDateTime.class),any(LocalDateTime.class))).
                 thenReturn(OrderMapper.MAPPER.toOrders(orderDtos));
 
-        List<OrderDto> resultOrderDtos =orderService.getAllOrderHistory(null,null,null);
+        var resultOrderDtos =orderService.getAllOrderHistory(null,null,null);
 
         verify(orderRepo).findAllByStartDateTimeBetween(any(LocalDateTime.class),any(LocalDateTime.class));
         assertNotNull(resultOrderDtos);

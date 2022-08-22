@@ -58,7 +58,7 @@ class AreaControllerTest {
     void addArea() throws Exception {
 
         when(areaService.saveArea(areaDto))
-                .thenReturn(areaDto);
+                .thenReturn(area);
 
         mockMvc.perform(post("/manager/areas/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +74,7 @@ class AreaControllerTest {
     @Test
     void updateArea() throws Exception {
 
-        when(areaService.updateArea(1, areaDto)).thenReturn(areaDto);
+        when(areaService.updateArea(1, areaDto)).thenReturn(area);
 
         mockMvc.perform(put("/manager/areas/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ class AreaControllerTest {
 
     @Test
     void getAreaById() throws Exception {
-        given(areaService.getAreaById(1)).willReturn(areaDto);
+        given(areaService.getAreaById(1)).willReturn(area);
 
         mockMvc.perform(get("/manager/areas/1")
                         .contentType(MediaType.APPLICATION_JSON))

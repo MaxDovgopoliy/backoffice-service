@@ -3,7 +3,6 @@ package com.service.backoffice.services.implementation;
 import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
-import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.TariffService;
@@ -19,19 +18,18 @@ public class TariffServiceImpl implements TariffService {
     private TariffRepo tariffRepo;
 
     @Override
-    public List<TariffDto> getAllTariffs() {
+    public List<Tariff> getAllTariffs() {
         List<Tariff> tariffs = tariffRepo.findAll();
-        List<TariffDto> tariffDtos = TariffMapper.MAPPER.toTariffDtos(tariffs);
-        return tariffDtos;
+        return tariffs;
     }
 
     @Override
-    public TariffDto saveTariff(TariffDto tariffDto) {
+    public Tariff saveTariff(TariffDto tariffDto) {
         Tariff tariff = new Tariff(tariffDto.getName(),
                                    tariffDto.getDescription(),
                                    tariffDto.getCarType(),
                                    tariffDto.getRatePerHour());
-        return TariffMapper.MAPPER.toTariffDto(tariffRepo.save(tariff));
+        return tariffRepo.save(tariff);
     }
 
     @Override
@@ -45,16 +43,16 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public TariffDto getTariffById(long id) {
+    public Tariff getTariffById(long id) {
         Optional<Tariff> foundTariff = tariffRepo.findById(id);
         if (foundTariff.isPresent()) {
-            return TariffMapper.MAPPER.toTariffDto(foundTariff.get());
+            return foundTariff.get();
         }
         throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
     }
 
     @Override
-    public TariffDto updateTariff(long tariffId, Tariff newTariff) {
+    public Tariff updateTariff(long tariffId, Tariff newTariff) {
 
         Tariff oldTariff;
         if (!tariffRepo.findById(tariffId).isPresent()) {
@@ -75,7 +73,6 @@ public class TariffServiceImpl implements TariffService {
         if (newTariff.getRatePerHour() != 0) {
             oldTariff.setRatePerHour(newTariff.getRatePerHour());
         }
-        TariffDto tariffDto = TariffMapper.MAPPER.toTariffDto(tariffRepo.save(oldTariff));
-        return tariffDto;
+        return tariffRepo.save(oldTariff);
     }
 }

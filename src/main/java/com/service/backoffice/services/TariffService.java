@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface TariffService {
 
-    List<TariffDto> getAllTariffs();
+    List<Tariff> getAllTariffs();
 
-    TariffDto saveTariff(TariffDto tariffDto);
+    Tariff saveTariff(TariffDto tariffDto);
 
     boolean deleteTariff(long tariffId);
 
-    TariffDto getTariffById(long id);
+    Tariff getTariffById(long id);
 
-    TariffDto updateTariff(long tariffId, Tariff newTariff);
+    Tariff updateTariff(long tariffId, Tariff newTariff);
 }

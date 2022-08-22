@@ -55,7 +55,7 @@ class AreaServiceImplTest {
 
         when(areaRepo.findAll()).thenReturn(areas);
 
-        List<AreaDto> resultAreaDtos =areaService.getAllAreas();
+        var resultAreaDtos = areaService.getAllAreas();
 
         verify(areaRepo).findAll();
         assertNotNull(resultAreaDtos);
@@ -64,7 +64,7 @@ class AreaServiceImplTest {
 
     @Test
     void deleteArea() {
-        doAnswer((i)->  {return null;}).when(areaRepo).deleteById(1L);
+        doAnswer((i)-> null).when(areaRepo).deleteById(1L);
         boolean result=areaService.deleteArea(1L);
 
         assertEquals(result, true);
@@ -82,7 +82,7 @@ class AreaServiceImplTest {
         AreaDto areaDtoToSave = AreaMapper.MAPPER.toAreaDto(areaToSave);
         when(areaRepo.save(areaToSave)).thenReturn(areaToSave);
 
-        AreaDto resultAreaDto = areaService.saveArea(areaDtoToSave);
+        var resultAreaDto = areaService.saveArea(areaDtoToSave);
 
         verify(areaRepo).save(areaToSave);
         assertNotNull(resultAreaDto);

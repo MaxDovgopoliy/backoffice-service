@@ -20,8 +20,8 @@ public class AreaServiceImpl implements AreaService {
     private AreaRepo areaRepo;
 
     @Override
-    public List<AreaDto> getAllAreas() {
-        return AreaMapper.MAPPER.toAreaDtos(areaRepo.findAll());
+    public List<Area> getAllAreas() {
+        return areaRepo.findAll();
     }
 
     @Override
@@ -35,13 +35,13 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public AreaDto saveArea(AreaDto areaDto) {
+    public Area saveArea(AreaDto areaDto) {
         Area area = areaRepo.save(AreaMapper.MAPPER.toArea(areaDto));
-        return AreaMapper.MAPPER.toAreaDto(area);
+        return area;
     }
 
     @Override
-    public AreaDto updateArea(long areaId, AreaDto newAreaDto) {
+    public Area updateArea(long areaId, AreaDto newAreaDto) {
         Area oldArea;
         if (!areaRepo.findById(areaId).isPresent()) {
             throw new ApiException(Exceptions.AREA_NOT_FOUND);
@@ -53,15 +53,14 @@ public class AreaServiceImpl implements AreaService {
         oldArea.setListOfCoordinates(CoordinatesMapper
                 .MAPPER.toListOfCoordinates(newAreaDto.getCoordinates()));
 
-        AreaDto areaDto = AreaMapper.MAPPER.toAreaDto(areaRepo.save(oldArea));
-        return areaDto;
+        return areaRepo.save(oldArea);
     }
 
     @Override
-    public AreaDto getAreaById(long areaId) {
+    public Area getAreaById(long areaId) {
         Optional<Area> foundArea = areaRepo.findById(areaId);
         if (foundArea.isPresent()) {
-            return AreaMapper.MAPPER.toAreaDto(foundArea.get());
+            return foundArea.get();
         }
         throw new ApiException(Exceptions.AREA_NOT_FOUND);
     }

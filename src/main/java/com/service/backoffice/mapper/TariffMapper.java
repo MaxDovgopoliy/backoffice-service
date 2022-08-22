@@ -17,4 +17,6 @@ public interface TariffMapper {
 
     List<TariffDto> toTariffDtos(List<Tariff> tariffs);
 
+    List<Tariff> toTariffs(List<TariffDto> tariffDtos);
+
 }

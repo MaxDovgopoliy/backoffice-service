@@ -3,6 +3,9 @@ package com.service.backoffice.controller.user;
 import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
+import com.service.backoffice.mapper.AreaMapper;
+import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
@@ -35,7 +38,8 @@ public class UserController {
 
     @GetMapping("/tariffs")
     public ResponseEntity<List<TariffDto>> getAllTariffs() {
-        return ResponseEntity.status(HttpStatus.OK).body(tariffServiceImpl.getAllTariffs());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                TariffMapper.MAPPER.toTariffDtos(tariffServiceImpl.getAllTariffs()));
     }
 
     @GetMapping("/orders/{id}")
@@ -49,13 +53,14 @@ public class UserController {
                                                  @RequestParam(required = false) String carType) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(orderService.getOrderHistoryByUser(userId, dateStart,
-                dateEnd, carType));
+                .body(OrderMapper.MAPPER.toOrderDtos(orderService.getOrderHistoryByUser(
+                        userId, dateStart, dateEnd, carType)));
     }
 
     @GetMapping("/areas")
     public ResponseEntity<List<AreaDto>> getAllAreas() {
-        return ResponseEntity.status(HttpStatus.OK).body(areaService.getAllAreas());
+        return ResponseEntity.status(HttpStatus.OK).body(
+                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas()));
     }
 
 }
