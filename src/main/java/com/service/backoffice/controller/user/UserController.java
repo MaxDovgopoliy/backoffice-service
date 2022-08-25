@@ -1,6 +1,7 @@
 package com.service.backoffice.controller.user;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.AreaMapper;
@@ -45,12 +46,13 @@ public class UserController {
     @GetMapping("/orders/{id}")
     public ResponseEntity<List<OrderDto>> getOrdersHistoryByUser(@PathVariable("id") int userId,
                                                                  @RequestParam(required = false)
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                 LocalDate dateStart,
+                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                 LocalDate dateStart,
                                                                  @RequestParam(required = false)
-                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                 LocalDate dateEnd,
-                                                 @RequestParam(required = false) String carType) {
+                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                 LocalDate dateEnd,
+                                                                 @RequestParam(required = false)
+                                                                 String carType) {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(OrderMapper.MAPPER.toOrderDtos(orderService.getOrderHistoryByUser(
@@ -58,9 +60,13 @@ public class UserController {
     }
 
     @GetMapping("/areas")
-    public ResponseEntity<List<AreaDto>> getAllAreas() {
+    public ResponseEntity<List<AreaDto>> getAllAreas(@RequestParam(required = false)
+                                                     double latitude,
+                                                     @RequestParam(required = false)
+                                                     double longitude) {
+        CoordinatesDto userCoordinates = new CoordinatesDto(latitude, longitude);
         return ResponseEntity.status(HttpStatus.OK).body(
-                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas()));
+                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(userCoordinates)));
     }
 
 }

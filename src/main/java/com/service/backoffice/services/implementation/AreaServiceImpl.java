@@ -1,6 +1,7 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.mapper.AreaMapper;
@@ -8,6 +9,7 @@ import com.service.backoffice.mapper.CoordinatesMapper;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.repositories.AreaRepo;
 import com.service.backoffice.services.AreaService;
+import com.service.backoffice.util.DistanceCalc;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,8 @@ public class AreaServiceImpl implements AreaService {
     private AreaRepo areaRepo;
 
     @Override
-    public List<Area> getAllAreas() {
-        return areaRepo.findAll();
+    public List<Area> getAllAreas(CoordinatesDto userCoordinates) {
+        return DistanceCalc.sortByDistanceFromUser(areaRepo.findAll(),userCoordinates);
     }
 
     @Override

@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.mapper.AreaMapper;
@@ -55,7 +56,7 @@ class AreaServiceImplTest {
 
         when(areaRepo.findAll()).thenReturn(areas);
 
-        var resultAreaDtos = areaService.getAllAreas();
+        var resultAreaDtos = areaService.getAllAreas(new CoordinatesDto( 123.32, 234.32));
 
         verify(areaRepo).findAll();
         assertNotNull(resultAreaDtos);

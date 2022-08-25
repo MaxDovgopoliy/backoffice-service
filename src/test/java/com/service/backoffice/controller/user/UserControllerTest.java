@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.AreaMapper;
@@ -111,7 +112,7 @@ class UserControllerTest {
 
         List<AreaDto> expectedAreaDtos= AreaMapper.MAPPER.toAreaDtos(areas);
 
-        given(areaService.getAllAreas()).willReturn(areas);
+        given(areaService.getAllAreas(new CoordinatesDto( 123.32, 234.32))).willReturn(areas);
 
         mockMvc.perform(get("/user/areas")
                         .contentType(MediaType.APPLICATION_JSON))
