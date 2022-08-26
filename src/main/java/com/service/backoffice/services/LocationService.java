@@ -1,6 +1,7 @@
 package com.service.backoffice.services;
 
 import com.service.backoffice.dto.CityDto;
+import com.service.backoffice.dto.CountryDto;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
 import java.util.List;
@@ -11,4 +12,6 @@ public interface LocationService {
     List<City> getAllCities();
 
     City saveCity(CityDto cityDto);
+
+    Country saveCountry(CountryDto countryDto);
 }

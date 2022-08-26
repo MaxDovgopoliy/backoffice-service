@@ -11,4 +11,6 @@ public interface CountryMapper {
     CountryMapper MAPPER = Mappers.getMapper(CountryMapper.class);
 
     List<CountryDto> toCountryDtos(List<Country> countries);
+
+    CountryDto toCountryDto(Country country);
 }

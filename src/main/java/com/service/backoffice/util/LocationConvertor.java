@@ -31,7 +31,7 @@ public class LocationConvertor {
                         .stream()
                         .mapToDouble(City::getSquare)
                         .sum();
-                if (cityDto.getSquare() >= allCitiesInCountrySquare + cityDto.getSquare()) {
+                if (country.getSquare() >= allCitiesInCountrySquare + cityDto.getSquare()) {
                     City city = CityMapper.MAPPER.toCity(cityDto);
                     city.setCountry(country);
                     return city;

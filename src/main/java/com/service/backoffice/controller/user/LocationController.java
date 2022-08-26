@@ -40,4 +40,10 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 CityMapper.MAPPER.toCityDto(locationService.saveCity(cityDto)));
     }
+
+    @PostMapping("/countries")
+    public ResponseEntity<CountryDto> addCountry(@RequestBody CountryDto countryDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CountryMapper.MAPPER.toCountryDto(locationService.saveCountry(countryDto)));
+    }
 }

@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "countries")
 public class Country {
     @Id
@@ -27,4 +29,9 @@ public class Country {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "countryId", referencedColumnName = "id")
     private List<City> cities = new ArrayList<>();
+
+    public Country(String name, double square) {
+        this.name = name;
+        this.square = square;
+    }
 }
