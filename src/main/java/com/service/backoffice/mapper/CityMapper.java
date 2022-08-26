@@ -11,4 +11,18 @@ public interface CityMapper {
     CityMapper MAPPER = Mappers.getMapper(CityMapper.class);
 
     List<CityDto> toCityDtos(List<City> cities);
+
+    default CityDto toCityDto(City city) {
+        if (city == null) {
+            return null;
+        }
+        CityDto cityDto = new CityDto();
+        cityDto.setCountryName(city.getCountry().getName());
+        cityDto.setSquare(city.getSquare());
+        cityDto.setName(city.getName());
+
+        return cityDto;
+    }
+
+    City toCity(CityDto cityDto);
 }

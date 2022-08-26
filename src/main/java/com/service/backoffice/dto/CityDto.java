@@ -11,4 +11,6 @@ public class CityDto {
     private String name;
 
     private double square;
+
+    private String countryName;
 }
