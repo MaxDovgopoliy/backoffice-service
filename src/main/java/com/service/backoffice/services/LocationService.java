@@ -14,4 +14,6 @@ public interface LocationService {
     City saveCity(CityDto cityDto);
 
     Country saveCountry(CountryDto countryDto);
+
+    boolean deleteCountryById(long countryId);
 }

@@ -50,4 +50,14 @@ public class LocationServiceImp implements LocationService {
         }
     }
 
+    @Override
+    public boolean deleteCountryById(long countryId) {
+        try {
+            countryRepo.deleteById(countryId);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }

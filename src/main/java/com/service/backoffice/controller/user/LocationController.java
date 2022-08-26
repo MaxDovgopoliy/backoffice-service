@@ -9,9 +9,11 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Component
@@ -45,5 +47,11 @@ public class LocationController {
     public ResponseEntity<CountryDto> addCountry(@RequestBody CountryDto countryDto) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 CountryMapper.MAPPER.toCountryDto(locationService.saveCountry(countryDto)));
+    }
+
+    @DeleteMapping("/countries")
+    public ResponseEntity<Boolean> deleteCountry(@RequestParam long countryId) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+               locationService.deleteCountryById(countryId));
     }
 }
