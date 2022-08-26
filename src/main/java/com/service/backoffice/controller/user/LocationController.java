@@ -1,6 +1,8 @@
 package com.service.backoffice.controller.user;
 
+import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.dto.CountryDto;
+import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.services.LocationService;
 import java.util.List;
@@ -25,4 +27,9 @@ public class LocationController {
                 CountryMapper.MAPPER.toCountryDtos(locationService.getAllCountries()));
     }
 
+    @GetMapping("/cities")
+    public ResponseEntity<List<CityDto>> getAllCities() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CityMapper.MAPPER.toCityDtos(locationService.getAllCities()));
+    }
 }
