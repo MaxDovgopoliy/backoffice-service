@@ -1,4 +1,4 @@
-package com.service.backoffice.validation;
+package com.service.backoffice.validation.order;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.METHOD;

@@ -1,12 +1,17 @@
 package com.service.backoffice.mapper;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.exception.ApiException;
+import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.model.Area;
+import com.service.backoffice.model.Country;
+import com.service.backoffice.repositories.CountryRepo;
 import java.util.List;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = CoordinatesMapper.class)
+@Mapper(uses = CountryRepo.class)
 public interface AreaMapper {
     AreaMapper MAPPER = Mappers.getMapper(AreaMapper.class);
 
@@ -15,22 +20,28 @@ public interface AreaMapper {
             return null;
         }
         AreaDto areaDto = new AreaDto();
-        areaDto.setCountry(area.getCountry());
-        areaDto.setCity(area.getCity());
-        areaDto.setCoordinates(CoordinatesMapper.MAPPER
-                        .toCoordinatesDtos(area.getListOfCoordinates()));
+        areaDto.setCountryName(area.getCity().getCountry().getName());
+        areaDto.setCityName(area.getCity().getName());
+        areaDto.setAddress(area.getAddress());
+        areaDto.setSquare(area.getSquare());
+
         return areaDto;
     }
 
-    default Area toArea(AreaDto areaDto) {
+    default Area toArea(AreaDto areaDto, @Context CountryRepo countryRepo) {
         if (areaDto == null) {
             return null;
         }
         Area area = new Area();
-        area.setCountry(areaDto.getCountry());
-        area.setCity(areaDto.getCity());
-        area.setListOfCoordinates(CoordinatesMapper.MAPPER
-                .toListOfCoordinates(areaDto.getCoordinates()));
+        Country country = countryRepo.findByNameIgnoreCase(areaDto.getCountryName());
+        if (country != null) {
+            area.setCity(country.getCities().stream().filter(c -> c.getName()
+                            .equals(areaDto.getCityName())).findFirst()
+                    .orElseThrow(() -> new ApiException(Exceptions.CITY_NOT_FOUND)));
+        } else {
+            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+        }
+
         return area;
     }
 

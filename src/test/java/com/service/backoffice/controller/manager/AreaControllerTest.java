@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.model.Area;
-import com.service.backoffice.model.Coordinates;
 import com.service.backoffice.services.AreaService;
 import java.util.List;
 import org.junit.jupiter.api.Test;

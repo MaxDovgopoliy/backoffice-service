@@ -1,7 +1,7 @@
 package com.service.backoffice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.service.backoffice.validation.ValidOrder;
+import com.service.backoffice.validation.order.ValidOrder;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;

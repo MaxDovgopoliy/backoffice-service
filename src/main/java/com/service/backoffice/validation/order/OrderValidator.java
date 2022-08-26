@@ -1,4 +1,4 @@
-package com.service.backoffice.validation;
+package com.service.backoffice.validation.order;
 
 import com.service.backoffice.dto.OrderDto;
 import java.time.LocalDateTime;

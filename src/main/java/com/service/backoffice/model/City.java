@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
@@ -27,5 +28,9 @@ public class City {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cityId", referencedColumnName = "id")
     private List<Area> areas = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "countryId")
+    private Country country;
 
 }

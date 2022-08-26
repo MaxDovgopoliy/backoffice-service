@@ -1,25 +1,22 @@
 package com.service.backoffice.dto;
 
-import java.util.List;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import com.service.backoffice.validation.area.ValidArea;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@ValidArea
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AreaDto {
 
-    @NotNull
-    @Pattern(regexp = "[A-Z][a-z]*")
-    private String country;
-    @NotNull
-    @Pattern(regexp = "[A-Z][a-z]*")
-    private String city;
-    @Size(min = 3, message = "should be at least three coordinates")
-    private List<CoordinatesDto> coordinates;
+    private String address;
+
+    private double square;
+
+    private String countryName;
+
+    private String cityName;
 
 }
