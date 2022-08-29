@@ -60,4 +60,14 @@ public class LocationServiceImp implements LocationService {
         return true;
     }
 
+    @Override
+    public boolean deleteCityById(long cityId) {
+        try {
+            cityRepo.deleteById(cityId);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }

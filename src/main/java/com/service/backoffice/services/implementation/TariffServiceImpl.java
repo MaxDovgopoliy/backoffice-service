@@ -26,9 +26,9 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public Tariff saveTariff(TariffDto tariffDto) {
         Tariff tariff = new Tariff(tariffDto.getName(),
-                                   tariffDto.getDescription(),
-                                   tariffDto.getCarType(),
-                                   tariffDto.getRatePerHour());
+                tariffDto.getDescription(),
+                tariffDto.getCarType(),
+                tariffDto.getRatePerHour());
         return tariffRepo.save(tariff);
     }
 

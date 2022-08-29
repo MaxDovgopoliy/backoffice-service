@@ -52,6 +52,12 @@ public class LocationController {
     @DeleteMapping("/countries")
     public ResponseEntity<Boolean> deleteCountry(@RequestParam long countryId) {
         return ResponseEntity.status(HttpStatus.OK).body(
-               locationService.deleteCountryById(countryId));
+                locationService.deleteCountryById(countryId));
+    }
+
+    @DeleteMapping("/cities")
+    public ResponseEntity<Boolean> deleteCity(@RequestParam long cityId) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                locationService.deleteCityById(cityId));
     }
 }
