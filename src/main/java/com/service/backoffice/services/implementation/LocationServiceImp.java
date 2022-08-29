@@ -9,7 +9,7 @@ import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.CityRepo;
 import com.service.backoffice.repositories.CountryRepo;
 import com.service.backoffice.services.LocationService;
-import com.service.backoffice.util.LocationConvertor;
+import com.service.backoffice.util.LocationAdaptor;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class LocationServiceImp implements LocationService {
     @Autowired
     private CityRepo cityRepo;
     @Autowired
-    private LocationConvertor locationConvertor;
+    private LocationAdaptor locationAdaptor;
 
     @Override
     public List<Country> getAllCountries() {
@@ -36,7 +36,7 @@ public class LocationServiceImp implements LocationService {
 
     @Override
     public City saveCity(CityDto cityDto) {
-        City city = locationConvertor.makeCityFromDto(cityDto);
+        City city = locationAdaptor.makeCityFromDto(cityDto);
         return cityRepo.save(city);
     }
 

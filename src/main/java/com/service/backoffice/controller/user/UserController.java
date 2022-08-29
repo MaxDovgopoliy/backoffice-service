@@ -1,12 +1,17 @@
 package com.service.backoffice.controller.user;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CityDto;
+import com.service.backoffice.dto.CountryDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.AreaMapper;
+import com.service.backoffice.mapper.CityMapper;
+import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.services.AreaService;
+import com.service.backoffice.services.LocationService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import java.time.LocalDate;
@@ -28,12 +33,15 @@ public class UserController {
     private final TariffServiceImpl tariffServiceImpl;
     private final OrderService orderService;
     private final AreaService areaService;
+    private final LocationService locationService;
 
     public UserController(OrderService orderService,
-                          TariffServiceImpl tariffServiceImpl, AreaService areaService) {
+                          TariffServiceImpl tariffServiceImpl, AreaService areaService,
+                          LocationService locationService) {
         this.orderService = orderService;
         this.tariffServiceImpl = tariffServiceImpl;
         this.areaService = areaService;
+        this.locationService = locationService;
     }
 
     @GetMapping("/tariffs")
@@ -66,4 +74,15 @@ public class UserController {
                 AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas()));
     }
 
+    @GetMapping("/countries")
+    public ResponseEntity<List<CountryDto>> getAllCountries() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CountryMapper.MAPPER.toCountryDtos(locationService.getAllCountries()));
+    }
+
+    @GetMapping("/cities")
+    public ResponseEntity<List<CityDto>> getAllCities() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CityMapper.MAPPER.toCityDtos(locationService.getAllCities()));
+    }
 }

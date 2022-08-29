@@ -7,7 +7,7 @@ import com.service.backoffice.model.Area;
 import com.service.backoffice.repositories.AreaRepo;
 import com.service.backoffice.repositories.CountryRepo;
 import com.service.backoffice.services.AreaService;
-import com.service.backoffice.util.LocationConvertor;
+import com.service.backoffice.util.LocationAdaptor;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class AreaServiceImpl implements AreaService {
     @Autowired
     private CountryRepo countryRepo;
     @Autowired
-    private LocationConvertor locationConvertor;
+    private LocationAdaptor locationAdaptor;
 
     @Override
     public List<Area> getAllAreas() {
@@ -43,7 +43,7 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public Area saveArea(AreaDto areaDto) {
         Area area = new Area();
-        locationConvertor.makeAreaFromDto(area, areaDto);
+        locationAdaptor.makeAreaFromDto(area, areaDto);
         return areaRepo.save(area);
     }
 
@@ -56,7 +56,7 @@ public class AreaServiceImpl implements AreaService {
 
         oldArea = areaRepo.findById(areaId).get();
 
-        locationConvertor.makeAreaFromDto(oldArea, newAreaDto);
+        locationAdaptor.makeAreaFromDto(oldArea, newAreaDto);
         return areaRepo.save(oldArea);
 
     }
