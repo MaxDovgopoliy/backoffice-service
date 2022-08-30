@@ -1,55 +1,76 @@
 package com.service.backoffice.mapper;
 
-import org.mapstruct.factory.Mappers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
+import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.model.Area;
+import com.service.backoffice.model.City;
+import com.service.backoffice.model.Country;
+import com.service.backoffice.repositories.CityRepo;
+import com.service.backoffice.repositories.CountryRepo;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class AreaMapperTest {
+    @Autowired
+    MockMvc mockMvc;
+    @MockBean
+    CountryRepo countryRepo;
+    @MockBean
+    CityRepo cityRepo;
+
 AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
-//    List<Coordinates> listOfCoordinates= List.of(
-//            new Coordinates(1L,123.32,123.43),
-//            new Coordinates(2L,324.34,647.43),
-//            new Coordinates(3L,235.43,283.4)
-//    );
-//    List<CoordinatesDto> listOfCoordinatesDto = List.of(
-//            new CoordinatesDto(123.32,123.43),
-//            new CoordinatesDto(324.34,647.43),
-//            new CoordinatesDto(235.43,283.4)
-//    );
-//    List<Area> areas= List.of(
-//            new Area(1L,"Ukraine","Lviv", List.copyOf(listOfCoordinates)),
-//            new Area(2L,"Ukraine","Kyiv", List.copyOf(listOfCoordinates))
-//    );
-//
-//    @Test
-//    void toAreaDTO() {
-//
-//
-//        Area area = new Area(1L,"Ukraine","Lviv", List.copyOf(listOfCoordinates));
-//        AreaDto areaDTO= mapper.toAreaDto(area);
-//
-//        assertEquals(area.getCountry(),areaDTO.getCountry());
-//        assertEquals(area.getCity(),areaDTO.getCity());
-//        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinates()));
-//    }
-//
-//    @Test
-//    void toArea() {
-//        AreaDto areaDTO =new AreaDto("Ukraine","Lviv", List.copyOf(listOfCoordinatesDto));
-//        Area area =mapper.toArea(areaDTO);
-//
-//        assertEquals(area.getCountry(),areaDTO.getCountry());
-//        assertEquals(area.getCity(),areaDTO.getCity());
-//        assertEquals(area.getListOfCoordinates(),CoordinatesMapper.MAPPER.toListOfCoordinates(areaDTO.getCoordinates()));
-//    }
-//
-//    @Test
-//    void toAreaDTOs() {
-//        List<AreaDto> areaDtos = mapper.toAreaDtos(areas);
-//
-//        assertEquals(areaDtos.get(0).getCity(),areas.get(0).getCity());
-//        assertEquals(areaDtos.get(1).getCountry(),areas.get(1).getCountry());
-//        assertEquals(CoordinatesMapper.MAPPER.toListOfCoordinates(areaDtos.get(1).getCoordinates()),
-//                areas.get(1).getListOfCoordinates());
-//
-//    }
+    private static Country country = new Country("Ukraine", 10000);
+    private static City city =new City("Lviv",500,country);
+    private static List<Area> areas =
+            List.of(new Area(240, "Shevchenka str. 21", city),
+                    new Area(240, "Shevchenka str. 22", city),
+                    new Area(240, "Shevchenka str. 23", city));
+
+    @Test
+    void toAreaDTO() {
+        Area area = areas.get(0);
+        AreaDto areaDTO= mapper.toAreaDto(area);
+
+        assertEquals(area.getSquare(),areaDTO.getSquare());
+        assertEquals(area.getCity().getName(),areaDTO.getCityName());
+        assertEquals(area.getCity().getCountry().getName(),areaDTO.getCountryName());
+        assertEquals(area.getAddress(),areaDTO.getAddress());
+    }
+
+    @Test
+    void toArea() {
+        Area area = areas.get(0);
+        when(countryRepo.findByNameIgnoreCase(area.getCity().getCountry().getName())).thenReturn(country);
+        AreaDto areaDTO= mapper.toAreaDto(area);
+
+
+        assertEquals(area.getAddress(),areaDTO.getAddress());
+        assertEquals(area.getSquare(),areaDTO.getSquare());
+        assertEquals(area.getCity().getName(),areaDTO.getCityName());
+    }
+
+    @Test
+    void toAreaDTOs() {
+        List<AreaDto> areaDtos = mapper.toAreaDtos(areas);
+
+        assertEquals(areaDtos.get(0).getCountryName(),areas.get(0).getCity().getCountry().getName());
+        assertEquals(areaDtos.get(0).getCityName(),areas.get(0).getCity().getName());
+        assertEquals(areaDtos.get(1).getSquare(),areas.get(1).getSquare());
+        assertEquals(areaDtos.get(2).getSquare(),areas.get(2).getSquare());
+        assertEquals(areaDtos.get(2).getAddress(),areas.get(2).getAddress());
+    }
 
 }

@@ -6,13 +6,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CityDto;
+import com.service.backoffice.dto.CountryDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
+import com.service.backoffice.mapper.AreaMapper;
+import com.service.backoffice.mapper.CityMapper;
+import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.mapper.TariffMapper;
+import com.service.backoffice.model.Area;
+import com.service.backoffice.model.City;
+import com.service.backoffice.model.Country;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.AreaService;
+import com.service.backoffice.services.LocationService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import java.time.LocalDateTime;
@@ -45,6 +55,8 @@ class UserControllerTest {
     private OrderService orderService;
     @MockBean
     private AreaService areaService;
+    @MockBean
+    private LocationService locationService;
 
     @Test
     void getAllTariffs() throws Exception {
@@ -94,21 +106,66 @@ class UserControllerTest {
                 .andExpect(jsonPath("$[0].carId").value(orders.get(0).getCarId()));
     }
 
-   // @Test
- //   void getAllAreas() throws Exception {
-//        List<Area> areas = List.of(new Area(1L, "Ukraine", "Lviv", listOfCoordinates1),
-//                new Area(2L, "Ukraine", "Kyiv", listOfCoordinates2));
-//
-//        List<AreaDto> expectedAreaDtos= AreaMapper.MAPPER.toAreaDtos(areas);
-//
-//        given(areaService.getAllAreas(new CoordinatesDto( 123.32, 234.32))).willReturn(areas);
-//
-//        mockMvc.perform(get("/user/areas")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(expectedAreaDtos.size())))
-//                .andExpect(jsonPath("$[0].country").value(expectedAreaDtos.get(0).getCountry()))
-//                .andExpect(jsonPath("$[1].city").value(expectedAreaDtos.get(1).getCity()))
-//                .andExpect(jsonPath("$[1].coordinates.size()").value(expectedAreaDtos.get(1).getCoordinates().size()));
-//    }
+    @Test
+    void getAllAreas() throws Exception {
+          Country country = new Country("Ukraine", 10000);
+          City city =new City("Lviv",500,country);
+          List<Area> areas =
+                List.of(new Area(240, "Shevchenka str. 21", city),
+                        new Area(240, "Shevchenka str. 22", city),
+                        new Area(240, "Shevchenka str. 23", city));
+        List<AreaDto> expectedAreaDtos= AreaMapper.MAPPER.toAreaDtos(areas);
+
+        given(areaService.getAllAreas()).willReturn(areas);
+
+        mockMvc.perform(get("/user/areas")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(expectedAreaDtos.size())))
+                .andExpect(jsonPath("$[0].countryName").value(expectedAreaDtos.get(0).getCountryName()))
+                .andExpect(jsonPath("$[1].cityName").value(expectedAreaDtos.get(1).getCityName()))
+                .andExpect(jsonPath("$[1].address").value(expectedAreaDtos.get(1).getAddress()))
+                .andExpect(jsonPath("$[2].square").value(expectedAreaDtos.get(1).getSquare()));
+    }
+
+    @Test
+    void getAllCountries() throws Exception {
+        List<Country> countries = List.of(new Country("Ukraine", 5000),
+                                          new Country("Sweden", 4000));
+        List<CountryDto> expectedCountryDtos= CountryMapper.MAPPER.toCountryDtos(countries);
+
+        given(locationService.getAllCountries()).willReturn(countries);
+
+        mockMvc.perform(get("/user/countries")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(expectedCountryDtos.size())))
+                .andExpect(jsonPath("$[0].name").value(expectedCountryDtos.get(0).getName()))
+                .andExpect(jsonPath("$[0].square").value(expectedCountryDtos.get(0).getSquare()))
+                .andExpect(jsonPath("$[1].name").value(expectedCountryDtos.get(1).getName()))
+                .andExpect(jsonPath("$[1].square").value(expectedCountryDtos.get(1).getSquare()));
+    }
+
+    @Test
+    void getAllCities() throws Exception {
+        Country country = new Country("Ukraine", 5000);
+        List<City> cities =
+                List.of(new City("Lviv", 500, country),
+                        new City("Kyiv", 700, country),
+                        new City("Lviv", 800, country));
+
+        List<CityDto> expectedCityDtos= CityMapper.MAPPER.toCityDtos(cities);
+
+        given(locationService.getAllCities()).willReturn(cities);
+
+        mockMvc.perform(get("/user/cities")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(expectedCityDtos.size())))
+                .andExpect(jsonPath("$[0].name").value(expectedCityDtos.get(0).getName()))
+                .andExpect(jsonPath("$[0].square").value(expectedCityDtos.get(0).getSquare()))
+                .andExpect(jsonPath("$[0].countryName").value(expectedCityDtos.get(0).getCountryName()))
+                .andExpect(jsonPath("$[1].countryName").value(expectedCityDtos.get(1).getCountryName()))
+                .andExpect(jsonPath("$[2].square").value(expectedCityDtos.get(2).getSquare()));
+    }
 }

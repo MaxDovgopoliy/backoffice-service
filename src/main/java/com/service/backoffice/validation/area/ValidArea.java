@@ -6,9 +6,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.validation.Constraint;
 import javax.validation.Payload;
 
-//@Constraint(validatedBy = OrderValidator.class)
+@Constraint(validatedBy = AreaValidator.class)
 @Target({ TYPE})
 @Retention(RUNTIME)
 @Documented

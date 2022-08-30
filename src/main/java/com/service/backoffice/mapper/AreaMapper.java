@@ -39,7 +39,7 @@ public interface AreaMapper {
                             .equals(areaDto.getCityName())).findFirst()
                     .orElseThrow(() -> new ApiException(Exceptions.CITY_NOT_FOUND)));
         } else {
-            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+            throw new ApiException(Exceptions.COUNTRY_NOT_FOUND);
         }
 
         return area;

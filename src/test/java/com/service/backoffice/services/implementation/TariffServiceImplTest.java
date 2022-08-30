@@ -47,14 +47,14 @@ class TariffServiceImplTest {
         Tariff tariff2= new Tariff(2L,"tariff2","description","moto",130);
         Tariff tariff3= new Tariff(3L,"tariff3","description","moto",135);
         List<Tariff> tariffs= new ArrayList<>(List.of(tariff1,tariff2,tariff3));
-        List<TariffDto> expectedTariffDtos = TariffMapper.MAPPER.toTariffDtos(tariffs);
+        List<Tariff> expectedTariffs = tariffs;
 
         when(tariffRepo.findAll()).thenReturn(tariffs);
 
         var resultTariffDtos =tariffService.getAllTariffs();
 
         assertNotNull(resultTariffDtos);
-        assertIterableEquals(expectedTariffDtos, resultTariffDtos);
+        assertIterableEquals(expectedTariffs, resultTariffDtos);
 
     }
 
@@ -65,11 +65,11 @@ class TariffServiceImplTest {
 
         when(tariffRepo.save(tariff)).thenReturn(tariff);
 
-        var resultTariffDto = tariffService.saveTariff(expectedTariffDto);
+        var resultTariff = tariffService.saveTariff(expectedTariffDto);
 
         verify(tariffRepo).save(tariff);
-        assertNotNull(resultTariffDto);
-        assertEquals(expectedTariffDto, resultTariffDto);
+        assertNotNull(resultTariff);
+        assertEquals(tariff, resultTariff);
 
     }
 
@@ -90,15 +90,14 @@ class TariffServiceImplTest {
 
     @Test
     void getTariffById() {
-        Tariff tariff= new Tariff(1L,"tariff1","description","sedan",120);
-        TariffDto expectedTariffDto =TariffMapper.MAPPER.toTariffDto(tariff);
-        when(tariffRepo.findById(1L)).thenReturn(Optional.of(tariff));
+        Tariff expectedTariff= new Tariff(1L,"tariff1","description","sedan",120);
+        when(tariffRepo.findById(1L)).thenReturn(Optional.of(expectedTariff));
 
         var resultTariffDto = tariffService.getTariffById(1);
 
         verify(tariffRepo).findById(1L);
         assertNotNull(resultTariffDto);
-        assertEquals(expectedTariffDto, resultTariffDto);
+        assertEquals(expectedTariff, resultTariffDto);
     }
     @Test
     void getTariffByNonExistingId() {
@@ -116,7 +115,6 @@ class TariffServiceImplTest {
         Tariff expectedTariff= new Tariff(1L,"tariff2","description","moto",128);
 
         when(tariffRepo.findById(1L)).thenReturn(Optional.of(tariffToUpdate));
-        //when(tariffRepo.findById(1L)).thenReturn(Optional.of(tariffToUpdate));
         when(tariffRepo.save(expectedTariff)).thenReturn(expectedTariff);
 
         var resultTariffDto = tariffService.updateTariff(1, newTariff);
@@ -124,7 +122,7 @@ class TariffServiceImplTest {
         verify(tariffRepo,times(2)).findById(1L);
         verify(tariffRepo).save(expectedTariff);
         assertNotNull(resultTariffDto);
-        assertEquals(TariffMapper.MAPPER.toTariffDto(expectedTariff), resultTariffDto);
+        assertEquals(expectedTariff, resultTariffDto);
 
     }
     @Test

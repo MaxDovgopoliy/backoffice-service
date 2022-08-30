@@ -12,8 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "cities")
 public class City {
@@ -33,4 +35,9 @@ public class City {
     @JoinColumn(name = "countryId")
     private Country country;
 
+    public City(String name, double square, Country country) {
+        this.name = name;
+        this.square = square;
+        this.country = country;
+    }
 }

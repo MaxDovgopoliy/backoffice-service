@@ -3,12 +3,20 @@ package com.service.backoffice.controller.manager;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.model.Area;
+import com.service.backoffice.model.City;
+import com.service.backoffice.model.Country;
 import com.service.backoffice.services.AreaService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -37,12 +45,14 @@ class AreaControllerTest {
     @MockBean
     AreaService areaService;
 
+    private static Country country = new Country("Ukraine", 10000);
+    private static City city =new City("Lviv",500,country);
+    private static List<Area> areas =
+            List.of(new Area(240, "Shevchenka str. 21", city),
+                    new Area(240, "Shevchenka str. 22", city),
+                    new Area(240, "Shevchenka str. 23", city));
 
-    private static List<Coordinates> listOfCoordinates=List.of(new Coordinates(1L,123.32,234.32),
-                                                new Coordinates(1L,123.32,234.32),
-                                                new Coordinates(1L,123.32,234.32));
-    private static Area area = new Area(1L, "Ukraine", "Lviv",listOfCoordinates );
-    private static AreaDto areaDto = AreaMapper.MAPPER.toAreaDto(area);
+    private static AreaDto areaDto = AreaMapper.MAPPER.toAreaDto(areas.get(0));
 
     @Test
     void deleteArea() throws Exception {
@@ -57,15 +67,16 @@ class AreaControllerTest {
     void addArea() throws Exception {
 
         when(areaService.saveArea(areaDto))
-                .thenReturn(area);
+                .thenReturn(areas.get(0));
 
-        mockMvc.perform(post("/manager/areas/")
+        mockMvc.perform(post("/manager/areas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(areaDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.country").value(areaDto.getCountry()))
-                .andExpect(jsonPath("$.city").value(areaDto.getCity()))
-                .andExpect(jsonPath("$.coordinates.size()").value(areaDto.getCoordinates().size()));
+                .andExpect(jsonPath("$.countryName").value(areaDto.getCountryName()))
+                .andExpect(jsonPath("$.cityName").value(areaDto.getCityName()))
+                .andExpect(jsonPath("$.square").value(areaDto.getSquare()))
+                .andExpect(jsonPath("$.address").value(areaDto.getAddress()));
 
         verify(areaService).saveArea(areaDto);
     }
@@ -73,30 +84,29 @@ class AreaControllerTest {
     @Test
     void updateArea() throws Exception {
 
-        when(areaService.updateArea(1, areaDto)).thenReturn(area);
+        when(areaService.updateArea(1, areaDto)).thenReturn(areas.get(0));
 
         mockMvc.perform(put("/manager/areas/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(areaDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.country").value(areaDto.getCountry()))
-                .andExpect(jsonPath("$.city").value(areaDto.getCity()))
-                .andExpect(jsonPath("$.coordinates.size()").value(areaDto.getCoordinates().size()));
-
-        verify(areaService).updateArea(1,areaDto);
+                .andExpect(jsonPath("$.countryName").value(areaDto.getCountryName()))
+                .andExpect(jsonPath("$.cityName").value(areaDto.getCityName()))
+                .andExpect(jsonPath("$.square").value(areaDto.getSquare()))
+                .andExpect(jsonPath("$.address").value(areaDto.getAddress()));
+        verify(areaService).updateArea(1, areaDto);
     }
 
     @Test
     void getAreaById() throws Exception {
-        given(areaService.getAreaById(1)).willReturn(area);
+        given(areaService.getAreaById(1)).willReturn(areas.get(0));
 
         mockMvc.perform(get("/manager/areas/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.country").value(areaDto.getCountry()))
-                .andExpect(jsonPath("$.city").value(areaDto.getCity()))
-                .andExpect(jsonPath("$.coordinates.size()").value(areaDto.getCoordinates().size()));
-
+                .andExpect(jsonPath("$.countryName").value(areaDto.getCountryName()))
+                .andExpect(jsonPath("$.cityName").value(areaDto.getCityName()))
+                .andExpect(jsonPath("$.square").value(areaDto.getSquare()))
+                .andExpect(jsonPath("$.address").value(areaDto.getAddress()));
         verify(areaService).getAreaById(1);
     }
 }

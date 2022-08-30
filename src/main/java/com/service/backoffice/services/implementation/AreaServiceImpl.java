@@ -43,7 +43,7 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public Area saveArea(AreaDto areaDto) {
         Area area = new Area();
-        locationAdaptor.makeAreaFromDto(area, areaDto);
+        area = locationAdaptor.makeAreaFromDto(area, areaDto);
         return areaRepo.save(area);
     }
 
@@ -56,7 +56,7 @@ public class AreaServiceImpl implements AreaService {
 
         oldArea = areaRepo.findById(areaId).get();
 
-        locationAdaptor.makeAreaFromDto(oldArea, newAreaDto);
+        oldArea = locationAdaptor.makeAreaFromDto(oldArea, newAreaDto);
         return areaRepo.save(oldArea);
 
     }
