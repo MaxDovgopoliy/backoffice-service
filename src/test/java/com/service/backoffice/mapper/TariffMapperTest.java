@@ -5,8 +5,15 @@ import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.model.Tariff;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class TariffMapperTest {
     private  final TariffMapper mapper= Mappers.getMapper(TariffMapper.class);
     private List<Tariff> tariffs=List.of(

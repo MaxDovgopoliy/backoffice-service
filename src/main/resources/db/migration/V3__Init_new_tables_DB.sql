@@ -1,3 +1,9 @@
+drop table  if exists hibernate_sequence;
+drop table  if exists orders;
+drop table  if exists tariffs;
+drop table  if exists coordinates;
+drop table  if exists areas;
+
 create table areas
 (
     id      bigint           not null,
