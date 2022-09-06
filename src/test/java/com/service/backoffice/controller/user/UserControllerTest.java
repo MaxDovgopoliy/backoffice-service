@@ -16,6 +16,7 @@ import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.mapper.TariffMapper;
+import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
@@ -25,6 +26,7 @@ import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.LocationService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,8 +49,6 @@ class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private UserController userController;
     @MockBean
     private TariffServiceImpl tariffService;
     @MockBean
@@ -82,9 +82,9 @@ class UserControllerTest {
     @Test
     void getOrdersHistoryByUser() throws Exception {
         OrderDto orderDto1 = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0, 0),
-                LocalDateTime.now(), 250, 1, "sedan", 1);
+                LocalDateTime.now(), new BigDecimal(250), 1, "sedan", 1);
         OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0, 0),
-                LocalDateTime.now(), 240, 4, "moto", 3);
+                LocalDateTime.now(), new BigDecimal(240), 4, "moto", 3);
 
         List<OrderDto> orderDtos = List.of(orderDto1, orderDto2);
         List<Order> orders = OrderMapper.MAPPER.toOrders(orderDtos);
@@ -102,21 +102,21 @@ class UserControllerTest {
                 .andExpect(jsonPath("$[0].endDateTime").value(orders.get(0).getEndDateTime()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
                 .andExpect(jsonPath("$[0].carType").value(orders.get(0).getCarType()))
-                .andExpect(jsonPath("$[0].prise").value(orders.get(0).getPrise()))
+                .andExpect(jsonPath("$[0].price").value(orders.get(0).getPrice()))
                 .andExpect(jsonPath("$[0].carId").value(orders.get(0).getCarId()));
     }
 
     @Test
     void getAllAreas() throws Exception {
-          Country country = new Country("Ukraine", 10000);
+          Country country = new Country("Ukraine");
           City city =new City("Lviv",500,country);
           List<Area> areas =
-                List.of(new Area(240, "Shevchenka str. 21", city),
-                        new Area(240, "Shevchenka str. 22", city),
-                        new Area(240, "Shevchenka str. 23", city));
+                List.of(new Area(240, new Address("Shevchenka",21), city),
+                        new Area(240, new Address("Shevchenka",22), city),
+                        new Area(240, new Address("Shevchenka",23), city));
         List<AreaDto> expectedAreaDtos= AreaMapper.MAPPER.toAreaDtos(areas);
 
-        given(areaService.getAllAreas()).willReturn(areas);
+        given(areaService.getAllAreas(null, null)).willReturn(areas);
 
         mockMvc.perform(get("/user/areas")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -130,8 +130,8 @@ class UserControllerTest {
 
     @Test
     void getAllCountries() throws Exception {
-        List<Country> countries = List.of(new Country("Ukraine", 5000),
-                                          new Country("Sweden", 4000));
+        List<Country> countries = List.of(new Country("Ukraine"),
+                                          new Country("Sweden"));
         List<CountryDto> expectedCountryDtos= CountryMapper.MAPPER.toCountryDtos(countries);
 
         given(locationService.getAllCountries()).willReturn(countries);
@@ -141,14 +141,12 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(expectedCountryDtos.size())))
                 .andExpect(jsonPath("$[0].name").value(expectedCountryDtos.get(0).getName()))
-                .andExpect(jsonPath("$[0].square").value(expectedCountryDtos.get(0).getSquare()))
-                .andExpect(jsonPath("$[1].name").value(expectedCountryDtos.get(1).getName()))
-                .andExpect(jsonPath("$[1].square").value(expectedCountryDtos.get(1).getSquare()));
+                .andExpect(jsonPath("$[1].name").value(expectedCountryDtos.get(1).getName()));
     }
 
     @Test
     void getAllCities() throws Exception {
-        Country country = new Country("Ukraine", 5000);
+        Country country = new Country("Ukraine");
         List<City> cities =
                 List.of(new City("Lviv", 500, country),
                         new City("Kyiv", 700, country),

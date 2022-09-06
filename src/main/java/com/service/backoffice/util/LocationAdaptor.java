@@ -4,6 +4,7 @@ import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
+import com.service.backoffice.mapper.AddressMapper;
 import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
@@ -26,18 +27,9 @@ public class LocationAdaptor {
                     .findFirst()
                     .orElse(null);
             if (cityFromDb == null) {
-                double allCitiesInCountrySquare = country
-                        .getCities()
-                        .stream()
-                        .mapToDouble(City::getSquare)
-                        .sum();
-                if (country.getSquare() >= allCitiesInCountrySquare + cityDto.getSquare()) {
-                    City city = CityMapper.MAPPER.toCity(cityDto);
-                    city.setCountry(country);
-                    return city;
-                } else {
-                    throw new ApiException(Exceptions.CITY_TOO_BIG);
-                }
+                City city = CityMapper.MAPPER.toCity(cityDto);
+                city.setCountry(country);
+                return city;
             } else {
                 throw new ApiException(Exceptions.CITY_ALREADY_EXIST);
             }
@@ -65,7 +57,7 @@ public class LocationAdaptor {
             if (city.getSquare() >= allAreasInCitySquare + areaDto.getSquare()) {
                 area.setSquare(areaDto.getSquare());
                 area.setCity(city);
-                area.setAddress(areaDto.getAddress());
+                area.setAddress(AddressMapper.MAPPER.toAddress(areaDto.getAddress()));
                 return area;
             } else {
                 throw new ApiException(Exceptions.AREA_TOO_BIG);

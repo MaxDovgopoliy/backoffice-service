@@ -21,7 +21,7 @@ public class OrderValidator implements ConstraintValidator<ValidOrder, OrderDto>
                 || orderDto.getStartDateTime().isAfter(LocalDateTime.now())
                 || orderDto.getEndDateTime() == null
                 || orderDto.getEndDateTime().isAfter(LocalDateTime.now())
-                || orderDto.getPrise() < 0
+                || orderDto.getPrice().doubleValue() < 0
                 || orderDto.getUserId() <= 0
                 || orderDto.getCarId() <= 0
                 || orderDto.getCarType() == null) {

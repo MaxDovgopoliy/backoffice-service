@@ -43,7 +43,7 @@ public class LocationServiceImp implements LocationService {
     @Override
     public Country saveCountry(CountryDto countryDto) {
         if (countryRepo.findByNameIgnoreCase(countryDto.getName()) == null) {
-            Country country = new Country(countryDto.getName(), countryDto.getSquare());
+            Country country = new Country(countryDto.getName());
             return countryRepo.save(country);
         } else {
             throw new ApiException(Exceptions.COUNTRY_ALREADY_EXIST);
@@ -68,6 +68,33 @@ public class LocationServiceImp implements LocationService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public City updateCity(long cityId, CityDto cityDto) {
+        City oldCity;
+        if (!cityRepo.findById(cityId).isPresent()) {
+            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+        }
+
+        oldCity = cityRepo.findById(cityId).get();
+
+        oldCity.setName(cityDto.getCountryName());
+        oldCity.setSquare(cityDto.getSquare());
+        return cityRepo.save(oldCity);
+    }
+
+    @Override
+    public Country updateCountry(long countryId, CountryDto countryDto) {
+        Country oldcountry;
+        if (!countryRepo.findById(countryId).isPresent()) {
+            throw new ApiException(Exceptions.COUNTRY_NOT_FOUND);
+        }
+
+        oldcountry = countryRepo.findById(countryId).get();
+
+        oldcountry.setName(countryDto.getName());
+        return countryRepo.save(oldcountry);
     }
 
 }

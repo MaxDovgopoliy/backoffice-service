@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.mapper.AreaMapper;
+import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
@@ -45,12 +46,12 @@ class AreaControllerTest {
     @MockBean
     AreaService areaService;
 
-    private static Country country = new Country("Ukraine", 10000);
+    private static Country country = new Country("Ukraine");
     private static City city =new City("Lviv",500,country);
     private static List<Area> areas =
-            List.of(new Area(240, "Shevchenka str. 21", city),
-                    new Area(240, "Shevchenka str. 22", city),
-                    new Area(240, "Shevchenka str. 23", city));
+            List.of(new Area(240, new Address("Shevchenka",21), city),
+                    new Area(240, new Address("Shevchenka",22), city),
+                    new Area(240, new Address("Shevchenka",23), city));
 
     private static AreaDto areaDto = AreaMapper.MAPPER.toAreaDto(areas.get(0));
 

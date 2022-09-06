@@ -17,10 +17,11 @@ public class AreaValidator implements ConstraintValidator<ValidArea, AreaDto> {
                     + "expected parameter of type Reservation.");
         }
         if (areaDto.getSquare() <= 0
-                || areaDto.getAddress() == null
-                || areaDto.getAddress().length() == 0) {
+                || areaDto.getAddress() == null) {
             return false;
         }
-        return true;
+
+        return (areaDto.getCountryName().matches("[a-z-A-Z]{2,}")
+                && areaDto.getCityName().matches("[a-z-A-Z]{2,}"));
     }
 }

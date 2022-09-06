@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
@@ -32,12 +33,12 @@ class AreaMapperTest {
     CityRepo cityRepo;
 
 AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
-    private static Country country = new Country("Ukraine", 10000);
+    private static Country country = new Country("Ukraine");
     private static City city =new City("Lviv",500,country);
     private static List<Area> areas =
-            List.of(new Area(240, "Shevchenka str. 21", city),
-                    new Area(240, "Shevchenka str. 22", city),
-                    new Area(240, "Shevchenka str. 23", city));
+            List.of(new Area(240, new Address("Shevchenka",21), city),
+                    new Area(240, new Address("Shevchenka",22), city),
+                    new Area(240, new Address("Shevchenka",23), city));
 
     @Test
     void toAreaDTO() {
@@ -47,7 +48,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
         assertEquals(area.getSquare(),areaDTO.getSquare());
         assertEquals(area.getCity().getName(),areaDTO.getCityName());
         assertEquals(area.getCity().getCountry().getName(),areaDTO.getCountryName());
-        assertEquals(area.getAddress(),areaDTO.getAddress());
+        assertEquals(area.getAddress(),AddressMapper.MAPPER.toAddress(areaDTO.getAddress()));
     }
 
     @Test
@@ -57,7 +58,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
         AreaDto areaDTO= mapper.toAreaDto(area);
 
 
-        assertEquals(area.getAddress(),areaDTO.getAddress());
+        assertEquals(area.getAddress(),AddressMapper.MAPPER.toAddress(areaDTO.getAddress()));
         assertEquals(area.getSquare(),areaDTO.getSquare());
         assertEquals(area.getCity().getName(),areaDTO.getCityName());
     }
@@ -70,7 +71,7 @@ AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
         assertEquals(areaDtos.get(0).getCityName(),areas.get(0).getCity().getName());
         assertEquals(areaDtos.get(1).getSquare(),areas.get(1).getSquare());
         assertEquals(areaDtos.get(2).getSquare(),areas.get(2).getSquare());
-        assertEquals(areaDtos.get(2).getAddress(),areas.get(2).getAddress());
+        assertEquals(AddressMapper.MAPPER.toAddress(areaDtos.get(2).getAddress()),areas.get(2).getAddress());
     }
 
 }

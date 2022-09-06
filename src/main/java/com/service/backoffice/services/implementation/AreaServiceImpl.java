@@ -10,6 +10,7 @@ import com.service.backoffice.services.AreaService;
 import com.service.backoffice.util.LocationAdaptor;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,23 @@ public class AreaServiceImpl implements AreaService {
     private LocationAdaptor locationAdaptor;
 
     @Override
-    public List<Area> getAllAreas() {
-        return areaRepo.findAll();
+    public List<Area> getAllAreas(String countryName, String cityName) {
+        List<Area> allAreas = areaRepo.findAll();
+        if (countryName != null) {
+            allAreas = allAreas
+                    .stream()
+                    .filter(area -> area.getCity().getCountry().getName()
+                    .equalsIgnoreCase(countryName))
+                    .collect(Collectors.toList());
+            if (cityName != null) {
+                allAreas = allAreas
+                        .stream()
+                        .filter(area -> area.getCity().getName()
+                        .equalsIgnoreCase(cityName))
+                        .collect(Collectors.toList());
+            }
+        }
+        return allAreas;
     }
 
     @Override

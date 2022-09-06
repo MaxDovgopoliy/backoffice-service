@@ -24,14 +24,11 @@ public class Country {
 
     private String name;
 
-    private double square;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "countryId", referencedColumnName = "id")
     private List<City> cities = new ArrayList<>();
 
-    public Country(String name, double square) {
+    public Country(String name) {
         this.name = name;
-        this.square = square;
     }
 }

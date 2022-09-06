@@ -1,5 +1,6 @@
 package com.service.backoffice.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Order {
     private Long id;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private int prise;
+    private BigDecimal price;
     private int carId;
     private String carType;
     private int userId;
@@ -67,12 +68,12 @@ public class Order {
         this.endDateTime = endDate;
     }
 
-    public int getPrise() {
-        return prise;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPrise(int prise) {
-        this.prise = prise;
+    public void setPrice(BigDecimal prise) {
+        this.price = prise;
     }
 
     public int getCarId() {

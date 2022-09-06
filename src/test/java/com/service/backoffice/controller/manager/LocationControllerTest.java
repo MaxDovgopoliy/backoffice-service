@@ -44,8 +44,8 @@ class LocationControllerTest {
     @MockBean
     LocationService locationService;
     private static List<Country> countries =
-            List.of(new Country("Ukraine", 5000),
-                    new Country("Sweden", 4000));
+            List.of(new Country("Ukraine"),
+                    new Country("Sweden"));
 
     private static List<CountryDto> countryDtos = CountryMapper.MAPPER.toCountryDtos(countries);
     private static Country country = countries.get(0);
@@ -83,8 +83,7 @@ class LocationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(countryDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(countryDto.getName()))
-                .andExpect(jsonPath("$.square").value(countryDto.getSquare()));
+                .andExpect(jsonPath("$.name").value(countryDto.getName()));
 
         verify(locationService).saveCountry(countryDto);
     }

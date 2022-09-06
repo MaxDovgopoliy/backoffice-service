@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Documented
 public @interface ValidArea {
-    String message() default "Bad order parameters";
+    String message() default "Bad Area parameters";
 
     Class<?>[] groups() default {};
 

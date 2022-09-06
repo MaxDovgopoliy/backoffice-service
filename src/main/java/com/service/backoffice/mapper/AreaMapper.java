@@ -22,7 +22,7 @@ public interface AreaMapper {
         AreaDto areaDto = new AreaDto();
         areaDto.setCountryName(area.getCity().getCountry().getName());
         areaDto.setCityName(area.getCity().getName());
-        areaDto.setAddress(area.getAddress());
+        areaDto.setAddress(AddressMapper.MAPPER.toAddressDto(area.getAddress()));
         areaDto.setSquare(area.getSquare());
 
         return areaDto;
@@ -35,8 +35,12 @@ public interface AreaMapper {
         Area area = new Area();
         Country country = countryRepo.findByNameIgnoreCase(areaDto.getCountryName());
         if (country != null) {
-            area.setCity(country.getCities().stream().filter(c -> c.getName()
-                            .equals(areaDto.getCityName())).findFirst()
+            area.setCity(country
+                    .getCities()
+                    .stream()
+                    .filter(c -> c.getName()
+                            .equals(areaDto.getCityName()))
+                    .findFirst()
                     .orElseThrow(() -> new ApiException(Exceptions.CITY_NOT_FOUND)));
         } else {
             throw new ApiException(Exceptions.COUNTRY_NOT_FOUND);

@@ -18,4 +18,8 @@ public interface LocationService {
     boolean deleteCountryById(long countryId);
 
     boolean deleteCityById(long cityId);
+
+    City updateCity(long cityId, CityDto cityDto);
+
+    Country updateCountry(long countryId, CountryDto countryDto);
 }

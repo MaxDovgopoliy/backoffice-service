@@ -44,8 +44,8 @@ class LocationServiceImpTest {
     @MockBean
     LocationAdaptor locationAdaptor;
     private static List<Country> countries =
-            List.of(new Country("Ukraine", 5000),
-                    new Country("Sweden", 4000));
+            List.of(new Country("Ukraine"),
+                    new Country("Sweden"));
 
     private static List<CountryDto> countryDtos = CountryMapper.MAPPER.toCountryDtos(countries);
     private static Country country = countries.get(0);

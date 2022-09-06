@@ -27,7 +27,10 @@ public class ApiExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse> catchNotValidException(MethodArgumentNotValidException e,
                                                               WebRequest request) {
-        String errorMessages = e.getBindingResult().getAllErrors().stream()
+        String errorMessages = e
+                .getBindingResult()
+                .getAllErrors()
+                .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining("; "));
         return ResponseEntity

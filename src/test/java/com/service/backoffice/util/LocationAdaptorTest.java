@@ -9,6 +9,7 @@ import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CityMapper;
+import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
@@ -39,7 +40,7 @@ class LocationAdaptorTest {
 
     @Test
     void makeCityFromDto() {
-        Country country = new Country("Ukraine", 10000);
+        Country country = new Country("Ukraine");
         City city = new City("Lviv", 500, country);
         CityDto cityDto = CityMapper.MAPPER.toCityDto(city);
         when(countryRepo.findByNameIgnoreCase(cityDto.getCountryName())).thenReturn(country);
@@ -52,13 +53,13 @@ class LocationAdaptorTest {
 
     @Test
     void makeAreaFromDto() {
-        Country country = new Country("Ukraine", 10000);
+        Country country = new Country("Ukraine");
         City city = new City("Lviv", 500, country);
 
         List<Area> areas =
-                List.of(new Area(240, "Shevchenka str. 21", city),
-                        new Area(240, "Shevchenka str. 22", city),
-                        new Area(240, "Shevchenka str. 23", city));
+                List.of(new Area(240, new Address("Shevchenka",21), city),
+                        new Area(240, new Address("Shevchenka",22), city),
+                        new Area(240, new Address("Shevchenka",23), city));
         country.setCities(List.of(city));
 
         Area expectedArea = areas.get(0);

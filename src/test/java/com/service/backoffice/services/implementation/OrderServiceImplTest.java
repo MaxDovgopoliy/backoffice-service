@@ -12,6 +12,7 @@ import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.repositories.OrderRepo;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,10 +41,10 @@ class OrderServiceImplTest {
 
     private List<OrderDto> orderDtos = List.of(
             new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0, 0),
-                    LocalDateTime.now(), 250, 1, "sedan", 2),
+                    LocalDateTime.now(), new BigDecimal(250), 1, "sedan", 2),
 
             new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0, 0),
-                    LocalDateTime.now(), 240, 4, "moto", 3));
+                    LocalDateTime.now(), new BigDecimal(240), 4, "moto", 3));
     private LocalDateTime startDateTime = LocalDateTime.of(1900, 1, 1, 0, 0, 0);
     private LocalDate startDate = LocalDate.of(1900, 1, 1);
     private LocalDate endDate = LocalDate.of(2021, 1, 1);

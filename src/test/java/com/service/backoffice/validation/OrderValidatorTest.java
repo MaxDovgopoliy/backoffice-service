@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.service.backoffice.dto.OrderDto;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -12,7 +13,10 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+
+@SpringBootTest
 class OrderValidatorTest {
 
     private static Validator validator;
@@ -25,7 +29,7 @@ class OrderValidatorTest {
     void testInvalidOrder() {
 
         OrderDto invalidOrder = new OrderDto(LocalDateTime.now(),
-                LocalDateTime.of(2020, 1, 1, 0, 0, 0), 250, 1, "", 1);
+                LocalDateTime.of(2020, 1, 1, 0, 0, 0), new BigDecimal(250), 1, "", 1);
 
         Set<ConstraintViolation<OrderDto>> violations = validator.validate(invalidOrder);
         assertFalse(violations.isEmpty());
@@ -35,7 +39,7 @@ class OrderValidatorTest {
     void testValidOrder() {
 
         OrderDto validOrder = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0, 0),
-                LocalDateTime.now() , 250, 1, "moto", 1);
+                LocalDateTime.now() , new BigDecimal(250), 1, "moto", 1);
 
         Set<ConstraintViolation<OrderDto>> violations = validator.validate(validOrder);
         assertTrue(violations.isEmpty());
