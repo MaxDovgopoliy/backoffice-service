@@ -3,17 +3,27 @@ version: '3.8'
 services:
   db:
     image: mysql:8
-#    restart: always
+    container_name: 'db'
     environment:
       MYSQL_DATABASE: 'db'
-      # So you don't have to use root, but you can if you like
       MYSQL_USER: 'user'
-      # You can use whatever password you like
       MYSQL_PASSWORD: 'password'
-      # Password for root access
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
-      # <Port exposed> : < MySQL Port running inside container>
       - '3307:3306'
-
-
+  app:
+    build: ./
+    depends_on:
+      - db
+    container_name: 'java-app'
+    ports:
+      - '8080:8080'
+    environment:
+      - spring.datasource.url=jdbc:mysql://db:3306/db?serverTimezone=UTC
+      - spring.datasource.username=root
+      - spring.datasource.password=password
+      - spring.flyway.enabled=true
+      - spring.flyway.url=jdbc:mysql://db:3306/db?serverTimezone=UTC
+      - spring.flyway.user=root
+      - spring.flyway.password=password
+      - spring.flyway.group=true
