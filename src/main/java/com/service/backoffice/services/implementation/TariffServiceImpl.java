@@ -75,4 +75,9 @@ public class TariffServiceImpl implements TariffService {
         }
         return tariffRepo.save(oldTariff);
     }
+
+    @Override
+    public Tariff getTariffByCarType(String carType) {
+        return tariffRepo.findByCarTypeIgnoreCase(carType);
+    }
 }

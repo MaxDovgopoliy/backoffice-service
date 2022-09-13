@@ -15,4 +15,6 @@ public interface TariffService {
     Tariff getTariffById(long id);
 
     Tariff updateTariff(long tariffId, Tariff newTariff);
+
+    Tariff getTariffByCarType(String carType);
 }

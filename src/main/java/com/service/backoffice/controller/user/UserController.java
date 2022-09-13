@@ -17,6 +17,8 @@ import com.service.backoffice.services.implementation.TariffServiceImpl;
 import java.time.LocalDate;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,5 +98,14 @@ public class UserController {
     public ResponseEntity<OrderDto> addOrder(@RequestBody @Valid OrderDto orderDto) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 OrderMapper.MAPPER.toOrderDto(orderService.saveOrder(orderDto)));
+    }
+
+    @GetMapping("/tariffs/{carType}")
+    public ResponseEntity<TariffDto> getTariffByCarType(@PathVariable
+                                                            @NotBlank
+                                                            @Pattern(regexp = "[a-z A-Z]+")
+                                                            String carType) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                TariffMapper.MAPPER.toTariffDto(tariffServiceImpl.getTariffByCarType(carType)));
     }
 }
