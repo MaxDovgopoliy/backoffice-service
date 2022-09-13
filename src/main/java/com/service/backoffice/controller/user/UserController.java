@@ -16,12 +16,14 @@ import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
 import java.time.LocalDate;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,7 +77,7 @@ public class UserController {
                                                      @RequestBody(required = false)
                                                      String cityName) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName,cityName)));
+                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName, cityName)));
     }
 
     @GetMapping("/countries")
@@ -88,5 +90,11 @@ public class UserController {
     public ResponseEntity<List<CityDto>> getAllCities() {
         return ResponseEntity.status(HttpStatus.OK).body(
                 CityMapper.MAPPER.toCityDtos(locationService.getAllCities()));
+    }
+
+    @PostMapping
+    public ResponseEntity<OrderDto> addOrder(@RequestBody @Valid OrderDto orderDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                OrderMapper.MAPPER.toOrderDto(orderService.saveOrder(orderDto)));
     }
 }

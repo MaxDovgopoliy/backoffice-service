@@ -1,5 +1,7 @@
 package com.service.backoffice.services.implementation;
 
+import com.service.backoffice.dto.OrderDto;
+import com.service.backoffice.mapper.OrderMapper;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.repositories.OrderRepo;
 import com.service.backoffice.services.OrderService;
@@ -50,5 +52,11 @@ public class OrderServiceImpl implements OrderService {
                         .collect(Collectors.toList());
 
         return filteredOrders;
+    }
+
+    @Override
+    public Order saveOrder(OrderDto orderDto) {
+        Order order = OrderMapper.MAPPER.toOrder(orderDto);
+        return orderRepo.save(order);
     }
 }
