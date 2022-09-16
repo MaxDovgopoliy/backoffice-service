@@ -94,7 +94,7 @@ public class UserController {
                 CityMapper.MAPPER.toCityDtos(locationService.getAllCities()));
     }
 
-    @PostMapping
+    @PostMapping("/orders")
     public ResponseEntity<OrderDto> addOrder(@RequestBody @Valid OrderDto orderDto) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 OrderMapper.MAPPER.toOrderDto(orderService.saveOrder(orderDto)));

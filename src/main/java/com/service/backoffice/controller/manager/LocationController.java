@@ -34,7 +34,7 @@ public class LocationController {
     }
 
     @PostMapping("/countries")
-    public ResponseEntity<CountryDto> addCountry(@RequestBody CountryDto countryDto) {
+    public ResponseEntity<CountryDto> addCountry(@RequestBody @Valid CountryDto countryDto) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 CountryMapper.MAPPER.toCountryDto(locationService.saveCountry(countryDto)));
     }
