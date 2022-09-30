@@ -1,7 +1,7 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.OrderDto;
-import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.repositories.OrderRepo;
 import com.service.backoffice.services.OrderService;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepo orderRepo;
+    @Autowired
+    private MapperForOrder mapperForOrder;
 
     @Override
     public List<Order> getOrderHistoryByUser(int userId, LocalDate dateStart,
@@ -56,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order saveOrder(OrderDto orderDto) {
-        Order order = OrderMapper.MAPPER.toOrder(orderDto);
+        Order order = mapperForOrder.toOrder(orderDto);
         return orderRepo.save(order);
     }
 }

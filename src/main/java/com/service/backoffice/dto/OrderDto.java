@@ -25,13 +25,24 @@ public class OrderDto {
 
     private int userId;
 
+    private long tariffId;
+
     public OrderDto(LocalDateTime startDateTime, LocalDateTime endDateTime, BigDecimal price,
-                    int carId, String carType, int userId) {
+                    int carId, String carType, int userId, long tariffId) {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.price = price;
         this.carId = carId;
         this.carType = carType;
         this.userId = userId;
+        this.tariffId = tariffId;
+    }
+
+    public long getTariffId() {
+        return tariffId;
+    }
+
+    public void setTariffId(long tariffId) {
+        this.tariffId = tariffId;
     }
 }

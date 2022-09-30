@@ -29,7 +29,7 @@ class OrderValidatorTest {
     void testInvalidOrder() {
 
         OrderDto invalidOrder = new OrderDto(LocalDateTime.now(),
-                LocalDateTime.of(2020, 1, 1, 0, 0, 0), new BigDecimal(250), 1, "", 1);
+                LocalDateTime.of(2020, 1, 1, 0, 0, 0), new BigDecimal(250), 1, "", 1,1);
 
         Set<ConstraintViolation<OrderDto>> violations = validator.validate(invalidOrder);
         assertFalse(violations.isEmpty());
@@ -39,7 +39,7 @@ class OrderValidatorTest {
     void testValidOrder() {
 
         OrderDto validOrder = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0, 0),
-                LocalDateTime.now() , new BigDecimal(250), 1, "moto", 1);
+                LocalDateTime.now() , new BigDecimal(250), 1, "moto", 1,1);
 
         Set<ConstraintViolation<OrderDto>> violations = validator.validate(validOrder);
         assertTrue(violations.isEmpty());

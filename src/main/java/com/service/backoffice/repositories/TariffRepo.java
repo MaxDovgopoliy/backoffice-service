@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TariffRepo extends JpaRepository<Tariff,Long> {
+public interface TariffRepo extends JpaRepository<Tariff, Long> {
     Tariff findByCarTypeIgnoreCase(String name);
+
+    Tariff findByRatePerHour(int ratePerHour);
 
 }

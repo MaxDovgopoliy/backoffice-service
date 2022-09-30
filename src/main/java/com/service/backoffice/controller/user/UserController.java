@@ -8,7 +8,7 @@ import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
-import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.LocationService;
@@ -40,13 +40,16 @@ public class UserController {
     private final AreaService areaService;
     private final LocationService locationService;
 
+    private final MapperForOrder mapperForOrder;
+
     public UserController(OrderService orderService,
                           TariffServiceImpl tariffServiceImpl, AreaService areaService,
-                          LocationService locationService) {
+                          LocationService locationService, MapperForOrder mapperForOrder) {
         this.orderService = orderService;
         this.tariffServiceImpl = tariffServiceImpl;
         this.areaService = areaService;
         this.locationService = locationService;
+        this.mapperForOrder = mapperForOrder;
     }
 
     @GetMapping("/tariffs")
@@ -69,14 +72,14 @@ public class UserController {
                                                                  String carType) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(OrderMapper.MAPPER.toOrderDtos(orderService.getOrderHistoryByUser(
+                .body(mapperForOrder.toOrderDtos(orderService.getOrderHistoryByUser(
                         userId, dateStart, dateEnd, carType)));
     }
 
     @GetMapping("/areas")
-    public ResponseEntity<List<AreaDto>> getAllAreas(@RequestBody(required = false)
+    public ResponseEntity<List<AreaDto>> getAllAreas(@RequestParam(required = false)
                                                      String countryName,
-                                                     @RequestBody(required = false)
+                                                     @RequestParam(required = false)
                                                      String cityName) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName, cityName)));
@@ -97,7 +100,7 @@ public class UserController {
     @PostMapping("/orders")
     public ResponseEntity<OrderDto> addOrder(@RequestBody @Valid OrderDto orderDto) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                OrderMapper.MAPPER.toOrderDto(orderService.saveOrder(orderDto)));
+                mapperForOrder.toOrderDto(orderService.saveOrder(orderDto)));
     }
 
     @GetMapping("/tariffs/{carType}")

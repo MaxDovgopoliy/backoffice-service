@@ -14,7 +14,7 @@ import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
-import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
@@ -57,6 +57,8 @@ class UserControllerTest {
     private AreaService areaService;
     @MockBean
     private LocationService locationService;
+    @Autowired
+    private MapperForOrder mapperForOrder;
 
     @Test
     void getAllTariffs() throws Exception {
@@ -82,12 +84,12 @@ class UserControllerTest {
     @Test
     void getOrdersHistoryByUser() throws Exception {
         OrderDto orderDto1 = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0, 0),
-                LocalDateTime.now(), new BigDecimal(250), 1, "sedan", 1);
+                LocalDateTime.now(), new BigDecimal(250), 1, "sedan", 1,2);
         OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0, 0),
-                LocalDateTime.now(), new BigDecimal(240), 4, "moto", 3);
+                LocalDateTime.now(), new BigDecimal(240), 4, "moto", 3,2);
 
         List<OrderDto> orderDtos = List.of(orderDto1, orderDto2);
-        List<Order> orders = OrderMapper.MAPPER.toOrders(orderDtos);
+        List<Order> orders = mapperForOrder.toOrders(orderDtos);
 
         given(orderService.getOrderHistoryByUser(1, null, null, null)).willReturn(
                 (List.of(orders.get(0))));

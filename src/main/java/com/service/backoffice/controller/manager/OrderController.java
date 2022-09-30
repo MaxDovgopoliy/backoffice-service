@@ -1,7 +1,7 @@
 package com.service.backoffice.controller.manager;
 
 import com.service.backoffice.dto.OrderDto;
-import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.services.OrderService;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/manager")
 public class OrderController {
     private OrderService orderService;
+    private MapperForOrder mapperForOrder;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, MapperForOrder mapperForOrder) {
         this.orderService = orderService;
+        this.mapperForOrder = mapperForOrder;
     }
 
     @GetMapping("/orders")
@@ -32,7 +34,7 @@ public class OrderController {
                                               @RequestParam(required = false) String carType) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(OrderMapper.MAPPER.toOrderDtos(
+                .body(mapperForOrder.toOrderDtos(
                         orderService.getAllOrderHistory(dateStart, dateEnd, carType)));
     }
 }

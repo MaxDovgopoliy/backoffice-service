@@ -6,9 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.backoffice.dto.OrderDto;
-import com.service.backoffice.mapper.OrderMapper;
+import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.model.Order;
 import com.service.backoffice.services.OrderService;
 import java.math.BigDecimal;
@@ -32,7 +31,7 @@ class OrderControllerTest {
     MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private MapperForOrder mapperForOrder;
 
     @Autowired
     OrderController orderController;
@@ -43,12 +42,12 @@ class OrderControllerTest {
     void getAllOrdersHistory() throws Exception {
 
         OrderDto orderDto1 = new OrderDto(LocalDateTime.of(2020, 1, 1, 0, 0,0),
-                LocalDateTime.now(),new BigDecimal(250),1,"sedan",2);
+                LocalDateTime.now(),new BigDecimal(250),1,"sedan",2,2);
         OrderDto orderDto2 = new OrderDto(LocalDateTime.of(2020, 3, 1, 0, 0,0),
-                LocalDateTime.now(),new BigDecimal(240),4,"moto",3);
+                LocalDateTime.now(),new BigDecimal(240),4,"moto",3,2);
 
         List<OrderDto> orderDtos= List.of(orderDto1, orderDto2);
-        List<Order> orders= OrderMapper.MAPPER.toOrders(orderDtos);
+        List<Order> orders= mapperForOrder.toOrders(orderDtos);
 
         given(orderService.getAllOrderHistory(null,null,null)).willReturn(orders);
 
