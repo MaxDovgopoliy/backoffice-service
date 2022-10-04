@@ -14,4 +14,6 @@ public class AddressDto {
     private String street;
     @Positive(message = "number must be greater than 0")
     private int number;
+
+    private long areaId;
 }

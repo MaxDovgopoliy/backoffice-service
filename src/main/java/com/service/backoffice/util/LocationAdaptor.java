@@ -6,6 +6,7 @@ import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.mapper.AddressMapper;
 import com.service.backoffice.mapper.CityMapper;
+import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
@@ -57,7 +58,9 @@ public class LocationAdaptor {
             if (city.getSquare() >= allAreasInCitySquare + areaDto.getSquare()) {
                 area.setSquare(areaDto.getSquare());
                 area.setCity(city);
-                area.setAddress(AddressMapper.MAPPER.toAddress(areaDto.getAddress()));
+                Address address = AddressMapper.MAPPER.toAddress(areaDto.getAddress());
+                address.setArea(area);
+                area.setAddress(address);
                 return area;
             } else {
                 throw new ApiException(Exceptions.AREA_TOO_BIG);
