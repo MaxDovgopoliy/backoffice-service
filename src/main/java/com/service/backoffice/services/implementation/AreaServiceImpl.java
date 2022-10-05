@@ -1,12 +1,14 @@
 package com.service.backoffice.services.implementation;
 
 import com.service.backoffice.dto.AreaDto;
+import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.repositories.AreaRepo;
 import com.service.backoffice.repositories.CountryRepo;
 import com.service.backoffice.services.AreaService;
+import com.service.backoffice.util.DistanceCalc;
 import com.service.backoffice.util.LocationAdaptor;
 import java.util.List;
 import java.util.Optional;
@@ -27,23 +29,29 @@ public class AreaServiceImpl implements AreaService {
     private LocationAdaptor locationAdaptor;
 
     @Override
-    public List<Area> getAllAreas(String countryName, String cityName) {
+    public List<Area> getAllAreas(String countryName, String cityName, double latitude,
+                                  double longitude) {
         List<Area> allAreas = areaRepo.findAll();
         if (countryName != null) {
             allAreas = allAreas
                     .stream()
                     .filter(area -> area.getCity().getCountry().getName()
-                    .equalsIgnoreCase(countryName))
+                            .equalsIgnoreCase(countryName))
                     .collect(Collectors.toList());
             if (cityName != null) {
                 allAreas = allAreas
                         .stream()
                         .filter(area -> area.getCity().getName()
-                        .equalsIgnoreCase(cityName))
+                                .equalsIgnoreCase(cityName))
                         .collect(Collectors.toList());
             }
         }
-        return allAreas;
+        if (latitude == 0 | longitude == 0) {
+            return allAreas;
+        } else {
+            return DistanceCalc.sortByDistanceFromUser(areaRepo.findAll(),
+                    new CoordinatesDto(latitude, longitude));
+        }
     }
 
     @Override

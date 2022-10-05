@@ -25,19 +25,22 @@ public class City {
 
     private String name;
 
-    private double square;
+    private double coefficientForTariff;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cityId", referencedColumnName = "id")
     private List<Area> areas = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cityId", referencedColumnName = "id")
+    private List<Coordinates> coordinates = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "countryId")
     private Country country;
 
-    public City(String name, double square, Country country) {
+    public City(String name, Country country) {
         this.name = name;
-        this.square = square;
         this.country = country;
     }
 }

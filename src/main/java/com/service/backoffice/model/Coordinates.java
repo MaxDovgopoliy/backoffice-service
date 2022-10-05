@@ -5,30 +5,35 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Data
 @Entity
-@Table(name = "addresses")
-public class Address {
+@Table(name = "coordinates")
+public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private double latitude;
+    private double longitude;
 
-    private String street;
+    @ManyToOne
+    @JoinColumn(name = "cityId")
+    private City city;
 
-    private int number;
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "areaId")
     private Area area;
 
-    public Address(String street, int number) {
-        this.street = street;
-        this.number = number;
+    public Coordinates(Long id, double latitude, double longitude) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+
+    public Coordinates() {
+    }
+
 }

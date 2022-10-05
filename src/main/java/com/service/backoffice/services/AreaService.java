@@ -8,7 +8,8 @@ public interface AreaService {
     /**
      * @return List of Area DTOs
      */
-    List<Area> getAllAreas(String countryName, String cityName);
+    List<Area> getAllAreas(String countryName, String cityName, double latitude,
+                           double longitude);
 
     boolean deleteArea(long id);
 

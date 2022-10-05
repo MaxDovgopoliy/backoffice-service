@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.service.backoffice.dto.AreaDto;
-import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;

@@ -7,10 +7,6 @@ drop table  if exists areas;
 create table hibernate_sequence (next_val bigint);
 insert into hibernate_sequence values ( 1 );
 
-# CREATE TABLE IF NOT EXISTS 'tariffs'(
-#     'id' bigint NOT NULL AUTO_INCREMENT,
-#     'name' varchar(255) NOT NULL
-# );
 create table orders (
     id bigint not null,
     car_id integer not null,

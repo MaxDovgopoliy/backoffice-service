@@ -80,9 +80,16 @@ public class UserController {
     public ResponseEntity<List<AreaDto>> getAllAreas(@RequestParam(required = false)
                                                      String countryName,
                                                      @RequestParam(required = false)
-                                                     String cityName) {
+                                                     String cityName,
+                                                     @RequestParam(required = false,
+                                                             defaultValue = "0")
+                                                         double latitude,
+                                                     @RequestParam(required = false,
+                                                             defaultValue = "0")
+                                                         double longitude) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName, cityName)));
+                AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName, cityName,
+                        latitude, longitude)));
     }
 
     @GetMapping("/countries")

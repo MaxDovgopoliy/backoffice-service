@@ -80,7 +80,6 @@ public class LocationServiceImp implements LocationService {
         oldCity = cityRepo.findById(cityId).get();
 
         oldCity.setName(cityDto.getCountryName());
-        oldCity.setSquare(cityDto.getSquare());
         return cityRepo.save(oldCity);
     }
 

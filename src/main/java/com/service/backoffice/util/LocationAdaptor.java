@@ -4,13 +4,17 @@ import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
-import com.service.backoffice.mapper.AddressMapper;
 import com.service.backoffice.mapper.CityMapper;
-import com.service.backoffice.model.Address;
+import com.service.backoffice.mapper.CoordinatesMapper;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
+import com.service.backoffice.model.Coordinates;
 import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.CountryRepo;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +34,11 @@ public class LocationAdaptor {
             if (cityFromDb == null) {
                 City city = CityMapper.MAPPER.toCity(cityDto);
                 city.setCountry(country);
+                city.setCoefficientForTariff(cityDto.getCoefficientForTariff());
+                List<Coordinates> coordinates = CoordinatesMapper.MAPPER
+                        .toListOfCoordinates(cityDto.getCoordinatesDtoList());
+                city.setCoordinates(coordinates);
+                coordinates.forEach(coordinate -> coordinate.setCity(city));
                 return city;
             } else {
                 throw new ApiException(Exceptions.CITY_ALREADY_EXIST);
@@ -49,24 +58,45 @@ public class LocationAdaptor {
                     .findFirst()
                     .orElseThrow(() -> new ApiException(Exceptions.CITY_NOT_FOUND));
 
-            double allAreasInCitySquare = city
-                    .getAreas()
-                    .stream()
-                    .mapToDouble(c -> c.getSquare())
-                    .sum();
-
-            if (city.getSquare() >= allAreasInCitySquare + areaDto.getSquare()) {
-                area.setSquare(areaDto.getSquare());
-                area.setCity(city);
-                Address address = AddressMapper.MAPPER.toAddress(areaDto.getAddress());
-                address.setArea(area);
-                area.setAddress(address);
+            area.setCity(city);
+            List<Coordinates> coordinates = CoordinatesMapper.MAPPER
+                    .toListOfCoordinates(areaDto.getCoordinatesDtoList());
+            if (checkIfAreaIsInsideAnother(city.getCoordinates(), coordinates)) {
+                coordinates.forEach(coordinate -> coordinate.setArea(area));
+                area.setCoordinates(coordinates);
                 return area;
             } else {
-                throw new ApiException(Exceptions.AREA_TOO_BIG);
+                throw new ApiException(Exceptions.AREA_OUT_OF_CITY);
             }
+
         } else {
             throw new ApiException(Exceptions.COUNTRY_NOT_FOUND);
         }
+    }
+
+    public boolean checkIfAreaIsInsideAnother(List<Coordinates> listOfOutsideCoordinates,
+                                              List<Coordinates> listOfInsideCoordinates) {
+        Geometry outsideArea = geometryOfCoordinates(listOfOutsideCoordinates);
+        Geometry insideArea = geometryOfCoordinates(listOfInsideCoordinates);
+
+        return insideArea.coveredBy(outsideArea);
+    }
+
+    public Geometry geometryOfCoordinates(List<Coordinates> listOfCoordinates) {
+
+        GeometryFactory gf = new GeometryFactory();
+
+        Coordinate[] outsideCoordinatesArr = new Coordinate[listOfCoordinates.size() + 1];
+
+        for (int i = 0; i < listOfCoordinates.size(); i++) {
+            outsideCoordinatesArr[i] = new Coordinate(listOfCoordinates.get(i).getLatitude(),
+                    listOfCoordinates.get(i).getLongitude());
+        }
+
+        outsideCoordinatesArr[outsideCoordinatesArr.length - 1] = new Coordinate(
+                listOfCoordinates.get(0).getLatitude(),
+                listOfCoordinates.get(0).getLongitude());
+
+        return gf.createPolygon(outsideCoordinatesArr);
     }
 }

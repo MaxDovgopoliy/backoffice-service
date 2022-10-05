@@ -9,7 +9,6 @@ import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CityMapper;
-import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;

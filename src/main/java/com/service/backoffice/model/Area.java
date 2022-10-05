@@ -1,5 +1,7 @@
 package com.service.backoffice.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,18 +23,15 @@ public class Area {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double square;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "addressId", referencedColumnName = "id")
-    private Address address;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "areaId", referencedColumnName = "id")
+    private List<Coordinates> coordinates = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cityId")
     private City city;
 
-    public Area(double square, Address address, City city) {
-        this.square = square;
-        this.address = address;
+    public Area(City city) {
         this.city = city;
     }
 }

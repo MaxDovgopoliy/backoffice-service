@@ -16,8 +16,8 @@ public class AreaValidator implements ConstraintValidator<ValidArea, AreaDto> {
             throw new IllegalArgumentException("Illegal method signature, "
                     + "expected parameter of type Reservation.");
         }
-        if (areaDto.getSquare() <= 0
-                || areaDto.getAddress() == null) {
+        if (areaDto.getCoordinatesDtoList().size() <= 2
+                || areaDto.getCoordinatesDtoList() == null) {
             return false;
         }
 

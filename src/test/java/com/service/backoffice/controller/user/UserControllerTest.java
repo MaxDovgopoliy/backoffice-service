@@ -16,7 +16,6 @@ import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.mapper.TariffMapper;
-import com.service.backoffice.model.Address;
 import com.service.backoffice.model.Area;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;

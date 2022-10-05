@@ -6,7 +6,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = CoordinatesMapper.class)
 public interface CityMapper {
     CityMapper MAPPER = Mappers.getMapper(CityMapper.class);
 
@@ -18,8 +18,9 @@ public interface CityMapper {
         }
         CityDto cityDto = new CityDto();
         cityDto.setCountryName(city.getCountry().getName());
-        cityDto.setSquare(city.getSquare());
         cityDto.setName(city.getName());
+        cityDto.setCoordinatesDtoList(CoordinatesMapper.MAPPER
+                .toListOfCoordinatesDto(city.getCoordinates()));
 
         return cityDto;
     }
