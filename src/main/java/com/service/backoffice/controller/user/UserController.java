@@ -39,23 +39,26 @@ public class UserController {
     private final OrderService orderService;
     private final AreaService areaService;
     private final LocationService locationService;
+    private TariffMapper tariffMapper;
 
     private final MapperForOrder mapperForOrder;
 
     public UserController(OrderService orderService,
                           TariffServiceImpl tariffServiceImpl, AreaService areaService,
-                          LocationService locationService, MapperForOrder mapperForOrder) {
+                          LocationService locationService, TariffMapper tariffMapper,
+                          MapperForOrder mapperForOrder) {
         this.orderService = orderService;
         this.tariffServiceImpl = tariffServiceImpl;
         this.areaService = areaService;
         this.locationService = locationService;
+        this.tariffMapper = tariffMapper;
         this.mapperForOrder = mapperForOrder;
     }
 
     @GetMapping("/tariffs")
-    public ResponseEntity<List<TariffDto>> getAllTariffs() {
+    public ResponseEntity<List<TariffDto>> getAllTariffs(@RequestParam String cityName) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                TariffMapper.MAPPER.toTariffDtos(tariffServiceImpl.getAllTariffs()));
+                tariffMapper.toTariffDtos(tariffServiceImpl.getAllTariffs(cityName)));
     }
 
     @GetMapping("/orders/{id}")
@@ -83,10 +86,10 @@ public class UserController {
                                                      String cityName,
                                                      @RequestParam(required = false,
                                                              defaultValue = "0")
-                                                         double latitude,
+                                                     double latitude,
                                                      @RequestParam(required = false,
                                                              defaultValue = "0")
-                                                         double longitude) {
+                                                     double longitude) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName, cityName,
                         latitude, longitude)));
@@ -112,10 +115,13 @@ public class UserController {
 
     @GetMapping("/tariffs/{carType}")
     public ResponseEntity<TariffDto> getTariffByCarType(@PathVariable
-                                                            @NotBlank
-                                                            @Pattern(regexp = "[a-z A-Z]+")
-                                                            String carType) {
+                                                        @NotBlank
+                                                        @Pattern(regexp = "[a-z A-Z]+")
+                                                        String carType,
+                                                        @RequestParam double latitude,
+                                                        @RequestParam double longitude) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                TariffMapper.MAPPER.toTariffDto(tariffServiceImpl.getTariffByCarType(carType)));
+                tariffMapper.toTariffDto(tariffServiceImpl.getTariffForCityAndCarType(
+                        carType, latitude, longitude)));
     }
 }

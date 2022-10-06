@@ -4,19 +4,18 @@ import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.model.Tariff;
 import java.util.List;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
-@Mapper
-public interface TariffMapper {
+@Mapper(componentModel = "spring", uses = {TariffMapperUtil.class})
+public abstract class TariffMapper {
 
-    TariffMapper MAPPER = Mappers.getMapper(TariffMapper.class);
+    @Mapping(source = "cities", target = "cities", qualifiedByName = "namesFromCities")
+    public abstract TariffDto toTariffDto(Tariff tariff);
 
-    TariffDto toTariffDto(Tariff tariff);
+    @Mapping(source = "cities", target = "cities", qualifiedByName = "citiesByNames")
+    public abstract Tariff toTariff(TariffDto tariffDto);
 
-    Tariff toTariff(TariffDto tariffDto);
+    public abstract List<TariffDto> toTariffDtos(List<Tariff> tariffs);
 
-    List<TariffDto> toTariffDtos(List<Tariff> tariffs);
-
-    List<Tariff> toTariffs(List<TariffDto> tariffDtos);
-
+    public abstract List<Tariff> toTariffs(List<TariffDto> tariffDtos);
 }

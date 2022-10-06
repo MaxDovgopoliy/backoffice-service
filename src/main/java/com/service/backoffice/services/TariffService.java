@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TariffService {
 
-    List<Tariff> getAllTariffs();
+    List<Tariff> getAllTariffs(String cityName);
 
     Tariff saveTariff(TariffDto tariffDto);
 
@@ -16,5 +16,5 @@ public interface TariffService {
 
     Tariff updateTariff(long tariffId, Tariff newTariff);
 
-    Tariff getTariffByCarType(String carType);
+    Tariff getTariffForCityAndCarType(String carType, double latitude, double longitude);
 }

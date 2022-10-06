@@ -76,13 +76,13 @@ public class LocationAdaptor {
 
     public boolean checkIfAreaIsInsideAnother(List<Coordinates> listOfOutsideCoordinates,
                                               List<Coordinates> listOfInsideCoordinates) {
-        Geometry outsideArea = geometryOfCoordinates(listOfOutsideCoordinates);
-        Geometry insideArea = geometryOfCoordinates(listOfInsideCoordinates);
+        Geometry outsideArea = poligonOfCoordinates(listOfOutsideCoordinates);
+        Geometry insideArea = poligonOfCoordinates(listOfInsideCoordinates);
 
         return insideArea.coveredBy(outsideArea);
     }
 
-    public Geometry geometryOfCoordinates(List<Coordinates> listOfCoordinates) {
+    public static Geometry poligonOfCoordinates(List<Coordinates> listOfCoordinates) {
 
         GeometryFactory gf = new GeometryFactory();
 

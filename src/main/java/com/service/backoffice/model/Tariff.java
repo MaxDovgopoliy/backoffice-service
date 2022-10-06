@@ -1,14 +1,18 @@
 package com.service.backoffice.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
@@ -23,10 +27,16 @@ public class Tariff {
     private String name;
     private String description;
     private String carType;
-    private int ratePerHour;
+    private double ratePerHour;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "tariffId", referencedColumnName = "id")
     private List<Order> orders = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "cities_tariffs",
+            joinColumns = { @JoinColumn(name = "tariff_id") },
+            inverseJoinColumns = { @JoinColumn(name = "city_id") })
+    private Set<City> cities = new HashSet<>();
 
     public Tariff(String name, String description, String carType, int ratePerHour) {
         this.name = name;
@@ -79,11 +89,11 @@ public class Tariff {
         this.carType = carType;
     }
 
-    public int getRatePerHour() {
+    public double getRatePerHour() {
         return ratePerHour;
     }
 
-    public void setRatePerHour(int ratePerHour) {
+    public void setRatePerHour(double ratePerHour) {
         this.ratePerHour = ratePerHour;
     }
 

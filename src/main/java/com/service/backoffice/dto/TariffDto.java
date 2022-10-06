@@ -1,5 +1,6 @@
 package com.service.backoffice.dto;
 
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -23,6 +24,7 @@ public class TariffDto {
     private String carType;
     @NotNull
     @Positive(message = "rate Per Hour should be greater than 0")
-    private int ratePerHour;
+    private double ratePerHour;
 
+    private Set<String> cities;
 }

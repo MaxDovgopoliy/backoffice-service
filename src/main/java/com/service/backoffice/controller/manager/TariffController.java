@@ -22,15 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/manager")
 public class TariffController {
     private TariffService tariffService;
+    private TariffMapper tariffMapper;
 
-    public TariffController(TariffService tariffService) {
+    public TariffController(TariffService tariffService, TariffMapper tariffMapper) {
         this.tariffService = tariffService;
+        this.tariffMapper = tariffMapper;
     }
 
     @PostMapping("/tariffs")
     public ResponseEntity<TariffDto> addTariff(@RequestBody @Valid TariffDto tariffDto) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(TariffMapper.MAPPER.toTariffDto(tariffService.saveTariff(tariffDto)));
+                .body(tariffMapper.toTariffDto(tariffService.saveTariff(tariffDto)));
     }
 
     @DeleteMapping("/tariffs/{id}")
@@ -41,13 +43,13 @@ public class TariffController {
     @GetMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> getTariff(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(TariffMapper.MAPPER.toTariffDto(tariffService.getTariffById(id)));
+                .body(tariffMapper.toTariffDto(tariffService.getTariffById(id)));
     }
 
     @PutMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> updateTariff(@PathVariable("id") long tariffId,
                                                   @RequestBody Tariff newTariff) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                TariffMapper.MAPPER.toTariffDto(tariffService.updateTariff(tariffId, newTariff)));
+                tariffMapper.toTariffDto(tariffService.updateTariff(tariffId, newTariff)));
     }
 }
