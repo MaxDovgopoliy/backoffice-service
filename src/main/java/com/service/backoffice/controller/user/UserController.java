@@ -62,8 +62,8 @@ public class UserController {
     @GetMapping("/tariffs")
     public ResponseEntity<List<TariffDto>> getAllTariffs(@RequestParam String cityName,
                                                          @RequestHeader(required = false)
-                                                         String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                                         String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 tariffMapper.toTariffDtos(tariffServiceImpl.getAllTariffs(cityName)));
@@ -83,8 +83,8 @@ public class UserController {
                                                                  @RequestParam(required = false)
                                                                  String carType,
                                                                  @RequestHeader(required = false)
-                                                                     String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                                                     String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(mapperForOrder.toOrderDtos(orderService.getOrderHistoryByUser(
                         userId, dateStart, dateEnd, carType)));
@@ -102,8 +102,8 @@ public class UserController {
                                                              defaultValue = "0")
                                                      double longitude,
                                                      @RequestHeader(required = false)
-                                                         String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                                         String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 AreaMapper.MAPPER.toAreaDtos(areaService.getAllAreas(countryName, cityName,
@@ -112,16 +112,16 @@ public class UserController {
 
     @GetMapping("/countries")
     public ResponseEntity<List<CountryDto>> getAllCountries(@RequestHeader(required = false)
-                                                                String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                                                String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 CountryMapper.MAPPER.toCountryDtos(locationService.getAllCountries()));
     }
 
     @GetMapping("/cities")
     public ResponseEntity<List<CityDto>> getAllCities(@RequestHeader(required = false)
-                                                          String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                                          String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 CityMapper.MAPPER.toCityDtos(locationService.getAllCities()));
     }
@@ -129,8 +129,8 @@ public class UserController {
     @PostMapping("/orders")
     public ResponseEntity<OrderDto> addOrder(@RequestBody @Valid OrderDto orderDto,
                                              @RequestHeader(required = false)
-                                             String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                             String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 mapperForOrder.toOrderDto(orderService.saveOrder(orderDto)));
     }
@@ -143,8 +143,8 @@ public class UserController {
                                                         @RequestParam double latitude,
                                                         @RequestParam double longitude,
                                                         @RequestHeader(required = false)
-                                                            String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.USER,Roles.ADMIN));
+                                                            String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER,Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 tariffMapper.toTariffDto(tariffServiceImpl.getTariffForCityAndCarType(
                         carType, latitude, longitude)));

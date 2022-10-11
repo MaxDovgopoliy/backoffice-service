@@ -36,8 +36,8 @@ public class TariffController {
     @PostMapping("/tariffs")
     public ResponseEntity<TariffDto> addTariff(@RequestBody @Valid TariffDto tariffDto,
                                                @RequestHeader(required = false)
-                                               String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                               String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(tariffMapper.toTariffDto(tariffService.saveTariff(tariffDto)));
     }
@@ -45,16 +45,16 @@ public class TariffController {
     @DeleteMapping("/tariffs/{id}")
     public ResponseEntity<Boolean> deleteTariff(@PathVariable("id") long tariffId,
                                                 @RequestHeader(required = false)
-                                                String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                                String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(tariffService.deleteTariff(tariffId));
     }
 
     @GetMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> getTariff(@PathVariable long id,
                                                @RequestHeader(required = false)
-                                               String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                               String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(tariffMapper.toTariffDto(tariffService.getTariffById(id)));
     }
@@ -63,8 +63,8 @@ public class TariffController {
     public ResponseEntity<TariffDto> updateTariff(@PathVariable("id") long tariffId,
                                                   @RequestBody Tariff newTariff,
                                                   @RequestHeader(required = false)
-                                                  String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                                  String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 tariffMapper.toTariffDto(tariffService.updateTariff(tariffId, newTariff)));
     }

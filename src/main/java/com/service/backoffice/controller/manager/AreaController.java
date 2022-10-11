@@ -40,8 +40,8 @@ public class AreaController {
     @DeleteMapping("/areas/{id}")
     public ResponseEntity<Boolean> deleteArea(@PathVariable long id,
                                               @RequestHeader(required = false)
-                                              String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                              String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(areaService.deleteArea(id));
     }
 
@@ -56,8 +56,8 @@ public class AreaController {
     @PostMapping("/areas")
     public ResponseEntity<AreaDto> addArea(@RequestBody @Valid AreaDto areaDto,
                                            @RequestHeader(required = false)
-                                           String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                           String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(AreaMapper.MAPPER.toAreaDto(areaService.saveArea(areaDto)));
     }
@@ -75,8 +75,8 @@ public class AreaController {
     public ResponseEntity<AreaDto> updateArea(@PathVariable("id") long areaId,
                                               @RequestBody @Valid AreaDto newAreaDto,
                                               @RequestHeader(required = false)
-                                                  String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                                  String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(AreaMapper.MAPPER.toAreaDto(areaService.updateArea(areaId, newAreaDto)));
     }
@@ -93,8 +93,8 @@ public class AreaController {
     @GetMapping("/areas/{id}")
     public ResponseEntity<AreaDto> getAreaById(@PathVariable("id") long areaId,
                                                @RequestHeader(required = false)
-                                               String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                               String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(AreaMapper.MAPPER.toAreaDto(areaService.getAreaById(areaId)));
     }

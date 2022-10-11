@@ -37,8 +37,8 @@ public class OrderController {
                                               LocalDate dateEnd,
                                               @RequestParam(required = false) String carType,
                                                               @RequestHeader(required = false)
-                                                                  String Authorization) {
-        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
+                                                                  String authorization) {
+        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(mapperForOrder.toOrderDtos(
