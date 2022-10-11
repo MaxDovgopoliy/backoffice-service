@@ -4,6 +4,9 @@ import com.service.backoffice.dto.TariffDto;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.services.TariffService;
+import com.service.backoffice.util.security.Roles;
+import com.service.backoffice.util.security.SecurityUtil;
+import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,25 +34,37 @@ public class TariffController {
     }
 
     @PostMapping("/tariffs")
-    public ResponseEntity<TariffDto> addTariff(@RequestBody @Valid TariffDto tariffDto) {
+    public ResponseEntity<TariffDto> addTariff(@RequestBody @Valid TariffDto tariffDto,
+                                               @RequestHeader(required = false)
+                                               String Authorization) {
+        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(tariffMapper.toTariffDto(tariffService.saveTariff(tariffDto)));
     }
 
     @DeleteMapping("/tariffs/{id}")
-    public ResponseEntity<Boolean> deleteTariff(@PathVariable("id") long tariffId) {
+    public ResponseEntity<Boolean> deleteTariff(@PathVariable("id") long tariffId,
+                                                @RequestHeader(required = false)
+                                                String Authorization) {
+        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(tariffService.deleteTariff(tariffId));
     }
 
     @GetMapping("/tariffs/{id}")
-    public ResponseEntity<TariffDto> getTariff(@PathVariable long id) {
+    public ResponseEntity<TariffDto> getTariff(@PathVariable long id,
+                                               @RequestHeader(required = false)
+                                               String Authorization) {
+        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(tariffMapper.toTariffDto(tariffService.getTariffById(id)));
     }
 
     @PutMapping("/tariffs/{id}")
     public ResponseEntity<TariffDto> updateTariff(@PathVariable("id") long tariffId,
-                                                  @RequestBody Tariff newTariff) {
+                                                  @RequestBody Tariff newTariff,
+                                                  @RequestHeader(required = false)
+                                                  String Authorization) {
+        SecurityUtil.tokenCheckForRole(Authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 tariffMapper.toTariffDto(tariffService.updateTariff(tariffId, newTariff)));
     }

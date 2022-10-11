@@ -15,7 +15,9 @@ public enum Exceptions {
     AREA_OUT_OF_CITY(6, "Area is not inside city bounds", HttpStatus.BAD_REQUEST),
     CITY_ALREADY_EXIST(7, "City with such name already exist", HttpStatus.BAD_REQUEST),
     COUNTRY_ALREADY_EXIST(7, "Country with such name already exist", HttpStatus.BAD_REQUEST),
-    CITY_TOO_BIG(8,"City square is too big", HttpStatus.BAD_REQUEST);
+    ACCESS_DENIED(8,"You dont have permissions for this action", HttpStatus.FORBIDDEN),
+    NOT_AUTHORIZED(9,"You are not logged", HttpStatus.FORBIDDEN)
+    ;
 
     private final Integer id;
     private final String message;

@@ -49,8 +49,11 @@ public class City {
     @JoinColumn(name = "countryId")
     private Country country;
 
-    public City(String name, Country country) {
+    public City(String name, double coefficientForTariff, List<Coordinates> coordinates,
+                Country country) {
         this.name = name;
+        this.coefficientForTariff = coefficientForTariff;
+        this.coordinates = coordinates;
         this.country = country;
     }
 }
