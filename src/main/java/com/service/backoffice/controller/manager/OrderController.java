@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     private OrderService orderService;
     private MapperForOrder mapperForOrder;
+    private final SecurityUtil securityUtil;
 
-    public OrderController(OrderService orderService, MapperForOrder mapperForOrder) {
+    public OrderController(OrderService orderService, MapperForOrder mapperForOrder,
+                           SecurityUtil securityUtil) {
         this.orderService = orderService;
         this.mapperForOrder = mapperForOrder;
+        this.securityUtil = securityUtil;
     }
 
     @GetMapping("/orders")
@@ -38,7 +41,7 @@ public class OrderController {
                                               @RequestParam(required = false) String carType,
                                                               @RequestHeader(required = false)
                                                                   String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(mapperForOrder.toOrderDtos(

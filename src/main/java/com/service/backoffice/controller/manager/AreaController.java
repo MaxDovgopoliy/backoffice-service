@@ -28,9 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/manager")
 public class AreaController {
     private final AreaService areaService;
+    private final SecurityUtil securityUtil;
 
-    public AreaController(AreaService areaService) {
+    public AreaController(AreaService areaService, SecurityUtil securityUtil) {
         this.areaService = areaService;
+        this.securityUtil = securityUtil;
     }
 
     @Operation(summary = "Delete area", description = "This can only be done by manager.", tags = {
@@ -41,7 +43,7 @@ public class AreaController {
     public ResponseEntity<Boolean> deleteArea(@PathVariable long id,
                                               @RequestHeader(required = false)
                                               String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(areaService.deleteArea(id));
     }
 
@@ -57,7 +59,7 @@ public class AreaController {
     public ResponseEntity<AreaDto> addArea(@RequestBody @Valid AreaDto areaDto,
                                            @RequestHeader(required = false)
                                            String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(AreaMapper.MAPPER.toAreaDto(areaService.saveArea(areaDto)));
     }
@@ -76,7 +78,7 @@ public class AreaController {
                                               @RequestBody @Valid AreaDto newAreaDto,
                                               @RequestHeader(required = false)
                                                   String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(AreaMapper.MAPPER.toAreaDto(areaService.updateArea(areaId, newAreaDto)));
     }
@@ -94,7 +96,7 @@ public class AreaController {
     public ResponseEntity<AreaDto> getAreaById(@PathVariable("id") long areaId,
                                                @RequestHeader(required = false)
                                                String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(AreaMapper.MAPPER.toAreaDto(areaService.getAreaById(areaId)));
     }

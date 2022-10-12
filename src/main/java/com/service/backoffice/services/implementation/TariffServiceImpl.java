@@ -34,7 +34,7 @@ public class TariffServiceImpl implements TariffService {
         if (city != null) {
             List<Tariff> tariffs = tariffRepo.findAll();
             tariffs.forEach(tariff -> tariff.setRatePerHour(
-                            tariff.getRatePerHour() * city.getCoefficientForTariff()));
+                    tariff.getRatePerHour() * city.getCoefficientForTariff()));
 
             return tariffs;
         } else {
@@ -95,6 +95,9 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public Tariff getTariffForCityAndCarType(String carType, double latitude, double longitude) {
         Tariff tariff = tariffRepo.findByCarTypeIgnoreCase(carType);
+        if (tariff == null) {
+            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+        }
         City cityByCoordinates = CityUtil.findCityByCoordinates(latitude, longitude);
         tariff.setRatePerHour(
                 tariff.getRatePerHour() * cityByCoordinates.getCoefficientForTariff());

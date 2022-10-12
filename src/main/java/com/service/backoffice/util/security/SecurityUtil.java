@@ -1,19 +1,19 @@
 package com.service.backoffice.util.security;
 
-import com.service.backoffice.dto.TokenDto;
 import com.service.backoffice.dto.TokenValidationDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
 import java.util.Set;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Component
+@RequiredArgsConstructor
 public class SecurityUtil {
+    private final WebClient userWebClient;
 
-    private static final WebClient userServiceClient = WebClient.create("http://localhost:8084");
-
-    public static void tokenCheckForRole(String token, Set<Roles> roles) {
+    public void tokenCheckForRole(String token, Set<Roles> roles) {
         if (token == null) {
             throw new ApiException(Exceptions.NOT_AUTHORIZED);
         }
@@ -24,16 +24,14 @@ public class SecurityUtil {
         }
     }
 
-    public static Set<String> getRolesFromToken(String token) {
-        return userServiceClient
-                .post()
+    public Set<String> getRolesFromToken(String token) {
+        return userWebClient
+                .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/validate-token")
+                        .path("/validate-auth-token")
                         .build()
                 )
                 .header("Authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(new TokenDto("Bearer " + token)))
                 .retrieve()
                 .bodyToMono(TokenValidationDto.class)
                 .block().getRoles();

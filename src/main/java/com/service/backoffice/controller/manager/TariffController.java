@@ -27,17 +27,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class TariffController {
     private TariffService tariffService;
     private TariffMapper tariffMapper;
+    private final SecurityUtil securityUtil;
 
-    public TariffController(TariffService tariffService, TariffMapper tariffMapper) {
+    public TariffController(TariffService tariffService, TariffMapper tariffMapper,
+                            SecurityUtil securityUtil) {
         this.tariffService = tariffService;
         this.tariffMapper = tariffMapper;
+        this.securityUtil = securityUtil;
     }
 
     @PostMapping("/tariffs")
     public ResponseEntity<TariffDto> addTariff(@RequestBody @Valid TariffDto tariffDto,
                                                @RequestHeader(required = false)
                                                String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(tariffMapper.toTariffDto(tariffService.saveTariff(tariffDto)));
     }
@@ -46,7 +49,7 @@ public class TariffController {
     public ResponseEntity<Boolean> deleteTariff(@PathVariable("id") long tariffId,
                                                 @RequestHeader(required = false)
                                                 String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(tariffService.deleteTariff(tariffId));
     }
 
@@ -54,7 +57,7 @@ public class TariffController {
     public ResponseEntity<TariffDto> getTariff(@PathVariable long id,
                                                @RequestHeader(required = false)
                                                String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(tariffMapper.toTariffDto(tariffService.getTariffById(id)));
     }
@@ -64,7 +67,7 @@ public class TariffController {
                                                   @RequestBody Tariff newTariff,
                                                   @RequestHeader(required = false)
                                                   String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 tariffMapper.toTariffDto(tariffService.updateTariff(tariffId, newTariff)));
     }

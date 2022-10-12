@@ -32,6 +32,7 @@ services:
       - spring.flyway.password=password
       - spring.flyway.group=true
       - spring.kafka.bootstrap-servers=kafka:9092
+      - user.service.url=http://userServiceApp:8080/
 networks:
   my-network:
     external:

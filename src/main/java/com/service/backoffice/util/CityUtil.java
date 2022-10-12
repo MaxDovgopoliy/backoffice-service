@@ -1,11 +1,14 @@
 package com.service.backoffice.util;
 
 import com.service.backoffice.dto.CoordinatesDto;
+import com.service.backoffice.exception.ApiException;
+import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.model.City;
 import com.service.backoffice.repositories.CityRepo;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,11 +21,15 @@ public class CityUtil {
 
     public static City findCityByCoordinates(double latitude, double longitude) {
         CoordinatesDto coordinatesDto = new CoordinatesDto(latitude, longitude);
-        City city = cityRepo.findAll()
+        Optional<City> city = cityRepo.findAll()
                 .stream()
                 .filter(c -> coordinatesInCity(coordinatesDto, c))
-                .findAny().orElseThrow(RuntimeException::new);
-        return city;
+                .findAny();
+        if (city.isEmpty()) {
+            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+        } else {
+            return city.get();
+        }
     }
 
     public static boolean coordinatesInCity(CoordinatesDto coordinates, City city) {

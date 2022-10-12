@@ -26,16 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/manager")
 public class LocationController {
     private final LocationService locationService;
+    private final SecurityUtil securityUtil;
 
-    public LocationController(LocationService locationService) {
+    public LocationController(LocationService locationService, SecurityUtil securityUtil) {
         this.locationService = locationService;
+        this.securityUtil = securityUtil;
     }
 
     @PostMapping("/cities")
     public ResponseEntity<CityDto> addCity(@RequestBody CityDto cityDto,
                                            @RequestHeader(required = false)
                                            String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 CityMapper.MAPPER.toCityDto(locationService.saveCity(cityDto)));
     }
@@ -44,7 +46,7 @@ public class LocationController {
     public ResponseEntity<CountryDto> addCountry(@RequestBody @Valid CountryDto countryDto,
                                                  @RequestHeader(required = false)
                                                  String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 CountryMapper.MAPPER.toCountryDto(locationService.saveCountry(countryDto)));
     }
@@ -53,7 +55,7 @@ public class LocationController {
     public ResponseEntity<Boolean> deleteCountry(@PathVariable("id") long countryId,
                                                  @RequestHeader(required = false)
                                                  String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 locationService.deleteCountryById(countryId));
     }
@@ -62,7 +64,7 @@ public class LocationController {
     public ResponseEntity<Boolean> deleteCity(@PathVariable("id") long cityId,
                                               @RequestHeader(required = false)
                                               String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 locationService.deleteCityById(cityId));
     }
@@ -72,7 +74,7 @@ public class LocationController {
                                               @RequestBody @Valid CityDto cityDto,
                                               @RequestHeader(required = false)
                                                   String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 CityMapper.MAPPER.toCityDto(locationService.updateCity(cityId, cityDto)));
     }
@@ -82,7 +84,7 @@ public class LocationController {
                                                     @RequestBody @Valid CountryDto countryDto,
                                                     @RequestHeader(required = false)
                                                         String authorization) {
-        SecurityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK).body(
                 CountryMapper.MAPPER.toCountryDto(
                         locationService.updateCountry(countryId, countryDto)));
