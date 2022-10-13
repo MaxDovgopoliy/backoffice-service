@@ -62,13 +62,14 @@ public class UserController {
     }
 
     @GetMapping("/tariffs")
-    public ResponseEntity<List<TariffDto>> getAllTariffs(@RequestParam String cityName,
+    public ResponseEntity<List<TariffDto>> getAllTariffs(@RequestParam String countryName,
+                                                         @RequestParam String cityName,
                                                          @RequestHeader(required = false)
                                                          String authorization) {
         securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN));
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                tariffMapper.toTariffDtos(tariffServiceImpl.getAllTariffs(cityName)));
+                tariffMapper.toTariffDtos(tariffServiceImpl.getAllTariffs(countryName,cityName)));
 
     }
 

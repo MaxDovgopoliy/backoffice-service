@@ -26,11 +26,14 @@ public class Country {
 
     private String name;
 
+    private String currency;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "countryId", referencedColumnName = "id")
     private List<City> cities = new ArrayList<>();
 
-    public Country(String name) {
+    public Country(String name,String currency) {
         this.name = name;
+        this.currency = currency;
     }
 }

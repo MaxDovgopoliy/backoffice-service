@@ -43,7 +43,7 @@ public class LocationServiceImp implements LocationService {
     @Override
     public Country saveCountry(CountryDto countryDto) {
         if (countryRepo.findByNameIgnoreCase(countryDto.getName()) == null) {
-            Country country = new Country(countryDto.getName());
+            Country country = new Country(countryDto.getName(), countryDto.getCurrency());
             return countryRepo.save(country);
         } else {
             throw new ApiException(Exceptions.COUNTRY_ALREADY_EXIST);

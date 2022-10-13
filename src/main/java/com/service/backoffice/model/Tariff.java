@@ -27,6 +27,7 @@ public class Tariff {
     private String name;
     private String description;
     private String carType;
+    private String currency;
     private double ratePerHour;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "tariffId", referencedColumnName = "id")

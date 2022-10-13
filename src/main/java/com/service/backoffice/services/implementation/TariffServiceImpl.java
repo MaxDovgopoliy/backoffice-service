@@ -5,11 +5,14 @@ import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.mapper.TariffMapper;
 import com.service.backoffice.model.City;
+import com.service.backoffice.model.Country;
 import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.CityRepo;
+import com.service.backoffice.repositories.CountryRepo;
 import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.TariffService;
 import com.service.backoffice.util.CityUtil;
+import com.service.backoffice.util.CurrencyUtil;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,26 +22,34 @@ import org.springframework.stereotype.Service;
 public class TariffServiceImpl implements TariffService {
     private TariffRepo tariffRepo;
     private CityRepo cityRepo;
+    private CountryRepo countryRepo;
     private TariffMapper tariffMapper;
 
     public TariffServiceImpl(TariffRepo tariffRepo, CityRepo cityRepo,
-                             TariffMapper tariffMapper) {
+                             CountryRepo countryRepo, TariffMapper tariffMapper) {
         this.tariffRepo = tariffRepo;
         this.cityRepo = cityRepo;
+        this.countryRepo = countryRepo;
         this.tariffMapper = tariffMapper;
     }
 
     @Override
-    public List<Tariff> getAllTariffs(String cityName) {
+    public List<Tariff> getAllTariffs(String countryName, String cityName) {
         City city = cityRepo.findByNameIgnoreCase(cityName);
-        if (city != null) {
-            List<Tariff> tariffs = tariffRepo.findAll();
-            tariffs.forEach(tariff -> tariff.setRatePerHour(
-                    tariff.getRatePerHour() * city.getCoefficientForTariff()));
-
-            return tariffs;
+        Country country = countryRepo.findByNameIgnoreCase(countryName);
+        if (country != null) {
+            if (city != null) {
+                List<Tariff> tariffs = tariffRepo.findAll();
+                double rate = CurrencyUtil.getCurrentRateToUsd(country.getCurrency());
+                tariffs.forEach(tariff -> tariff.setRatePerHour(
+                        tariff.getRatePerHour() * city.getCoefficientForTariff() * rate));
+                tariffs.forEach(tariff -> tariff.setCurrency(country.getCurrency()));
+                return tariffs;
+            } else {
+                throw new ApiException(Exceptions.CITY_NOT_FOUND);
+            }
         } else {
-            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+            throw new ApiException(Exceptions.COUNTRY_NOT_FOUND);
         }
     }
 
