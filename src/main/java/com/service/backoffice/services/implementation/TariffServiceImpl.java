@@ -96,12 +96,16 @@ public class TariffServiceImpl implements TariffService {
     public Tariff getTariffForCityAndCarType(String carType, double latitude, double longitude) {
         Tariff tariff = tariffRepo.findByCarTypeIgnoreCase(carType);
         if (tariff == null) {
-            throw new ApiException(Exceptions.CITY_NOT_FOUND);
+            throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
         }
         City cityByCoordinates = CityUtil.findCityByCoordinates(latitude, longitude);
-        tariff.setRatePerHour(
-                tariff.getRatePerHour() * cityByCoordinates.getCoefficientForTariff());
-        return tariff;
+        if (tariff.getCities().contains(cityByCoordinates)) {
+            tariff.setRatePerHour(
+                    tariff.getRatePerHour() * cityByCoordinates.getCoefficientForTariff());
+            return tariff;
+        } else {
+            throw new ApiException(Exceptions.TARIFF_NOT_FOUND_FOR_CITY);
+        }
     }
 
 }
