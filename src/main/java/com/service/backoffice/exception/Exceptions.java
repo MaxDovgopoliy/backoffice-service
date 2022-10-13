@@ -16,7 +16,8 @@ public enum Exceptions {
     CITY_ALREADY_EXIST(7, "City with such name already exist", HttpStatus.BAD_REQUEST),
     COUNTRY_ALREADY_EXIST(7, "Country with such name already exist", HttpStatus.BAD_REQUEST),
     ACCESS_DENIED(8,"You dont have permissions for this action", HttpStatus.FORBIDDEN),
-    NOT_AUTHORIZED(9,"You are not logged", HttpStatus.FORBIDDEN)
+    NOT_AUTHORIZED(9,"You are not logged", HttpStatus.FORBIDDEN),
+    TARIFF_NOT_FOUND_FOR_CITY(10, "There is no tariff for this city", HttpStatus.NOT_FOUND)
     ;
 
     private final Integer id;
