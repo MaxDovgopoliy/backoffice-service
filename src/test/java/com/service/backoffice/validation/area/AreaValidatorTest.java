@@ -1,6 +1,5 @@
 package com.service.backoffice.validation.area;
 
-import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.CountryRepo;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -27,7 +26,7 @@ class AreaValidatorTest {
 
     private static Validator validator;
 
-    private static Country country = new Country("Ukraine");
+//    private static Country country = new Country("Ukraine");
 //    private static City city = new City("Lviv", 500, country);
 
     @BeforeAll

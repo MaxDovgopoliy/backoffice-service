@@ -40,10 +40,12 @@ public class TariffServiceImpl implements TariffService {
         if (country != null) {
             if (city != null) {
                 List<Tariff> tariffs = tariffRepo.findAll();
-                double rate = CurrencyUtil.getCurrentRateToUsd(country.getCurrency());
-                tariffs.forEach(tariff -> tariff.setRatePerHour(
-                        tariff.getRatePerHour() * city.getCoefficientForTariff() * rate));
-                tariffs.forEach(tariff -> tariff.setCurrency(country.getCurrency()));
+                for (Tariff tariff : tariffs) {
+                    tariff.setRatePerHour(CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
+                                    country.getCurrency(), tariff.getRatePerHour())
+                            * city.getCoefficientForTariff());
+                    tariff.setCurrency(country.getCurrency());
+                }
                 return tariffs;
             } else {
                 throw new ApiException(Exceptions.CITY_NOT_FOUND);
@@ -111,8 +113,11 @@ public class TariffServiceImpl implements TariffService {
         }
         City cityByCoordinates = CityUtil.findCityByCoordinates(latitude, longitude);
         if (tariff.getCities().contains(cityByCoordinates)) {
-            tariff.setRatePerHour(
-                    tariff.getRatePerHour() * cityByCoordinates.getCoefficientForTariff());
+            Country country = cityByCoordinates.getCountry();
+            tariff.setRatePerHour(CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
+                    country.getCurrency(), tariff.getRatePerHour())
+                    * cityByCoordinates.getCoefficientForTariff());
+            tariff.setCurrency(country.getCurrency());
             return tariff;
         } else {
             throw new ApiException(Exceptions.TARIFF_NOT_FOUND_FOR_CITY);

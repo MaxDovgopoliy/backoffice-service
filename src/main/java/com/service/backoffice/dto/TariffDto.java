@@ -22,6 +22,7 @@ public class TariffDto {
     private String description;
     @NotNull
     private String carType;
+    @NotNull
     private String currency;
     @NotNull
     @Positive(message = "rate Per Hour should be greater than 0")

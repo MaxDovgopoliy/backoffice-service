@@ -1,6 +1,5 @@
 package com.service.backoffice.util;
 
-import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.CityRepo;
 import com.service.backoffice.repositories.CountryRepo;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class LocationAdaptorTest {
 
     @Test
     void makeCityFromDto() {
-        Country country = new Country("Ukraine");
+//        Country country = new Country("Ukraine");
 //        City city = new City("Lviv", 500, country);
 //        CityDto cityDto = CityMapper.MAPPER.toCityDto(city);
 //        when(countryRepo.findByNameIgnoreCase(cityDto.getCountryName())).thenReturn(country);
@@ -40,7 +39,7 @@ class LocationAdaptorTest {
 
     @Test
     void makeAreaFromDto() {
-        Country country = new Country("Ukraine");
+//        Country country = new Country("Ukraine");
 //        City city = new City("Lviv", 500, country);
 //
 //        List<Area> areas =

@@ -1,5 +1,7 @@
 package com.service.backoffice.mapper;
 
+import com.service.backoffice.exception.ApiException;
+import com.service.backoffice.exception.Exceptions;
 import com.service.backoffice.model.City;
 import com.service.backoffice.repositories.CityRepo;
 import java.util.HashSet;
@@ -21,6 +23,9 @@ public class TariffMapperUtil {
             if (city != null) {
                 cities.add(city);
             }
+        }
+        if (cities.isEmpty()) {
+            throw new ApiException(Exceptions.CITY_NOT_FOUND);
         }
         return cities;
     }

@@ -1,7 +1,6 @@
 package com.service.backoffice.controller.manager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.backoffice.model.Country;
 import com.service.backoffice.services.AreaService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,7 @@ class AreaControllerTest {
     @MockBean
     AreaService areaService;
 
-    private static Country country = new Country("Ukraine");
+//    private static Country country = new Country("Ukraine");
 //    private static City city =new City("Lviv",500,country);
 //    private static List<Area> areas =
 //            List.of(new Area(240, new Address("Shevchenka",21), city),

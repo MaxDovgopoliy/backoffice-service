@@ -21,6 +21,7 @@ public interface CityMapper {
         cityDto.setName(city.getName());
         cityDto.setCoordinatesDtoList(CoordinatesMapper.MAPPER
                 .toListOfCoordinatesDto(city.getCoordinates()));
+        cityDto.setCoefficientForTariff(city.getCoefficientForTariff());
 
         return cityDto;
     }

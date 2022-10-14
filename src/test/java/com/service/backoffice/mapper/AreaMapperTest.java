@@ -1,6 +1,5 @@
 package com.service.backoffice.mapper;
 
-import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.CityRepo;
 import com.service.backoffice.repositories.CountryRepo;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ class AreaMapperTest {
     CityRepo cityRepo;
 
 AreaMapper mapper= Mappers.getMapper(AreaMapper.class);
-    private static Country country = new Country("Ukraine");
+//    private static Country country = new Country("Ukraine");
 //    private static City city =new City("Lviv",500,country);
 //    private static List<Area> areas =
 //            List.of(new Area(240, new Address("Shevchenka",21), city),

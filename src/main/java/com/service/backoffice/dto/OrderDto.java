@@ -19,6 +19,8 @@ public class OrderDto {
 
     private BigDecimal price;
 
+    private String currency;
+
     private int carId;
 
     private String carType;

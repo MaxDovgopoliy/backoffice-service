@@ -59,7 +59,8 @@ public class TariffController {
                                                String authorization) {
         securityUtil.tokenCheckForRole(authorization, Set.of(Roles.ADMIN));
         return ResponseEntity.status(HttpStatus.OK)
-                .body(tariffMapper.toTariffDto(tariffService.getTariffById(id)));
+                .body(tariffMapper.toTariffDto(tariffService.getTariffById(
+                        id)));
     }
 
     @PutMapping("/tariffs/{id}")

@@ -1,11 +1,7 @@
 package com.service.backoffice.controller.manager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.backoffice.dto.CountryDto;
-import com.service.backoffice.mapper.CountryMapper;
-import com.service.backoffice.model.Country;
 import com.service.backoffice.services.LocationService;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +27,13 @@ class LocationControllerTest {
 
     @MockBean
     LocationService locationService;
-    private static List<Country> countries =
-            List.of(new Country("Ukraine"),
-                    new Country("Sweden"));
-
-    private static List<CountryDto> countryDtos = CountryMapper.MAPPER.toCountryDtos(countries);
-    private static Country country = countries.get(0);
-    private static CountryDto countryDto = CountryMapper.MAPPER.toCountryDto(countries.get(0));
+//    private static List<Country> countries =
+//            List.of(new Country("Ukraine"),
+//                    new Country("Sweden"));
+//
+//    private static List<CountryDto> countryDtos = CountryMapper.MAPPER.toCountryDtos(countries);
+//    private static Country country = countries.get(0);
+//    private static CountryDto countryDto = CountryMapper.MAPPER.toCountryDto(countries.get(0));
 //    private static List<City> cities =
 //            List.of(new City("Lviv", 500, country),
 //                    new City("Kyiv", 700, country),

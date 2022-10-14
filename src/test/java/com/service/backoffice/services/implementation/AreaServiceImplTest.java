@@ -7,7 +7,6 @@ import static org.mockito.Mockito.doThrow;
 
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
-import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.AreaRepo;
 import com.service.backoffice.services.AreaService;
 import com.service.backoffice.util.LocationAdaptor;
@@ -33,7 +32,7 @@ class AreaServiceImplTest {
     AreaRepo areaRepo;
     @MockBean
     LocationAdaptor locationAdaptor;
-    private static Country country = new Country("Ukraine");
+//    private static Country country = new Country("Ukraine");
 //    private static City city =new City("Lviv",500,country,);
 //    private static List<Area> areas =
 //            List.of(new Area(240, new Address("Shevchenka",21), city),
