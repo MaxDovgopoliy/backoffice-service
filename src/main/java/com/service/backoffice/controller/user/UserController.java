@@ -5,6 +5,7 @@ import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.dto.CountryDto;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
+import com.service.backoffice.dto.TariffDtoForTripService;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
@@ -14,12 +15,12 @@ import com.service.backoffice.services.AreaService;
 import com.service.backoffice.services.LocationService;
 import com.service.backoffice.services.OrderService;
 import com.service.backoffice.services.implementation.TariffServiceImpl;
+import com.service.backoffice.util.AreaUtil;
 import com.service.backoffice.util.security.Roles;
 import com.service.backoffice.util.security.SecurityUtil;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,8 +29,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +42,7 @@ public class UserController {
     private final OrderService orderService;
     private final AreaService areaService;
     private final LocationService locationService;
-    private TariffMapper tariffMapper;
+    private final TariffMapper tariffMapper;
 
     private final MapperForOrder mapperForOrder;
     private final SecurityUtil securityUtil;
@@ -69,12 +68,12 @@ public class UserController {
         securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN));
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                tariffMapper.toTariffDtos(tariffServiceImpl.getAllTariffs(countryName,cityName)));
+                tariffMapper.toTariffDtos(tariffServiceImpl.getAllTariffs(countryName, cityName)));
 
     }
 
-    @GetMapping("/orders/{id}")
-    public ResponseEntity<List<OrderDto>> getOrdersHistoryByUser(@PathVariable("id") int userId,
+    @GetMapping("/orders/{userId}")
+    public ResponseEntity<List<OrderDto>> getOrdersHistoryByUser(@PathVariable("userId") int userId,
                                                                  @RequestParam(required = false)
                                                                  @DateTimeFormat(iso =
                                                                          DateTimeFormat.ISO.DATE)
@@ -91,6 +90,24 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(mapperForOrder.toOrderDtos(orderService.getOrderHistoryByUser(
                         userId, dateStart, dateEnd, carType)));
+    }
+
+    @GetMapping("/cars/{carId}/orders")
+    public ResponseEntity<List<OrderDto>> getOrdersHistoryByCar(@PathVariable("carId") int carId,
+                                                                @RequestParam(required = false)
+                                                                @DateTimeFormat(iso =
+                                                                        DateTimeFormat.ISO.DATE)
+                                                                LocalDate dateStart,
+                                                                @RequestParam(required = false)
+                                                                @DateTimeFormat(iso =
+                                                                        DateTimeFormat.ISO.DATE)
+                                                                LocalDate dateEnd,
+                                                                @RequestHeader(required = false)
+                                                                String authorization) {
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.CAR_OWNER, Roles.ADMIN));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(mapperForOrder.toOrderDtos(orderService.getOrderHistoryByCar(
+                        carId, dateStart, dateEnd)));
     }
 
     @GetMapping("/areas")
@@ -129,28 +146,33 @@ public class UserController {
                 CityMapper.MAPPER.toCityDtos(locationService.getAllCities()));
     }
 
-    @PostMapping("/orders")
-    public ResponseEntity<OrderDto> addOrder(@RequestBody @Valid OrderDto orderDto,
-                                             @RequestHeader(required = false)
-                                             String authorization) {
-        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN));
-        return ResponseEntity.status(HttpStatus.OK).body(
-                mapperForOrder.toOrderDto(orderService.saveOrder(orderDto)));
-    }
-
     @GetMapping("/tariffs/{carType}")
-    public ResponseEntity<TariffDto> getTariffByCarType(@PathVariable
-                                                        @NotBlank
-                                                        @Pattern(regexp = "[a-z A-Z]+")
-                                                        String carType,
-                                                        @RequestParam double latitude,
-                                                        @RequestParam double longitude,
-                                                        @RequestHeader(required = false)
-                                                        String authorization) {
+    public ResponseEntity<TariffDtoForTripService> getTariffByCarType(@PathVariable
+                                                                      @NotBlank
+                                                                      @Pattern(
+                                                                              regexp = "[a-z A-Z]+")
+                                                                      String carType,
+                                                                      @RequestParam double latitude,
+                                                                      @RequestParam
+                                                                      double longitude,
+                                                                      @RequestHeader(
+                                                                              required = false)
+                                                                      String authorization) {
         securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN,
                 Roles.CAR_OWNER));
         return ResponseEntity.status(HttpStatus.OK).body(
-                tariffMapper.toTariffDto(tariffServiceImpl.getTariffForCityAndCarType(
+                tariffMapper.toTariffDtoForTripService(tariffServiceImpl.getTariffForCityAndCarType(
                         carType, latitude, longitude)));
+    }
+
+    @GetMapping("/validate-coordinates-for-parking")
+    public ResponseEntity<Boolean> validateParkingCoordinates(@RequestParam double latitude,
+                                                      @RequestParam double longitude,
+                                                      @RequestHeader(required = false)
+                                                                      String authorization) {
+        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN,
+                Roles.CAR_OWNER));
+        return ResponseEntity.status(HttpStatus.OK).body(AreaUtil.isPossibleToLeaveCarByCoordinates(
+                latitude, longitude));
     }
 }

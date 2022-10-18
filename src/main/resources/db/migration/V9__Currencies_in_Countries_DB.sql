@@ -1,9 +1,9 @@
 drop table if exists coordinates;
 drop table if exists areas;
+drop table if exists cities_tariffs;
 drop table if exists cities;
 drop table if exists orders;
 drop table if exists tariffs;
-drop table if exists cities_tariffs;
 drop table if exists countries;
 drop table if exists hibernate_sequence;
 
@@ -100,29 +100,29 @@ INSERT INTO `cities` (`id`, `coefficient_for_tariff`, `name`, `country_id`)
 VALUES ('3', '2', 'Vashington', '2');
 
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('1', '49', '25', '1');
+VALUES ('1', '45', '30', '1');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('2', '49', '23', '1');
+VALUES ('2', '45', '20', '1');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('3', '51', '23', '1');
+VALUES ('3', '55', '20', '1');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('4', '51', '25', '1');
+VALUES ('4', '55', '30', '1');
 
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('5', '2', '0', '2');
+VALUES ('5', '22', '12', '2');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('6', '1', '1', '2');
+VALUES ('6', '12', '12', '2');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('7', '1', '-1', '2');
+VALUES ('7', '20', '0', '2');
 
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
 VALUES ('8', '0', '0', '3');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('9', '1', '1', '3');
+VALUES ('9', '10', '10', '3');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('10', '1', '2', '3');
+VALUES ('10', '10', '0', '3');
 INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `city_id`)
-VALUES ('11', '0', '2', '3');
+VALUES ('11', '0', '10', '3');
 
 INSERT INTO `tariffs` (`id`, `car_type`, `currency`, `description`, `name`, `rate_per_hour`)
 VALUES ('1', 'medium', 'UAH', 'good for family trips', 'family', '200');
@@ -167,3 +167,32 @@ VALUES ('2', '13', 'premium', 'UAH', '2021-01-01 08:00:00.000000', '300', '2021-
 INSERT INTO `orders` (`id`, `car_id`, `car_type`, `currency`, `end_date_time`, `price`, `start_date_time`, `user_id`,
                       `tariff_id`)
 VALUES ('3', '16', 'premium', 'UAH', '2021-02-01 08:00:00.000000', '300', '2021-02-01 07:00:00.000000', '71', '2');
+
+INSERT INTO `areas` (`id`, `city_id`) VALUES ('1', '1');
+INSERT INTO `areas` (`id`, `city_id`) VALUES ('2', '2');
+INSERT INTO `areas` (`id`, `city_id`) VALUES ('3', '3');
+
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('12', '45', '30', '1');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('13', '45', '20', '1');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('14', '55', '20', '1');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('15', '55', '30', '1');
+
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('16', '22', '12', '2');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('17', '12', '12', '2');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('18', '20', '0', '2');
+
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('19', '0', '0', '3');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('20', '10', '10', '3');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('21', '10', '0', '3');
+INSERT INTO `coordinates` (`id`, `latitude`, `longitude`, `area_id`)
+VALUES ('22', '0', '10', '3');

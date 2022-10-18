@@ -1,4 +1,4 @@
-package com.service.backoffice.util;
+package com.service.backoffice.util.distance;
 
 import com.service.backoffice.dto.CoordinatesDto;
 import com.service.backoffice.model.Area;

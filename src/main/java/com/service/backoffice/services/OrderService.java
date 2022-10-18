@@ -12,4 +12,6 @@ public interface OrderService {
     List<Order> getAllOrderHistory(LocalDate dateStart, LocalDate dateEnd, String carType);
 
     Order saveOrder(OrderDto orderDto);
+
+    List<Order> getOrderHistoryByCar(int carId, LocalDate dateStart, LocalDate dateEnd);
 }

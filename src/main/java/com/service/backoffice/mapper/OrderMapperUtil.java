@@ -11,14 +11,9 @@ import org.springframework.stereotype.Component;
 public class OrderMapperUtil {
     private final TariffRepo tariffRepo;
 
-    @Named("carTypeByRatePerHour")
+    @Named("carTypeByTariffId")
     String carTypeByRatePerHour(int value) {
-        return tariffRepo.findByRatePerHour(value).getCarType();
-    }
-
-    @Named("tariffIdByRatePerHour")
-    long tariffIdByRatePerHour(int value) {
-        return tariffRepo.findByRatePerHour(value).getId();
+        return tariffRepo.findById((long) value).get().getCarType();
     }
 
     @Named("tariffById")

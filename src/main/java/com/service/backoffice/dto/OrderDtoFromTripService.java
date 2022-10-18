@@ -21,9 +21,11 @@ public class OrderDtoFromTripService {
 
     private BigDecimal price;
 
+    private String currency;
+
     private int carId;
 
-    private int ratePerHour;
+    private int tariffId;
 
     private int userId;
 

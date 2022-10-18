@@ -11,8 +11,9 @@ import com.service.backoffice.repositories.CityRepo;
 import com.service.backoffice.repositories.CountryRepo;
 import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.TariffService;
-import com.service.backoffice.util.CityUtil;
+import com.service.backoffice.util.AreaUtil;
 import com.service.backoffice.util.CurrencyUtil;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,15 +36,23 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public List<Tariff> getAllTariffs(String countryName, String cityName) {
-        City city = cityRepo.findByNameIgnoreCase(cityName);
         Country country = countryRepo.findByNameIgnoreCase(countryName);
         if (country != null) {
+            City city = country.getCities()
+                    .stream()
+                    .filter(c -> c.getName().equalsIgnoreCase(cityName))
+                    .findAny()
+                    .orElse(null);
             if (city != null) {
                 List<Tariff> tariffs = tariffRepo.findAll();
                 for (Tariff tariff : tariffs) {
-                    tariff.setRatePerHour(CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
-                                    country.getCurrency(), tariff.getRatePerHour())
-                            * city.getCoefficientForTariff());
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    tariff.setRatePerHour(
+                            Double.parseDouble(df.format(
+                                    CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
+                                            country.getCurrency(), tariff.getRatePerHour())
+                                            * city.getCoefficientForTariff())));
+
                     tariff.setCurrency(country.getCurrency());
                 }
                 return tariffs;
@@ -111,12 +120,19 @@ public class TariffServiceImpl implements TariffService {
         if (tariff == null) {
             throw new ApiException(Exceptions.TARIFF_NOT_FOUND);
         }
-        City cityByCoordinates = CityUtil.findCityByCoordinates(latitude, longitude);
+
+        City cityByCoordinates = AreaUtil.findCityByCoordinates(latitude, longitude);
         if (tariff.getCities().contains(cityByCoordinates)) {
             Country country = cityByCoordinates.getCountry();
-            tariff.setRatePerHour(CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
+
+            double ratePerHour = CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
                     country.getCurrency(), tariff.getRatePerHour())
-                    * cityByCoordinates.getCoefficientForTariff());
+                    * cityByCoordinates.getCoefficientForTariff();
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            ratePerHour = Double.parseDouble(df.format(ratePerHour));
+
+            tariff.setRatePerHour(ratePerHour);
             tariff.setCurrency(country.getCurrency());
             return tariff;
         } else {

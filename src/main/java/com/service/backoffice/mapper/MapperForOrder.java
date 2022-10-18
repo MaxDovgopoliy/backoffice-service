@@ -12,8 +12,7 @@ public abstract class MapperForOrder {
     @Mapping(source = "tariffId", target = "tariff", qualifiedByName = "tariffById")
     public abstract Order toOrder(OrderDto orderDto);
 
-    @Mapping(source = "ratePerHour", target = "carType", qualifiedByName = "carTypeByRatePerHour")
-    @Mapping(source = "ratePerHour", target = "tariffId", qualifiedByName = "tariffIdByRatePerHour")
+    @Mapping(source = "tariffId", target = "carType", qualifiedByName = "carTypeByTariffId")
     public abstract OrderDto toOrderDtoFromTripService(OrderDtoFromTripService orderDto);
 
     public abstract List<Order> toOrders(List<OrderDto> orderDtos);
