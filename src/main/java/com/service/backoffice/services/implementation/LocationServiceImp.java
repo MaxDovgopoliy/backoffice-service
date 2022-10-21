@@ -4,6 +4,7 @@ import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.dto.CountryDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
+import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
 import com.service.backoffice.repositories.CityRepo;
@@ -43,7 +44,7 @@ public class LocationServiceImp implements LocationService {
     @Override
     public Country saveCountry(CountryDto countryDto) {
         if (countryRepo.findByNameIgnoreCase(countryDto.getName()) == null) {
-            Country country = new Country(countryDto.getName(), countryDto.getCurrency());
+            Country country = CountryMapper.MAPPER.toCountry(countryDto);
             return countryRepo.save(country);
         } else {
             throw new ApiException(Exceptions.COUNTRY_ALREADY_EXIST);

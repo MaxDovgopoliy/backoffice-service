@@ -4,7 +4,7 @@ import com.service.backoffice.dto.CurrencyDto;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class CurrencyUtil {
-    public static double getCurrentRateToUsd(String from, String to, double amount) {
+    public static double convertCurrencyRate(String from, String to, double amount) {
         WebClient userServiceClient =
                 WebClient.create("https://cdn.moneyconvert.net/api/latest.json");
 

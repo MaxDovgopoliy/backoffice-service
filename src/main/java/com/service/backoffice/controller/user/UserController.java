@@ -3,9 +3,9 @@ package com.service.backoffice.controller.user;
 import com.service.backoffice.dto.AreaDto;
 import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.dto.CountryDto;
+import com.service.backoffice.dto.DtoForTripService;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.dto.TariffDto;
-import com.service.backoffice.dto.TariffDtoForTripService;
 import com.service.backoffice.mapper.AreaMapper;
 import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
@@ -147,22 +147,21 @@ public class UserController {
     }
 
     @GetMapping("/tariffs/{carType}")
-    public ResponseEntity<TariffDtoForTripService> getTariffByCarType(@PathVariable
+    public ResponseEntity<DtoForTripService> getTariffByCarType(@PathVariable
                                                                       @NotBlank
                                                                       @Pattern(
                                                                               regexp = "[a-z A-Z]+")
                                                                       String carType,
-                                                                      @RequestParam double latitude,
-                                                                      @RequestParam
+                                                                @RequestParam double latitude,
+                                                                @RequestParam
                                                                       double longitude,
-                                                                      @RequestHeader(
+                                                                @RequestHeader(
                                                                               required = false)
                                                                       String authorization) {
         securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN,
                 Roles.CAR_OWNER));
         return ResponseEntity.status(HttpStatus.OK).body(
-                tariffMapper.toTariffDtoForTripService(tariffServiceImpl.getTariffForCityAndCarType(
-                        carType, latitude, longitude)));
+                AreaUtil.informationForTrip(carType, latitude, longitude));
     }
 
     @GetMapping("/validate-coordinates-for-parking")

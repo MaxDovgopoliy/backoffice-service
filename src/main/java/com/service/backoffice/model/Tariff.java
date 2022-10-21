@@ -17,8 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-@Entity
 @Data
+@Entity
 @Table(name = "tariffs")
 public class Tariff {
     @Id
@@ -35,23 +35,27 @@ public class Tariff {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cities_tariffs",
-            joinColumns = { @JoinColumn(name = "tariff_id") },
-            inverseJoinColumns = { @JoinColumn(name = "city_id") })
+            joinColumns = {@JoinColumn(name = "tariff_id")},
+            inverseJoinColumns = {@JoinColumn(name = "city_id")})
     private Set<City> cities = new HashSet<>();
 
-    public Tariff(String name, String description, String carType, int ratePerHour) {
+    public Tariff(String name, String description, String carType, int ratePerHour,
+                  String currency) {
         this.name = name;
         this.description = description;
         this.carType = carType;
         this.ratePerHour = ratePerHour;
+        this.currency = currency;
     }
 
-    public Tariff(Long id, String name, String description, String carType, int ratePerHour) {
+    public Tariff(Long id, String name, String description, String carType, int ratePerHour,
+                  String currency) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.carType = carType;
         this.ratePerHour = ratePerHour;
+        this.currency = currency;
     }
 
     public Tariff() {

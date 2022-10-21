@@ -12,12 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
-@ToString
 @Table(name = "countries")
 public class Country {
     @Id
@@ -28,12 +26,15 @@ public class Country {
 
     private String currency;
 
+    private String unitOfSpeed;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "countryId", referencedColumnName = "id")
     private List<City> cities = new ArrayList<>();
 
-    public Country(String name,String currency) {
+    public Country(String name, String currency, String unitOfSpeed) {
         this.name = name;
         this.currency = currency;
+        this.unitOfSpeed = unitOfSpeed;
     }
 }

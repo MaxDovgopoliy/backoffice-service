@@ -31,7 +31,8 @@ public class Area {
     @JoinColumn(name = "cityId")
     private City city;
 
-    public Area(City city) {
+    public Area(City city, List<Coordinates> coordinates) {
         this.city = city;
+        this.coordinates = coordinates;
     }
 }

@@ -40,6 +40,7 @@ create table countries
 (
     id       bigint not null,
     currency varchar(255),
+    unit_of_speed varchar(255),
     name     varchar(255),
     primary key (id)
 );
@@ -87,10 +88,10 @@ alter table coordinates
 alter table orders
     add constraint tariff_id_orders foreign key (tariff_id) references tariffs (id);
 
-INSERT INTO `countries` (`id`, `currency`, `name`)
-VALUES ('1', 'UAH', 'Ukraine');
-INSERT INTO `countries` (`id`, `currency`, `name`)
-VALUES ('2', 'USD', 'USA');
+INSERT INTO `countries` (`id`, `currency`,`unit_of_speed`, `name`)
+VALUES ('1', 'UAH', 'KPH', 'Ukraine');
+INSERT INTO `countries` (`id`, `currency`, `unit_of_speed`, `name`)
+VALUES ('2', 'USD', 'MPH', 'USA');
 
 INSERT INTO `cities` (`id`, `coefficient_for_tariff`, `name`, `country_id`)
 VALUES ('1', '1.1', 'Lviv', '1');

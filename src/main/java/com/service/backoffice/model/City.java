@@ -41,8 +41,8 @@ public class City {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cities_tariffs",
-            joinColumns = { @JoinColumn(name = "city_id") },
-            inverseJoinColumns = { @JoinColumn(name = "tariff_id") })
+            joinColumns = {@JoinColumn(name = "city_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tariff_id")})
     private Set<Tariff> tariffs = new HashSet<>();
 
     @ManyToOne

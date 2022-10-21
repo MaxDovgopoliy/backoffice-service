@@ -49,7 +49,7 @@ public class TariffServiceImpl implements TariffService {
                     DecimalFormat df = new DecimalFormat("#.##");
                     tariff.setRatePerHour(
                             Double.parseDouble(df.format(
-                                    CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
+                                    CurrencyUtil.convertCurrencyRate(tariff.getCurrency(),
                                             country.getCurrency(), tariff.getRatePerHour())
                                             * city.getCoefficientForTariff())));
 
@@ -125,7 +125,7 @@ public class TariffServiceImpl implements TariffService {
         if (tariff.getCities().contains(cityByCoordinates)) {
             Country country = cityByCoordinates.getCountry();
 
-            double ratePerHour = CurrencyUtil.getCurrentRateToUsd(tariff.getCurrency(),
+            double ratePerHour = CurrencyUtil.convertCurrencyRate(tariff.getCurrency(),
                     country.getCurrency(), tariff.getRatePerHour())
                     * cityByCoordinates.getCoefficientForTariff();
 

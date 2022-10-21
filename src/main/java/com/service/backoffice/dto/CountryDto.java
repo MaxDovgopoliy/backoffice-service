@@ -12,4 +12,5 @@ public class CountryDto {
     @Pattern(regexp = "[a-z-A-Z]{2,}",message = "incorrect country name")
     private String name;
     private String currency;
+    private String unitOfSpeed;
 }

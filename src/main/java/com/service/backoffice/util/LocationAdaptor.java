@@ -34,7 +34,6 @@ public class LocationAdaptor {
             if (cityFromDb == null) {
                 City city = CityMapper.MAPPER.toCity(cityDto);
                 city.setCountry(country);
-                city.setCoefficientForTariff(cityDto.getCoefficientForTariff());
                 List<Coordinates> coordinates = CoordinatesMapper.MAPPER
                         .toListOfCoordinates(cityDto.getCoordinatesDtoList());
                 city.setCoordinates(coordinates);
@@ -76,13 +75,13 @@ public class LocationAdaptor {
 
     public boolean checkIfAreaIsInsideAnother(List<Coordinates> listOfOutsideCoordinates,
                                               List<Coordinates> listOfInsideCoordinates) {
-        Geometry outsideArea = poligonOfCoordinates(listOfOutsideCoordinates);
-        Geometry insideArea = poligonOfCoordinates(listOfInsideCoordinates);
+        Geometry outsideArea = polygonOfCoordinates(listOfOutsideCoordinates);
+        Geometry insideArea = polygonOfCoordinates(listOfInsideCoordinates);
 
         return insideArea.coveredBy(outsideArea);
     }
 
-    public static Geometry poligonOfCoordinates(List<Coordinates> listOfCoordinates) {
+    public static Geometry polygonOfCoordinates(List<Coordinates> listOfCoordinates) {
 
         GeometryFactory gf = new GeometryFactory();
 

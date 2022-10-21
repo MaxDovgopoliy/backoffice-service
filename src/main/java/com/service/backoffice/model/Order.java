@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
