@@ -3,7 +3,6 @@ package com.service.backoffice.services.implementation;
 import com.service.backoffice.dto.OrderDto;
 import com.service.backoffice.mapper.MapperForOrder;
 import com.service.backoffice.model.Order;
-import com.service.backoffice.model.Tariff;
 import com.service.backoffice.repositories.OrderRepo;
 import com.service.backoffice.repositories.TariffRepo;
 import com.service.backoffice.services.OrderService;
@@ -12,10 +11,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepo orderRepo;
@@ -61,11 +63,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order saveOrder(OrderDto orderDto) {
         Order order = mapperForOrder.toOrder(orderDto);
-        Tariff tariff = tariffRepo.findById(orderDto.getTariffId()).get();
-        tariff.getOrders().add(order);
-        tariffRepo.save(tariff);
+        //Tariff tariff = tariffRepo.findById(orderDto.getTariffId()).get();
+
         return orderRepo.save(order);
     }
 

@@ -29,7 +29,6 @@ class UserControllerIntegrationTest {
     private WebApplicationContext context;
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private SecurityUtil securityUtil;
     private static final MySQLContainer<?> container;

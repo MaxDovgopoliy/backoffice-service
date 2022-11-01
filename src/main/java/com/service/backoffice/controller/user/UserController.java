@@ -86,7 +86,8 @@ public class UserController {
                                                                  String carType,
                                                                  @RequestHeader(required = false)
                                                                  String authorization) {
-        securityUtil.tokenCheckForRole(authorization, Set.of(Roles.USER, Roles.ADMIN));
+        securityUtil.tokenCheckForRoleAndUserId(authorization, Set.of(Roles.USER, Roles.ADMIN),
+                userId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(mapperForOrder.toOrderDtos(orderService.getOrderHistoryByUser(
                         userId, dateStart, dateEnd, carType)));

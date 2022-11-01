@@ -5,7 +5,9 @@ import com.service.backoffice.model.Tariff;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
+@Component
 @Mapper(componentModel = "spring", uses = {TariffMapperUtil.class})
 public abstract class TariffMapper {
 

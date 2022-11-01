@@ -35,4 +35,8 @@ public class Area {
         this.city = city;
         this.coordinates = coordinates;
     }
+
+    public Area(List<Coordinates> coordinates) {
+        this.coordinates = coordinates;
+    }
 }

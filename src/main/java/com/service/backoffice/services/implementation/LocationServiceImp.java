@@ -4,6 +4,7 @@ import com.service.backoffice.dto.CityDto;
 import com.service.backoffice.dto.CountryDto;
 import com.service.backoffice.exception.ApiException;
 import com.service.backoffice.exception.Exceptions;
+import com.service.backoffice.mapper.CityMapper;
 import com.service.backoffice.mapper.CountryMapper;
 import com.service.backoffice.model.City;
 import com.service.backoffice.model.Country;
@@ -79,8 +80,12 @@ public class LocationServiceImp implements LocationService {
         }
 
         oldCity = cityRepo.findById(cityId).get();
+        City newCity = CityMapper.MAPPER.toCity(cityDto);
 
-        oldCity.setName(cityDto.getCountryName());
+        oldCity.setName(newCity.getName());
+        oldCity.setCoefficientForTariff(newCity.getCoefficientForTariff());
+        oldCity.setCoordinates(newCity.getCoordinates());
+        oldCity.setCountry(newCity.getCountry());
         return cityRepo.save(oldCity);
     }
 
@@ -94,6 +99,8 @@ public class LocationServiceImp implements LocationService {
         oldcountry = countryRepo.findById(countryId).get();
 
         oldcountry.setName(countryDto.getName());
+        oldcountry.setCurrency(countryDto.getCurrency());
+        oldcountry.setUnitOfSpeed(countryDto.getUnitOfSpeed());
         return countryRepo.save(oldcountry);
     }
 

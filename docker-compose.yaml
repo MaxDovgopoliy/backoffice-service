@@ -32,9 +32,6 @@ services:
       - spring.flyway.password=password
       - spring.flyway.group=true
       - spring.kafka.bootstrap-servers=kafka:9092
-      - user.service.app.name=user-service
-      - spring.application.name=backoffice-service
-      - eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
 networks:
   my-network:
     external:
